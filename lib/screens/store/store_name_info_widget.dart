@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../controllers/group_controller.dart';
 import '../../models/locations/supported_town_or_institution.dart';
 import '../competition/competition_finished_widget.dart';
@@ -171,7 +173,7 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
     // The Image Of A Store On Which The Winner Won From.
     return AspectRatio(
       aspectRatio: 5 / 2,
-      child: Container(
+      /*child: Container(
         //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
         decoration: BoxDecoration(
           color: backgroundResourcesColor,
@@ -179,6 +181,30 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
           image: DecorationImage(
               fit: BoxFit.cover, image: NetworkImage(storeImageURL)),
         ),
+      ), */
+      child: CachedNetworkImage(
+        key: UniqueKey(),
+        fit: BoxFit.cover,
+        imageUrl: storeImageURL,
+        fadeOutCurve: Curves.easeOutExpo,
+        imageBuilder: (c, provider) {
+          return Container(
+            //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
+            decoration: BoxDecoration(
+              color: backgroundResourcesColor,
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(fit: BoxFit.cover, image: provider),
+            ),
+          );
+        },
+
+        /* placeholder: (c, s) {
+            return getCircularProgressBar();
+          },
+          errorWidget: (c, s, d) {
+            return getCircularProgressBar();
+          }, 
+        */
       ),
     );
   }
@@ -248,17 +274,6 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       competition = Competition.fromJson(snapshot.data);
-                      /*int grandPricePickingDuration =
-                          competition.grandPricesOrder.length *
-                              competition.pickingMultipleInSeconds;
-                      int groupPickingDuration =
-                          competition.grandPricesOrder.length *
-                                  competition.pickingMultipleInSeconds +
-                              competition.competitorsOrder.length *
-                                  competition.pickingMultipleInSeconds;
-                      int competitionTotalDuration = grandPricePickingDuration +
-                          competition.timeBetweenPricePickingAndGroupPicking! +
-                          groupPickingDuration; */
 
                       int day = nextStoreDraw.drawDateAndTime.day;
                       int month = nextStoreDraw.drawDateAndTime.month;

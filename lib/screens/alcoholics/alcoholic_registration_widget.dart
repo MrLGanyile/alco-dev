@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/alcoholic_controller.dart';
@@ -213,10 +214,30 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
               // Alcoholic Image
               GetBuilder<AlcoholicController>(builder: (_) {
                 return alcoholicController.newAlcoholicImageURL!.isNotEmpty
-                    ? CircleAvatar(
+                    ? /*CircleAvatar(
                         backgroundImage: NetworkImage(
                             alcoholicController.newAlcoholicImageURL!),
                         radius: MediaQuery.of(context).size.width * 0.15,
+                      ) */
+                    CachedNetworkImage(
+                        key: UniqueKey(),
+                        fit: BoxFit.cover,
+                        imageUrl: alcoholicController.newAlcoholicImageURL!,
+                        fadeOutCurve: Curves.easeOutExpo,
+                        imageBuilder: (c, provider) {
+                          return CircleAvatar(
+                            backgroundImage: provider,
+                            radius: MediaQuery.of(context).size.width * 0.15,
+                          );
+                        },
+
+                        /* placeholder: (c, s) {
+                          return getCircularProgressBar();
+                        },
+                        errorWidget: (c, s, d) {
+                          return getCircularProgressBar();
+                        }, 
+                      */
                       )
                     : const SizedBox.shrink();
               }),

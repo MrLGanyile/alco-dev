@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../controllers/shared_dao_functions.dart' as shared;
 import '../../models/locations/supported_town_or_institution.dart';
 import '../../models/users/admin.dart';
@@ -185,10 +187,30 @@ class AdminRegistrationWidget extends StatelessWidget {
               // Admin Image
               GetBuilder<AdminController>(builder: (_) {
                 return adminController.newAdminProfileImageURL.isNotEmpty
-                    ? CircleAvatar(
+                    ? /*CircleAvatar(
                         backgroundImage: NetworkImage(
                             adminController.newAdminProfileImageURL),
                         radius: MediaQuery.of(context).size.width * 0.15,
+                      ) */
+                    CachedNetworkImage(
+                        key: UniqueKey(),
+                        fit: BoxFit.cover,
+                        imageUrl: adminController.newAdminProfileImageURL,
+                        fadeOutCurve: Curves.easeOutExpo,
+                        imageBuilder: (c, provider) {
+                          return CircleAvatar(
+                            backgroundImage: provider,
+                            radius: MediaQuery.of(context).size.width * 0.15,
+                          );
+                        },
+
+                        /* placeholder: (c, s) {
+                              return getCircularProgressBar();
+                            },
+                            errorWidget: (c, s, d) {
+                              return getCircularProgressBar();
+                            }, 
+                          */
                       )
                     : const SizedBox.shrink();
               }),

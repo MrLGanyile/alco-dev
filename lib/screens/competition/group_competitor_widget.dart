@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '/models/locations/converter.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +31,7 @@ class GroupCompetitorWidget extends StatelessWidget {
     // The Image Of A Store On Which The Winner Won From.
     return AspectRatio(
       aspectRatio: 5 / 2,
-      child: Container(
+      /*child: Container(
         //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
         decoration: BoxDecoration(
           color: backgroundResourcesColor,
@@ -37,7 +39,30 @@ class GroupCompetitorWidget extends StatelessWidget {
           image: DecorationImage(
               fit: BoxFit.cover, image: NetworkImage(groupImageURL)),
         ),
-      ),
+      ), */
+      child: CachedNetworkImage(
+          key: UniqueKey(),
+          fit: BoxFit.cover,
+          imageUrl: groupImageURL,
+          fadeOutCurve: Curves.easeOutExpo,
+          imageBuilder: (c, provider) {
+            return Container(
+              //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
+              decoration: BoxDecoration(
+                color: backgroundResourcesColor,
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(fit: BoxFit.cover, image: provider),
+              ),
+            );
+
+            /* placeholder: (c, s) {
+                  return getCircularProgressBar();
+              },
+              errorWidget: (c, s, d) {
+                return getCircularProgressBar();
+              }, 
+            */
+          }),
     );
   }
 
@@ -64,8 +89,8 @@ class GroupCompetitorWidget extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Padding(
-              padding: const EdgeInsets.only(top: 5, right: 5, bottom: 5),
-              child: Container(
+                padding: const EdgeInsets.only(top: 5, right: 5, bottom: 5),
+                /*child: Container(
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.black,
@@ -74,8 +99,32 @@ class GroupCompetitorWidget extends StatelessWidget {
                   radius: MediaQuery.of(context).size.width / 8,
                   backgroundImage: NetworkImage(snapshot.data as String),
                 ),
-              ),
-            );
+              ), */
+                child: CachedNetworkImage(
+                    key: UniqueKey(),
+                    fit: BoxFit.cover,
+                    imageUrl: snapshot.data as String,
+                    fadeOutCurve: Curves.easeOutExpo,
+                    imageBuilder: (c, provider) {
+                      return Container(
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.black,
+                        ),
+                        child: CircleAvatar(
+                          radius: MediaQuery.of(context).size.width / 8,
+                          backgroundImage: provider,
+                        ),
+                      );
+
+                      /* placeholder: (c, s) {
+                         return getCircularProgressBar();
+                        },
+                        errorWidget: (c, s, d) {
+                          return getCircularProgressBar();
+                        }, 
+                      */
+                    }));
           } else if (snapshot.hasError) {
             debug.log(
                 "Error Fetching Group Members Images Data - ${snapshot.error}");

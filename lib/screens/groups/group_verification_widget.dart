@@ -141,7 +141,7 @@ class _GroupVerificationWidgetState extends State<GroupVerificationWidget> {
                 ),
               ),
               shared.showProgressBar
-                  ? const Center(child: CircularProgressIndicator())
+                  ? getCircularProgressBar()
                   : Container(
                       width: MediaQuery.of(context).size.width,
                       height: 60,

@@ -1,3 +1,4 @@
+import 'package:alco_dev/screens/utils/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -106,13 +107,9 @@ class WonPriceSummaryCommentsWidgets extends StatelessWidget {
                           wonPriceComment: comments[index])));
                 } else if (snapshot.hasError) {
                   debug.log('Error: ${snapshot.error.toString()} ');
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return getCircularProgressBar();
                 } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return getCircularProgressBar();
                 }
               }),
         ),

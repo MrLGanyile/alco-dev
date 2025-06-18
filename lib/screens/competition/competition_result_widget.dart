@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '/models/stores/draw_grand_price.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -282,18 +284,41 @@ class CompetitionResultWidget extends StatelessWidget {
       BuildContext context, String wonGrandPriceImageURL) {
     return AspectRatio(
       aspectRatio: 8 / 2,
-      child: Container(
-        //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
+      /* child: Container(
         decoration: BoxDecoration(
-          color: Colors.orange,
+          color: backgroundResourcesColor,
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
             fit: BoxFit.cover,
             image: NetworkImage(wonGrandPriceImageURL),
-            //image: NetworkImage(store.picPath + store.picName)
           ),
         ),
-      ),
+      ), */
+      child: CachedNetworkImage(
+          key: UniqueKey(),
+          fit: BoxFit.cover,
+          imageUrl: wonGrandPriceImageURL,
+          fadeOutCurve: Curves.easeOutExpo,
+          imageBuilder: (c, provider) {
+            return Container(
+              decoration: BoxDecoration(
+                color: backgroundResourcesColor,
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: provider,
+                ),
+              ),
+            );
+
+            /* placeholder: (c, s) {
+                return getCircularProgressBar();
+              },
+              errorWidget: (c, s, d) {
+                return getCircularProgressBar();
+              }, 
+            */
+          }),
     );
   }
 
@@ -331,7 +356,7 @@ class CompetitionResultWidget extends StatelessWidget {
           if (snapshot.hasData) {
             return Padding(
               padding: const EdgeInsets.only(top: 5, right: 5, bottom: 5),
-              child: Container(
+              /*child: Container(
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.black,
@@ -340,19 +365,38 @@ class CompetitionResultWidget extends StatelessWidget {
                   radius: MediaQuery.of(context).size.width / 8,
                   backgroundImage: NetworkImage(snapshot.data as String),
                 ),
-              ),
+              ), */
+              child: CachedNetworkImage(
+                  key: UniqueKey(),
+                  fit: BoxFit.cover,
+                  imageUrl: snapshot.data as String,
+                  fadeOutCurve: Curves.easeOutExpo,
+                  imageBuilder: (c, provider) {
+                    return Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black,
+                      ),
+                      child: CircleAvatar(
+                        radius: MediaQuery.of(context).size.width / 8,
+                        backgroundImage: provider,
+                      ),
+                    );
+
+                    /* placeholder: (c, s) {
+                        return getCircularProgressBar();
+                      },
+                      errorWidget: (c, s, d) {
+                        return getCircularProgressBar();
+                      }, 
+                    */
+                  }),
             );
           } else if (snapshot.hasError) {
             debug.log("Error Fetching Group Members Data - ${snapshot.error}");
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return getCircularProgressBar();
           } else {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.black,
-              ),
-            );
+            return getCircularProgressBar();
           }
         });
   }
@@ -545,21 +589,36 @@ class CompetitionResultWidget extends StatelessWidget {
                                     future: findGroupCreatorImageURL(),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return CircleAvatar(
+                                        /* return CircleAvatar(
                                           radius: 40,
                                           backgroundImage: NetworkImage(
                                               snapshot.data as String),
-                                        );
+                                        ); */
+                                        return CachedNetworkImage(
+                                            key: UniqueKey(),
+                                            fit: BoxFit.cover,
+                                            imageUrl: snapshot.data as String,
+                                            fadeOutCurve: Curves.easeOutExpo,
+                                            imageBuilder: (c, provider) {
+                                              return CircleAvatar(
+                                                radius: 40,
+                                                backgroundImage: provider,
+                                              );
+
+                                              /* placeholder: (c, s) {
+                                                return getCircularProgressBar();
+                                              },
+                                              errorWidget: (c, s, d) {
+                                                return getCircularProgressBar();
+                                              }, 
+                                            */
+                                            });
                                       } else if (snapshot.hasError) {
                                         debug.log(
                                             'Error Fetching Winner Image - ${snapshot.error}');
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
+                                        return getCircularProgressBar();
                                       } else {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
+                                        return getCircularProgressBar();
                                       }
                                     }),
                                 Text(
@@ -598,13 +657,9 @@ class CompetitionResultWidget extends StatelessWidget {
                                     } else if (snapshot.hasError) {
                                       debug.log(
                                           'Error Fetching Won Price Image - ${snapshot.error}');
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
+                                      return getCircularProgressBar();
                                     } else {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
+                                      return getCircularProgressBar();
                                     }
                                   }))),
                     ],
@@ -644,13 +699,9 @@ class CompetitionResultWidget extends StatelessWidget {
                 } else if (snapshot.hasError) {
                   debug.log(
                       "Error Fetching Group Members Data - ${snapshot.error}");
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return getCircularProgressBar();
                 } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return getCircularProgressBar();
                 }
               }),
           const SizedBox(

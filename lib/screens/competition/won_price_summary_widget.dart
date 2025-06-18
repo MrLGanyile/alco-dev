@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,6 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
       children: [
         // Group name details
         Row(
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: Text(
@@ -68,7 +68,6 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
 
         // Group section details
         Row(
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: Text(
@@ -100,7 +99,6 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
 
         // Group area details
         Row(
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
               child: Text(
@@ -320,7 +318,7 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
       BuildContext context, String wonGrandPriceImageURL) {
     return AspectRatio(
       aspectRatio: 8 / 2,
-      child: Container(
+      /*child: Container(
         //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
         decoration: BoxDecoration(
           color: backgroundResourcesColor,
@@ -328,9 +326,35 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
           image: DecorationImage(
             fit: BoxFit.cover,
             image: NetworkImage(wonGrandPriceImageURL),
-            //image: NetworkImage(store.picPath + store.picName)
           ),
         ),
+      ),*/
+      child: CachedNetworkImage(
+        key: UniqueKey(),
+        fit: BoxFit.cover,
+        imageUrl: wonGrandPriceImageURL,
+        fadeOutCurve: Curves.easeOutExpo,
+        imageBuilder: (c, provider) {
+          return Container(
+            //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
+            decoration: BoxDecoration(
+              color: backgroundResourcesColor,
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: provider,
+              ),
+            ),
+          );
+        },
+
+        /* placeholder: (c, s) {
+              return getCircularProgressBar();
+          },
+          errorWidget: (c, s, d) {
+            return getCircularProgressBar();
+          }, 
+        */
       ),
     );
   }
@@ -364,10 +388,31 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
                   shape: BoxShape.circle,
                   color: backgroundResourcesColor,
                 ),
-                child: CircleAvatar(
+                /* child: CircleAvatar(
                   backgroundColor: backgroundResourcesColor,
                   radius: MediaQuery.of(context).size.width / 8,
                   backgroundImage: NetworkImage(snapshot.data as String),
+                ), */
+                child: CachedNetworkImage(
+                  key: UniqueKey(),
+                  fit: BoxFit.cover,
+                  imageUrl: snapshot.data as String,
+                  fadeOutCurve: Curves.easeOutExpo,
+                  imageBuilder: (c, provider) {
+                    return CircleAvatar(
+                      backgroundColor: backgroundResourcesColor,
+                      radius: MediaQuery.of(context).size.width / 8,
+                      backgroundImage: provider,
+                    );
+                  },
+
+                  /* placeholder: (c, s) {
+                        return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    }, 
+                  */
                 ),
               ),
             );
@@ -378,7 +423,6 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
             return getCircularProgressBar();
           }
         });
-    ;
   }
 
   Widget createGroupMembers(BuildContext context) {
@@ -480,12 +524,34 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
                                     future: findGroupCreatorImageURL(),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        return CircleAvatar(
+                                        /* return CircleAvatar(
                                           radius: 40,
                                           backgroundColor:
                                               backgroundResourcesColor,
                                           backgroundImage: NetworkImage(
                                               snapshot.data as String),
+                                        ); */
+                                        return CachedNetworkImage(
+                                          key: UniqueKey(),
+                                          fit: BoxFit.cover,
+                                          imageUrl: snapshot.data as String,
+                                          fadeOutCurve: Curves.easeOutExpo,
+                                          imageBuilder: (c, provider) {
+                                            return CircleAvatar(
+                                              radius: 40,
+                                              backgroundColor:
+                                                  backgroundResourcesColor,
+                                              backgroundImage: provider,
+                                            );
+                                          },
+
+                                          /* placeholder: (c, s) {
+                                                return getCircularProgressBar();
+                                            },
+                                            errorWidget: (c, s, d) {
+                                              return getCircularProgressBar();
+                                            }, 
+                                          */
                                         );
                                       } else if (snapshot.hasError) {
                                         debug.log(

@@ -175,13 +175,9 @@ class WaitWidgetState extends State<WaitWidget> {
           } else if (snapshot.hasError) {
             debug.log(
                 'Error Fetching All Draw Grand Prices Data - ${snapshot.error}');
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return getCircularProgressBar();
           } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return getCircularProgressBar();
           }
         }),
       );
@@ -470,9 +466,6 @@ class WaitWidgetState extends State<WaitWidget> {
   }
 
   Widget showAppropriateIcon() {
-    /*if (widget.showAlarm) {
-      return buildAlarm();
-    } else */
     if (widget.showRemainingTime || widget.pickWonPrice!) {
       return const Expanded(child: SizedBox.shrink());
     } else {
@@ -488,8 +481,6 @@ class WaitWidgetState extends State<WaitWidget> {
               ? const SizedBox.shrink()
               : IconButton(
                   onPressed: () {
-                    // Add Alarm So That A User Will Be Informed When The Draw/Competition Begins.
-                    debug.log('play button pressed...');
                     widget.onCurrentlyViewedUpdate!(true);
                   },
                   icon: Icon(
@@ -498,25 +489,6 @@ class WaitWidgetState extends State<WaitWidget> {
                     size: MyApplication.alarmIconFontSize,
                   ),
                 ),
-        ),
-      );
-
-  Widget buildAlarm() => // Alarm
-      Expanded(
-        child: SizedBox(
-          height: MyApplication.alarmIconFontSize,
-          width: MyApplication.alarmIconFontSize,
-          child: IconButton(
-            onPressed: () => {
-              // Add Alarm So That A User Will Be Informed When The Draw/Competition Begins.
-              debug.log('Alarm Will Go On At ...')
-            },
-            icon: Icon(
-              Icons.add_alarm,
-              color: MyApplication.storesTextColor,
-              size: MyApplication.alarmIconFontSize,
-            ),
-          ),
         ),
       );
 }

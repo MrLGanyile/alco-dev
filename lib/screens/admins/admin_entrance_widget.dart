@@ -113,8 +113,6 @@ class AdminEntranceWidget extends StatelessWidget {
         return Container(
           width: MediaQuery.of(context).size.width,
           height: 60,
-          //width: double.maxFinite, visible width
-          //height: double.maxFinite visible height
           decoration: BoxDecoration(
               color: MyApplication.logoColor1,
               borderRadius: const BorderRadius.all(

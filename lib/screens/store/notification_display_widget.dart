@@ -17,7 +17,6 @@ class NotificationDisplayWidget extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: Text(
               notification.message,
-              // textAlign: TextAlign.left,
               style:
                   TextStyle(fontSize: 16, color: MyApplication.storesTextColor),
             ),

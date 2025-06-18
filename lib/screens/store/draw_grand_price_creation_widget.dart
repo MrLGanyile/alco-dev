@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +9,7 @@ import '../../main.dart';
 import 'dart:developer' as debug;
 
 import '../groups/groups_screen.dart';
+import '../utils/globals.dart';
 import '../utils/page_navigation.dart';
 
 class DrawGrandPriceCreationWidget extends StatefulWidget {
@@ -86,11 +88,11 @@ class DrawGrandPriceCreationWidgetState
                   storeController.drawGrandPrice1ImageFile == null
               ? const SizedBox.shrink()
               : Center(
-                  child: Container(
+                  /*child: Container(
                     height: 90,
                     width: 90,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: backgroundResourcesColor,
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                         image:
@@ -98,6 +100,34 @@ class DrawGrandPriceCreationWidgetState
                         fit: BoxFit.cover,
                       ),
                     ),
+                  ), */
+                  child: CachedNetworkImage(
+                    key: UniqueKey(),
+                    fit: BoxFit.cover,
+                    imageUrl: storeController.grandPrice1ImageURL!,
+                    fadeOutCurve: Curves.easeOutExpo,
+                    imageBuilder: (c, provider) {
+                      return Container(
+                        height: 90,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          color: backgroundResourcesColor,
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: provider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+
+                    /* placeholder: (c, s) {
+                        return getCircularProgressBar();
+                      },
+                      errorWidget: (c, s, d) {
+                        return getCircularProgressBar();
+                      }, 
+                    */
                   ),
                 );
         });
@@ -107,11 +137,11 @@ class DrawGrandPriceCreationWidgetState
                   storeController.drawGrandPrice2ImageFile == null
               ? const SizedBox.shrink()
               : Center(
-                  child: Container(
+                  /*child: Container(
                     height: 90,
                     width: 90,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: backgroundResourcesColor,
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                         image:
@@ -119,6 +149,34 @@ class DrawGrandPriceCreationWidgetState
                         fit: BoxFit.cover,
                       ),
                     ),
+                  ), */
+                  child: CachedNetworkImage(
+                    key: UniqueKey(),
+                    fit: BoxFit.cover,
+                    imageUrl: storeController.grandPrice2ImageURL!,
+                    fadeOutCurve: Curves.easeOutExpo,
+                    imageBuilder: (c, provider) {
+                      return Container(
+                        height: 90,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          color: backgroundResourcesColor,
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: provider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+
+                    /* placeholder: (c, s) {
+                        return getCircularProgressBar();
+                      },
+                      errorWidget: (c, s, d) {
+                        return getCircularProgressBar();
+                      }, 
+                    */
                   ),
                 );
         });
@@ -128,11 +186,11 @@ class DrawGrandPriceCreationWidgetState
                   storeController.drawGrandPrice3ImageFile == null
               ? const SizedBox.shrink()
               : Center(
-                  child: Container(
+                  /*child: Container(
                     height: 90,
                     width: 90,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: backgroundResourcesColor,
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                         image:
@@ -140,6 +198,34 @@ class DrawGrandPriceCreationWidgetState
                         fit: BoxFit.cover,
                       ),
                     ),
+                  ), */
+                  child: CachedNetworkImage(
+                    key: UniqueKey(),
+                    fit: BoxFit.cover,
+                    imageUrl: storeController.grandPrice3ImageURL!,
+                    fadeOutCurve: Curves.easeOutExpo,
+                    imageBuilder: (c, provider) {
+                      return Container(
+                        height: 90,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          color: backgroundResourcesColor,
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: provider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+
+                    /* placeholder: (c, s) {
+                        return getCircularProgressBar();
+                      },
+                      errorWidget: (c, s, d) {
+                        return getCircularProgressBar();
+                      }, 
+                    */
                   ),
                 );
         });
@@ -149,11 +235,11 @@ class DrawGrandPriceCreationWidgetState
                   storeController.drawGrandPrice4ImageFile == null
               ? const SizedBox.shrink()
               : Center(
-                  child: Container(
+                  /*child: Container(
                     height: 90,
                     width: 90,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: backgroundResourcesColor,
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                         image:
@@ -161,6 +247,34 @@ class DrawGrandPriceCreationWidgetState
                         fit: BoxFit.cover,
                       ),
                     ),
+                  ), */
+                  child: CachedNetworkImage(
+                    key: UniqueKey(),
+                    fit: BoxFit.cover,
+                    imageUrl: storeController.grandPrice4ImageURL!,
+                    fadeOutCurve: Curves.easeOutExpo,
+                    imageBuilder: (c, provider) {
+                      return Container(
+                        height: 90,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          color: backgroundResourcesColor,
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: provider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+
+                    /* placeholder: (c, s) {
+                        return getCircularProgressBar();
+                      },
+                      errorWidget: (c, s, d) {
+                        return getCircularProgressBar();
+                      }, 
+                    */
                   ),
                 );
         });
@@ -170,11 +284,11 @@ class DrawGrandPriceCreationWidgetState
                   storeController.drawGrandPrice5ImageFile == null
               ? const SizedBox.shrink()
               : Center(
-                  child: Container(
+                  /* child: Container(
                     height: 90,
                     width: 90,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: backgroundResourcesColor,
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                         image:
@@ -182,6 +296,34 @@ class DrawGrandPriceCreationWidgetState
                         fit: BoxFit.cover,
                       ),
                     ),
+                  ), */
+                  child: CachedNetworkImage(
+                    key: UniqueKey(),
+                    fit: BoxFit.cover,
+                    imageUrl: storeController.grandPrice5ImageURL!,
+                    fadeOutCurve: Curves.easeOutExpo,
+                    imageBuilder: (c, provider) {
+                      return Container(
+                        height: 90,
+                        width: 90,
+                        decoration: BoxDecoration(
+                          color: backgroundResourcesColor,
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            image: provider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    },
+
+                    /* placeholder: (c, s) {
+                        return getCircularProgressBar();
+                      },
+                      errorWidget: (c, s, d) {
+                        return getCircularProgressBar();
+                      }, 
+                    */
                   ),
                 );
         });

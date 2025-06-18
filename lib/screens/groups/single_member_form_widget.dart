@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -108,9 +109,6 @@ class SingleMemberFormWidgetState extends State<SingleMemberFormWidget> {
                     widget.memberIndex,
                     widget.phoneNumberController.text,
                     widget.userNameController.text);
-
-                debug.log(
-                    'Member Index ${widget.memberIndex} Phone No ${widget.phoneNumberController.text}');
               },
             ),
           ),
@@ -123,23 +121,47 @@ class SingleMemberFormWidgetState extends State<SingleMemberFormWidget> {
         return GetBuilder<GroupController>(builder: (_) {
           return groupController.member1ImageURL.isEmpty
               ? const SizedBox.shrink()
-              : CircleAvatar(
+              : /*CircleAvatar(
                   radius: MediaQuery.of(context).size.width / 8,
                   child: Container(
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image:
-                                // Get.find<GroupController>().member1ImageURL!
                                 NetworkImage(groupController.member1ImageURL))),
                   ),
+                ); */
+              CachedNetworkImage(
+                  key: UniqueKey(),
+                  fit: BoxFit.cover,
+                  imageUrl: groupController.member1ImageURL,
+                  fadeOutCurve: Curves.easeOutExpo,
+                  imageBuilder: (c, provider) {
+                    return CircleAvatar(
+                      radius: MediaQuery.of(context).size.width / 8,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(image: provider),
+                        ),
+                      ),
+                    );
+                  },
+
+                  /* placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    }, 
+                  */
                 );
         });
       case 2:
         return GetBuilder<GroupController>(builder: (_) {
           return groupController.member2ImageURL.isEmpty
               ? const SizedBox.shrink()
-              : CircleAvatar(
+              : /*CircleAvatar(
                   radius: MediaQuery.of(context).size.width / 8,
                   child: Container(
                     decoration: BoxDecoration(
@@ -148,13 +170,38 @@ class SingleMemberFormWidgetState extends State<SingleMemberFormWidget> {
                             image:
                                 NetworkImage(groupController.member2ImageURL))),
                   ),
+                ); */
+              CachedNetworkImage(
+                  key: UniqueKey(),
+                  fit: BoxFit.cover,
+                  imageUrl: groupController.member2ImageURL,
+                  fadeOutCurve: Curves.easeOutExpo,
+                  imageBuilder: (c, provider) {
+                    return CircleAvatar(
+                      radius: MediaQuery.of(context).size.width / 8,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(image: provider),
+                        ),
+                      ),
+                    );
+                  },
+
+                  /* placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    }, 
+                  */
                 );
         });
       case 3:
         return GetBuilder<GroupController>(builder: (_) {
           return groupController.member3ImageURL.isEmpty
               ? const SizedBox.shrink()
-              : CircleAvatar(
+              : /*CircleAvatar(
                   radius: MediaQuery.of(context).size.width / 8,
                   child: Container(
                     decoration: BoxDecoration(
@@ -163,13 +210,38 @@ class SingleMemberFormWidgetState extends State<SingleMemberFormWidget> {
                             image:
                                 NetworkImage(groupController.member3ImageURL))),
                   ),
+                ); */
+              CachedNetworkImage(
+                  key: UniqueKey(),
+                  fit: BoxFit.cover,
+                  imageUrl: groupController.member3ImageURL,
+                  fadeOutCurve: Curves.easeOutExpo,
+                  imageBuilder: (c, provider) {
+                    return CircleAvatar(
+                      radius: MediaQuery.of(context).size.width / 8,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(image: provider),
+                        ),
+                      ),
+                    );
+                  },
+
+                  /* placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    }, 
+                  */
                 );
         });
       case 4:
         return GetBuilder<GroupController>(builder: (_) {
           return groupController.member4ImageURL.isEmpty
               ? const SizedBox.shrink()
-              : CircleAvatar(
+              : /*CircleAvatar(
                   radius: MediaQuery.of(context).size.width / 8,
                   child: Container(
                     decoration: BoxDecoration(
@@ -178,13 +250,38 @@ class SingleMemberFormWidgetState extends State<SingleMemberFormWidget> {
                             image:
                                 NetworkImage(groupController.member4ImageURL))),
                   ),
+                ); */
+              CachedNetworkImage(
+                  key: UniqueKey(),
+                  fit: BoxFit.cover,
+                  imageUrl: groupController.member4ImageURL,
+                  fadeOutCurve: Curves.easeOutExpo,
+                  imageBuilder: (c, provider) {
+                    return CircleAvatar(
+                      radius: MediaQuery.of(context).size.width / 8,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(image: provider),
+                        ),
+                      ),
+                    );
+                  },
+
+                  /* placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    }, 
+                  */
                 );
         });
       default:
         return GetBuilder<GroupController>(builder: (_) {
           return groupController.leaderImageURL.isEmpty
               ? const SizedBox.shrink()
-              : CircleAvatar(
+              : /*CircleAvatar(
                   radius: MediaQuery.of(context).size.width / 8,
                   child: Container(
                     decoration: BoxDecoration(
@@ -193,6 +290,31 @@ class SingleMemberFormWidgetState extends State<SingleMemberFormWidget> {
                             image:
                                 NetworkImage(groupController.leaderImageURL))),
                   ),
+                ); */
+              CachedNetworkImage(
+                  key: UniqueKey(),
+                  fit: BoxFit.cover,
+                  imageUrl: groupController.leaderImageURL,
+                  fadeOutCurve: Curves.easeOutExpo,
+                  imageBuilder: (c, provider) {
+                    return CircleAvatar(
+                      radius: MediaQuery.of(context).size.width / 8,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(image: provider),
+                        ),
+                      ),
+                    );
+                  },
+
+                  /* placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    }, 
+                  */
                 );
         });
     }

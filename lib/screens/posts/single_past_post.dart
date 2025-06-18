@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -275,15 +276,40 @@ class SinglePastPostWidget extends StatelessWidget {
             future: findFullImageURL(imageURL),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Container(
+                /*return Container(
                   //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
                   decoration: BoxDecoration(
-                    color: Colors.orange,
+                    color: backgroundResourcesColor,
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(snapshot.data.toString())),
                   ),
+                ); */
+                return CachedNetworkImage(
+                  key: UniqueKey(),
+                  fit: BoxFit.cover,
+                  imageUrl: snapshot.data.toString(),
+                  fadeOutCurve: Curves.easeOutExpo,
+                  imageBuilder: (c, provider) {
+                    return Container(
+                      //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
+                      decoration: BoxDecoration(
+                        color: backgroundResourcesColor,
+                        borderRadius: BorderRadius.circular(20),
+                        image:
+                            DecorationImage(fit: BoxFit.cover, image: provider),
+                      ),
+                    );
+                  },
+
+                  /* placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    }, 
+                  */
                 );
               } else if (snapshot.hasError) {
                 debug.log('Error Fetching Post Image - ${snapshot.error}');
@@ -399,10 +425,33 @@ class SinglePastPostWidget extends StatelessWidget {
                 future: findFullImageURL(pastPost.postCreator.profileImageURL),
                 builder: ((context, snapshot) {
                   if (snapshot.hasData) {
-                    return CircleAvatar(
+                    /*return CircleAvatar(
                       radius: MediaQuery.of(context).size.width * 0.09,
                       backgroundColor: Colors.grey,
                       backgroundImage: NetworkImage(snapshot.data as String),
+                    ); */
+
+                    return CachedNetworkImage(
+                      key: UniqueKey(),
+                      fit: BoxFit.cover,
+                      imageUrl: snapshot.data as String,
+                      fadeOutCurve: Curves.easeOutExpo,
+                      imageBuilder: (c, provider) {
+                        return CircleAvatar(
+                          radius: MediaQuery.of(context).size.width * 0.09,
+                          backgroundColor: Colors.grey,
+                          backgroundImage:
+                              NetworkImage(snapshot.data as String),
+                        );
+                      },
+
+                      /* placeholder: (c, s) {
+                          return getCircularProgressBar();
+                        },
+                        errorWidget: (c, s, d) {
+                          return getCircularProgressBar();
+                        }, 
+                      */
                     );
                   } else if (snapshot.hasError) {
                     return getCircularProgressBar();

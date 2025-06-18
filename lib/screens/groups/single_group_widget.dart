@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import '../../../main.dart';
@@ -195,8 +196,7 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
   AspectRatio retrieveGroupImage(BuildContext context, String groupImageURL) {
     return AspectRatio(
       aspectRatio: 8 / 2,
-      child: Container(
-        //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
+      /* child: Container(
         decoration: BoxDecoration(
           color: backgroundResourcesColor,
           borderRadius: BorderRadius.circular(20),
@@ -205,6 +205,31 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
             image: NetworkImage(groupImageURL),
           ),
         ),
+      ), */
+
+      child: CachedNetworkImage(
+        key: UniqueKey(),
+        fit: BoxFit.cover,
+        imageUrl: groupImageURL,
+        fadeOutCurve: Curves.easeOutExpo,
+        imageBuilder: (c, provider) {
+          return Container(
+              decoration: BoxDecoration(
+            color: backgroundResourcesColor,
+            borderRadius: BorderRadius.circular(20),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: provider,
+            ),
+          ));
+        },
+
+        /* placeholder: (c, s) {
+          return getCircularProgressBar();
+        },
+        errorWidget: (c, s, d) {
+          return getCircularProgressBar();
+        }, */
       ),
     );
   }
@@ -221,10 +246,30 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
                   shape: BoxShape.circle,
                   color: backgroundResourcesColor,
                 ),
-                child: CircleAvatar(
+                /*child: CircleAvatar(
                   backgroundColor: backgroundResourcesColor,
                   radius: MediaQuery.of(context).size.width / 8,
                   backgroundImage: NetworkImage(snapshot.data as String),
+                ), */
+                child: CachedNetworkImage(
+                  key: UniqueKey(),
+                  fit: BoxFit.cover,
+                  imageUrl: snapshot.data as String,
+                  fadeOutCurve: Curves.easeOutExpo,
+                  imageBuilder: (c, provider) {
+                    return CircleAvatar(
+                        backgroundColor: backgroundResourcesColor,
+                        radius: MediaQuery.of(context).size.width / 8,
+                        backgroundImage: provider);
+                  },
+
+                  /* placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    }, 
+                  */
                 ),
               ),
             );
@@ -394,9 +439,31 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
                                       if (snapshot.hasData) {
                                         final data = snapshot.data as String;
 
-                                        return CircleAvatar(
+                                        /*return CircleAvatar(
+                                          backgroundColor:
+                                                    backgroundResourcesColor,
                                           radius: 40,
-                                          backgroundImage: NetworkImage(data),
+                                          backgroundImage: NetworkImage(data), */
+                                        return CachedNetworkImage(
+                                          key: UniqueKey(),
+                                          fit: BoxFit.cover,
+                                          imageUrl: data,
+                                          fadeOutCurve: Curves.easeOutExpo,
+                                          imageBuilder: (c, provider) {
+                                            return CircleAvatar(
+                                                backgroundColor:
+                                                    backgroundResourcesColor,
+                                                radius: 40,
+                                                backgroundImage: provider);
+                                          },
+
+                                          /* placeholder: (c, s) {
+                                                return getCircularProgressBar();
+                                              },
+                                              errorWidget: (c, s, d) {
+                                                return getCircularProgressBar();
+                                              }, 
+                                            */
                                         );
                                       } else if (snapshot.hasError) {
                                         debug.log(

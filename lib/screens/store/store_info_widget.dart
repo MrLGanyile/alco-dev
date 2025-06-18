@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../controllers/store_controller.dart';
@@ -104,14 +105,38 @@ class StoreInfoWidget extends StatefulWidget {
     // The Image Of A Store On Which The Winner Won From.
     return AspectRatio(
       aspectRatio: 5 / 2,
-      child: Container(
+      /* child: Container(
         //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
         decoration: BoxDecoration(
-          color: Colors.orange,
+          color: backgroundResourcesColor,
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
               fit: BoxFit.cover, image: NetworkImage(storeImage)),
         ),
+      ), */
+      child: CachedNetworkImage(
+        key: UniqueKey(),
+        fit: BoxFit.cover,
+        imageUrl: storeImage,
+        fadeOutCurve: Curves.easeOutExpo,
+        imageBuilder: (c, provider) {
+          return Container(
+            //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
+            decoration: BoxDecoration(
+              color: backgroundResourcesColor,
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(fit: BoxFit.cover, image: provider),
+            ),
+          );
+        },
+
+        /* placeholder: (c, s) {
+            return getCircularProgressBar();
+        },
+        errorWidget: (c, s, d) {
+          return getCircularProgressBar();
+        }, 
+      */
       ),
     );
   }
@@ -169,9 +194,9 @@ class StoreInfoWidgetState extends State<StoreInfoWidget> {
             );
           } else if (snapshot.hasError) {
             debug.log('Error Fetching Store Image - ${snapshot.error}');
-            return const Center(child: CircularProgressIndicator());
+            return getCircularProgressBar();
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return getCircularProgressBar();
           }
         });
   }

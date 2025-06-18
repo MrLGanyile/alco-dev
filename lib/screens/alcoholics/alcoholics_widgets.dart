@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
@@ -262,7 +263,7 @@ class AlcoholicsWidget extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
+                    /* Container(
                       height: 90,
                       width: 90,
                       decoration: BoxDecoration(
@@ -271,6 +272,31 @@ class AlcoholicsWidget extends StatelessWidget {
                             image: NetworkImage(snapshot.data! as String),
                             fit: BoxFit.contain),
                       ),
+                    ), */
+                    CachedNetworkImage(
+                      key: UniqueKey(),
+                      fit: BoxFit.cover,
+                      imageUrl: snapshot.data as String,
+                      fadeOutCurve: Curves.easeOutExpo,
+                      imageBuilder: (c, provider) {
+                        return Container(
+                          height: 90,
+                          width: 90,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: provider, fit: BoxFit.contain),
+                          ),
+                        );
+                      },
+
+                      /* placeholder: (c, s) {
+                          return getCircularProgressBar();
+                        },
+                        errorWidget: (c, s, d) {
+                          return getCircularProgressBar();
+                        }, 
+                      */
                     ),
                     Text(
                       username,

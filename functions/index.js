@@ -119,11 +119,7 @@ export const setCurrentUID = onCall(
         }
     });
 
-<<<<<<< HEAD
-// http://127.0.0.1:5001/alco-dev-3fd77/us-central1/createSupportedLocations/
-=======
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createSupportedLocations/
->>>>>>> master
 export const createSupportedLocations = onRequest(
     { region: "africa-south1" },
     async (req, res) => {
@@ -141,11 +137,7 @@ export const createSupportedLocations = onRequest(
         res.json({ result: `Supported Areas Created Successfully.` });
     });
 
-<<<<<<< HEAD
-// http://127.0.0.1:5001/alco-dev-3fd77/us-central1/saveStores
-=======
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveStores
->>>>>>> master
 export const saveStores = onRequest(
     { region: "africa-south1" },
     async (req, res) => {
@@ -358,11 +350,7 @@ const shuffle = (array) => {
 // Remember to create an index for the function's query.
 // onSchedule("*/5 * * * *", async (event) => { */
 // Works fine with generated competitions' id, whether or not it does with custom ids depends on the creation of indexes.
-<<<<<<< HEAD
-// http://127.0.0.1:5001/alco-dev-3fd77/us-central1/createCompetitions
-=======
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createCompetitions
->>>>>>> master
 export const createCompetitions =
     // onSchedule("4, 17, 30 , 43, 56 17 * FRI", async (event) => {
     onRequest(
@@ -1132,16 +1120,10 @@ const listAllUsers = async (nextPageToken) => {
         });
 };
 
-
-
 // Marketing Strategy 1-1 : Use Specific Area Residence To Find Contributors.
 // Marketing Strategy 1-2 : Use Kids Gift To Find Contributors.
 // Marketing Strategy 1-2 : Approach Stores
-<<<<<<< HEAD
-// http://127.0.0.1:5001/alco-dev-3fd77/us-central1/createFakeGroups
-=======
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeGroups
->>>>>>> master
 export const createFakeGroups = onRequest(
     {
         region: "africa-south1"
@@ -1201,11 +1183,7 @@ export const createFakeGroups = onRequest(
         }
     });
 
-<<<<<<< HEAD
-// http://127.0.0.1:5001/alco-dev-3fd77/us-central1/createFakeDraws
-=======
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeDraws
->>>>>>> master
 export const createFakeDraws = onRequest(
     {
         region: "africa-south1"
@@ -1216,11 +1194,8 @@ export const createFakeDraws = onRequest(
         const month = drawDateAndTime.getMonth() + 1;
         const date = drawDateAndTime.getDate();
         const hour = drawDateAndTime.getHours() + 2;
-<<<<<<< HEAD
-        const minute = drawDateAndTime.getMinutes() + 13;
-=======
-    const minute = drawDateAndTime.getMinutes() + 4;
->>>>>>> master
+
+        const minute = drawDateAndTime.getMinutes() + 4;
 
 
         let reference;
@@ -1470,11 +1445,7 @@ export const createFakeDraws = onRequest(
         res.json({ result: `Fake Draws Saved.` });
     });
 
-<<<<<<< HEAD
-// http://127.0.0.1:5001/alco-dev-3fd77/us-central1/createFakeAlcoholics
-=======
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeAlcoholics
->>>>>>> master
 export const createFakeAlcoholics = onRequest(
     {
         region: "africa-south1"
@@ -1601,11 +1572,7 @@ export const createFakeAlcoholics = onRequest(
         res.json({ result: `Fake Alcoholics Saved.` });
     });
 
-<<<<<<< HEAD
-// http://127.0.0.1:5001/alco-dev-3fd77/us-central1/updateFakeGroups
-=======
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/updateFakeGroups
->>>>>>> master
 export const updateFakeGroups = onRequest(
     {
         region: "africa-south1"
@@ -1614,11 +1581,7 @@ export const updateFakeGroups = onRequest(
         res.json({ result: `group batch updated.` });
     });
 
-<<<<<<< HEAD
-// http://127.0.0.1:5001/alco-dev-3fd77/us-central1/saveFakeAdmins
-=======
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveFakeAdmins
->>>>>>> master
 export const saveFakeAdmins = onRequest(
     {
         region: "africa-south1"

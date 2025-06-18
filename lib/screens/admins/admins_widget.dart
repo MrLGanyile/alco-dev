@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../controllers/admin_controller.dart';
@@ -58,11 +59,32 @@ class AdminsWidgetState extends State<AdminsWidget> {
                     future: findFullImageURL(admin.profileImageURL),
                     builder: ((context, snapshot) {
                       if (snapshot.hasData) {
-                        return CircleAvatar(
+                        /*return CircleAvatar(
                           radius: MediaQuery.of(context).size.width * 0.09,
-                          backgroundColor: Colors.grey,
+                          backgroundColor: backgroundResourcesColor,
                           backgroundImage:
                               NetworkImage(snapshot.data as String),
+                        ); */
+                        return CachedNetworkImage(
+                          key: UniqueKey(),
+                          fit: BoxFit.cover,
+                          imageUrl: snapshot.data as String,
+                          fadeOutCurve: Curves.easeOutExpo,
+                          imageBuilder: (c, provider) {
+                            return CircleAvatar(
+                              radius: MediaQuery.of(context).size.width * 0.09,
+                              backgroundColor: backgroundResourcesColor,
+                              backgroundImage: provider,
+                            );
+                          },
+
+                          /* placeholder: (c, s) {
+                              return getCircularProgressBar();
+                            },
+                            errorWidget: (c, s, d) {
+                              return getCircularProgressBar();
+                            }, 
+                          */
                         );
                       } else if (snapshot.hasError) {
                         return getCircularProgressBar();

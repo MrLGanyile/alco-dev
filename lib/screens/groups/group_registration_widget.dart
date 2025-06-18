@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -369,7 +370,7 @@ class GroupRegistrationWidget extends StatelessWidget {
                       style: TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   )
-                : Container(
+                : /*Container(
                     //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
                     decoration: BoxDecoration(
                       color: backgroundResourcesColor,
@@ -379,6 +380,33 @@ class GroupRegistrationWidget extends StatelessWidget {
                         image: NetworkImage(groupController.groupImageURL!),
                       ),
                     ),
+                  ); */
+                CachedNetworkImage(
+                    key: UniqueKey(),
+                    fit: BoxFit.cover,
+                    imageUrl: groupController.groupImageURL!,
+                    fadeOutCurve: Curves.easeOutExpo,
+                    imageBuilder: (c, provider) {
+                      return Container(
+                        //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
+                        decoration: BoxDecoration(
+                          color: backgroundResourcesColor,
+                          borderRadius: BorderRadius.circular(20),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: provider,
+                          ),
+                        ),
+                      );
+                    },
+
+                    /* placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    }, 
+                  */
                   );
           },
         ));

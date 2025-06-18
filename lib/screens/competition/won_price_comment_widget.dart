@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '/main.dart';
 import '/models/users/won_price_comment.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,6 @@ class WonPriceCommentWidget extends StatelessWidget {
           Expanded(
             child: Container(
               margin: const EdgeInsets.only(left: 10),
-              // height: MediaQuery.of(context).size.height,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -28,11 +29,33 @@ class WonPriceCommentWidget extends StatelessWidget {
                       future: findFullImageURL(wonPriceComment.imageURL),
                       builder: ((context, snapshot) {
                         if (snapshot.hasData) {
-                          return CircleAvatar(
+                          /*return CircleAvatar(
                             radius: MediaQuery.of(context).size.width * 0.09,
-                            backgroundColor: Colors.grey,
+                            backgroundColor: backgroundResourcesColor,
                             backgroundImage:
                                 NetworkImage(snapshot.data as String),
+                          ); */
+                          return CachedNetworkImage(
+                            key: UniqueKey(),
+                            fit: BoxFit.cover,
+                            imageUrl: snapshot.data as String,
+                            fadeOutCurve: Curves.easeOutExpo,
+                            imageBuilder: (c, provider) {
+                              return CircleAvatar(
+                                radius:
+                                    MediaQuery.of(context).size.width * 0.09,
+                                backgroundColor: backgroundResourcesColor,
+                                backgroundImage: provider,
+                              );
+                            },
+
+                            /* placeholder: (c, s) {
+                                  return getCircularProgressBar();
+                              },
+                              errorWidget: (c, s, d) {
+                                return getCircularProgressBar();
+                              }, 
+                            */
                           );
                         } else if (snapshot.hasError) {
                           debug.log(snapshot.error.toString());

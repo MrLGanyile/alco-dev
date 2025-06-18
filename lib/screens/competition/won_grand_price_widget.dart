@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '/models/stores/draw_grand_price.dart';
 import 'package:flutter/material.dart';
 
@@ -28,9 +30,9 @@ class WonGrandPriceWidget extends StatelessWidget {
   AspectRatio retrieveWonPriceImage(BuildContext context, String imageURL) {
     return AspectRatio(
       aspectRatio: 7 / 3,
-      child: Container(
+      /* child: Container(
         decoration: BoxDecoration(
-          color: Colors.orange,
+          color: backgroundResourcesColor,
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
             fit: BoxFit.cover,
@@ -38,6 +40,32 @@ class WonGrandPriceWidget extends StatelessWidget {
             //image: NetworkImage(store.picPath + store.picName)
           ),
         ),
+      ), */
+      child: CachedNetworkImage(
+        key: UniqueKey(),
+        fit: BoxFit.cover,
+        imageUrl: trimImageURL(imageURL),
+        fadeOutCurve: Curves.easeOutExpo,
+        imageBuilder: (c, provider) {
+          return Container(
+            decoration: BoxDecoration(
+              color: backgroundResourcesColor,
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(trimImageURL(imageURL)),
+              ),
+            ),
+          );
+        },
+
+        /* placeholder: (c, s) {
+              return getCircularProgressBar();
+          },
+          errorWidget: (c, s, d) {
+            return getCircularProgressBar();
+          }, 
+        */
       ),
     );
   }
@@ -54,13 +82,9 @@ class WonGrandPriceWidget extends StatelessWidget {
               } else if (snapshot.hasError) {
                 debug.log(
                     'Error Fetching Won Grand Price Image - ${snapshot.error}');
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return getCircularProgressBar();
               } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return getCircularProgressBar();
               }
             }),
         Text(

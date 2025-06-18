@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:get/get.dart';
@@ -231,15 +232,39 @@ class PastPostCreationWidgetState extends State<PastPostCreationWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: AspectRatio(
         aspectRatio: 2 / 2,
-        child: Container(
+        /* child: Container(
           //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
           decoration: BoxDecoration(
-            color: Colors.orange,
+            color: backgroundResourcesColor,
             borderRadius: BorderRadius.circular(20),
             image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(postController.whereWereYouImageURL)),
           ),
+        ), */
+        child: CachedNetworkImage(
+          key: UniqueKey(),
+          fit: BoxFit.cover,
+          imageUrl: postController.whereWereYouImageURL,
+          fadeOutCurve: Curves.easeOutExpo,
+          imageBuilder: (c, provider) {
+            return Container(
+              //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
+              decoration: BoxDecoration(
+                color: backgroundResourcesColor,
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(fit: BoxFit.cover, image: provider),
+              ),
+            );
+          },
+
+          /* placeholder: (c, s) {
+              return getCircularProgressBar();
+            },
+            errorWidget: (c, s, d) {
+              return getCircularProgressBar();
+            }, 
+          */
         ),
       ),
     );
@@ -339,15 +364,39 @@ class PastPostCreationWidgetState extends State<PastPostCreationWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: AspectRatio(
         aspectRatio: 2 / 2,
-        child: Container(
+        /*child: Container(
           //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
           decoration: BoxDecoration(
-            color: Colors.orange,
+            color: backgroundResourcesColor,
             borderRadius: BorderRadius.circular(20),
             image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(postController.whoWereYouWithImageURL)),
           ),
+        ), */
+        child: CachedNetworkImage(
+          key: UniqueKey(),
+          fit: BoxFit.cover,
+          imageUrl: postController.whoWereYouWithImageURL,
+          fadeOutCurve: Curves.easeOutExpo,
+          imageBuilder: (c, provider) {
+            return Container(
+              //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
+              decoration: BoxDecoration(
+                color: backgroundResourcesColor,
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(fit: BoxFit.cover, image: provider),
+              ),
+            );
+          },
+
+          /* placeholder: (c, s) {
+              return getCircularProgressBar();
+            },
+            errorWidget: (c, s, d) {
+              return getCircularProgressBar();
+            }, 
+          */
         ),
       ),
     );
