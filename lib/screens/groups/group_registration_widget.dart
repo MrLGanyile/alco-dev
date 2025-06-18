@@ -399,14 +399,12 @@ class GroupRegistrationWidget extends StatelessWidget {
                         ),
                       );
                     },
-
-                    /* placeholder: (c, s) {
+                    placeholder: (c, s) {
                       return getCircularProgressBar();
                     },
                     errorWidget: (c, s, d) {
                       return getCircularProgressBar();
-                    }, 
-                  */
+                    },
                   );
           },
         ));

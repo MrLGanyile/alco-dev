@@ -456,14 +456,12 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
                                                 radius: 40,
                                                 backgroundImage: provider);
                                           },
-
-                                          /* placeholder: (c, s) {
-                                                return getCircularProgressBar();
-                                              },
-                                              errorWidget: (c, s, d) {
-                                                return getCircularProgressBar();
-                                              }, 
-                                            */
+                                          placeholder: (c, s) {
+                                            return getCircularProgressBar();
+                                          },
+                                          errorWidget: (c, s, d) {
+                                            return getCircularProgressBar();
+                                          },
                                         );
                                       } else if (snapshot.hasError) {
                                         debug.log(

@@ -295,30 +295,29 @@ class CompetitionResultWidget extends StatelessWidget {
         ),
       ), */
       child: CachedNetworkImage(
-          key: UniqueKey(),
-          fit: BoxFit.cover,
-          imageUrl: wonGrandPriceImageURL,
-          fadeOutCurve: Curves.easeOutExpo,
-          imageBuilder: (c, provider) {
-            return Container(
-              decoration: BoxDecoration(
-                color: backgroundResourcesColor,
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: provider,
-                ),
+        key: UniqueKey(),
+        fit: BoxFit.cover,
+        imageUrl: wonGrandPriceImageURL,
+        fadeOutCurve: Curves.easeOutExpo,
+        imageBuilder: (c, provider) {
+          return Container(
+            decoration: BoxDecoration(
+              color: backgroundResourcesColor,
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: provider,
               ),
-            );
-
-            /* placeholder: (c, s) {
-                return getCircularProgressBar();
-              },
-              errorWidget: (c, s, d) {
-                return getCircularProgressBar();
-              }, 
-            */
-          }),
+            ),
+          );
+        },
+        placeholder: (c, s) {
+          return getCircularProgressBar();
+        },
+        errorWidget: (c, s, d) {
+          return getCircularProgressBar();
+        },
+      ),
     );
   }
 
@@ -367,30 +366,29 @@ class CompetitionResultWidget extends StatelessWidget {
                 ),
               ), */
               child: CachedNetworkImage(
-                  key: UniqueKey(),
-                  fit: BoxFit.cover,
-                  imageUrl: snapshot.data as String,
-                  fadeOutCurve: Curves.easeOutExpo,
-                  imageBuilder: (c, provider) {
-                    return Container(
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.black,
-                      ),
-                      child: CircleAvatar(
-                        radius: MediaQuery.of(context).size.width / 8,
-                        backgroundImage: provider,
-                      ),
-                    );
-
-                    /* placeholder: (c, s) {
-                        return getCircularProgressBar();
-                      },
-                      errorWidget: (c, s, d) {
-                        return getCircularProgressBar();
-                      }, 
-                    */
-                  }),
+                key: UniqueKey(),
+                fit: BoxFit.cover,
+                imageUrl: snapshot.data as String,
+                fadeOutCurve: Curves.easeOutExpo,
+                imageBuilder: (c, provider) {
+                  return Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black,
+                    ),
+                    child: CircleAvatar(
+                      radius: MediaQuery.of(context).size.width / 8,
+                      backgroundImage: provider,
+                    ),
+                  );
+                },
+                placeholder: (c, s) {
+                  return getCircularProgressBar();
+                },
+                errorWidget: (c, s, d) {
+                  return getCircularProgressBar();
+                },
+              ),
             );
           } else if (snapshot.hasError) {
             debug.log("Error Fetching Group Members Data - ${snapshot.error}");
@@ -595,24 +593,23 @@ class CompetitionResultWidget extends StatelessWidget {
                                               snapshot.data as String),
                                         ); */
                                         return CachedNetworkImage(
-                                            key: UniqueKey(),
-                                            fit: BoxFit.cover,
-                                            imageUrl: snapshot.data as String,
-                                            fadeOutCurve: Curves.easeOutExpo,
-                                            imageBuilder: (c, provider) {
-                                              return CircleAvatar(
-                                                radius: 40,
-                                                backgroundImage: provider,
-                                              );
-
-                                              /* placeholder: (c, s) {
-                                                return getCircularProgressBar();
-                                              },
-                                              errorWidget: (c, s, d) {
-                                                return getCircularProgressBar();
-                                              }, 
-                                            */
-                                            });
+                                          key: UniqueKey(),
+                                          fit: BoxFit.cover,
+                                          imageUrl: snapshot.data as String,
+                                          fadeOutCurve: Curves.easeOutExpo,
+                                          imageBuilder: (c, provider) {
+                                            return CircleAvatar(
+                                              radius: 40,
+                                              backgroundImage: provider,
+                                            );
+                                          },
+                                          placeholder: (c, s) {
+                                            return getCircularProgressBar();
+                                          },
+                                          errorWidget: (c, s, d) {
+                                            return getCircularProgressBar();
+                                          },
+                                        );
                                       } else if (snapshot.hasError) {
                                         debug.log(
                                             'Error Fetching Winner Image - ${snapshot.error}');

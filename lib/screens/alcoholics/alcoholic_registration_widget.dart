@@ -230,14 +230,12 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                             radius: MediaQuery.of(context).size.width * 0.15,
                           );
                         },
-
-                        /* placeholder: (c, s) {
+                        placeholder: (c, s) {
                           return getCircularProgressBar();
                         },
                         errorWidget: (c, s, d) {
                           return getCircularProgressBar();
-                        }, 
-                      */
+                        },
                       )
                     : const SizedBox.shrink();
               }),

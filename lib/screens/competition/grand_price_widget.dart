@@ -58,32 +58,31 @@ class GrandPriceWidgetState extends State<GrandPriceWidget> {
                 ),
               ), */
                 child: CachedNetworkImage(
-                    key: UniqueKey(),
-                    fit: BoxFit.cover,
-                    imageUrl: snapshot.data as String,
-                    fadeOutCurve: Curves.easeOutExpo,
-                    imageBuilder: (c, provider) {
-                      return Container(
-                        height: 90,
-                        width: 90,
-                        decoration: BoxDecoration(
-                          color: backgroundResourcesColor,
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            image: provider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      );
-
-                      /* placeholder: (c, s) {
-                         return getCircularProgressBar();
-                        },
-                        errorWidget: (c, s, d) {
-                          return getCircularProgressBar();
-                        }, 
-                      */
-                    }));
+              key: UniqueKey(),
+              fit: BoxFit.cover,
+              imageUrl: snapshot.data as String,
+              fadeOutCurve: Curves.easeOutExpo,
+              imageBuilder: (c, provider) {
+                return Container(
+                  height: 90,
+                  width: 90,
+                  decoration: BoxDecoration(
+                    color: backgroundResourcesColor,
+                    borderRadius: BorderRadius.circular(20),
+                    image: DecorationImage(
+                      image: provider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              },
+              placeholder: (c, s) {
+                return getCircularProgressBar();
+              },
+              errorWidget: (c, s, d) {
+                return getCircularProgressBar();
+              },
+            ));
           } else if (snapshot.hasError) {
             debug.log(
                 'Error Fetching Draw Grand Price Image - ${snapshot.error}');

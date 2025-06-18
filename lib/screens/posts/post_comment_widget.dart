@@ -47,14 +47,12 @@ class PostCommentWidget extends StatelessWidget {
                                 backgroundImage: provider,
                               );
                             },
-
-                            /* placeholder: (c, s) {
+                            placeholder: (c, s) {
                               return getCircularProgressBar();
                             },
                             errorWidget: (c, s, d) {
                               return getCircularProgressBar();
-                            }, 
-                          */
+                            },
                           );
                         } else if (snapshot.hasError) {
                           debug.log(snapshot.error.toString());

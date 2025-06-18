@@ -41,28 +41,27 @@ class GroupCompetitorWidget extends StatelessWidget {
         ),
       ), */
       child: CachedNetworkImage(
-          key: UniqueKey(),
-          fit: BoxFit.cover,
-          imageUrl: groupImageURL,
-          fadeOutCurve: Curves.easeOutExpo,
-          imageBuilder: (c, provider) {
-            return Container(
-              //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
-              decoration: BoxDecoration(
-                color: backgroundResourcesColor,
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(fit: BoxFit.cover, image: provider),
-              ),
-            );
-
-            /* placeholder: (c, s) {
-                  return getCircularProgressBar();
-              },
-              errorWidget: (c, s, d) {
-                return getCircularProgressBar();
-              }, 
-            */
-          }),
+        key: UniqueKey(),
+        fit: BoxFit.cover,
+        imageUrl: groupImageURL,
+        fadeOutCurve: Curves.easeOutExpo,
+        imageBuilder: (c, provider) {
+          return Container(
+            //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
+            decoration: BoxDecoration(
+              color: backgroundResourcesColor,
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(fit: BoxFit.cover, image: provider),
+            ),
+          );
+        },
+        placeholder: (c, s) {
+          return getCircularProgressBar();
+        },
+        errorWidget: (c, s, d) {
+          return getCircularProgressBar();
+        },
+      ),
     );
   }
 
@@ -101,30 +100,29 @@ class GroupCompetitorWidget extends StatelessWidget {
                 ),
               ), */
                 child: CachedNetworkImage(
-                    key: UniqueKey(),
-                    fit: BoxFit.cover,
-                    imageUrl: snapshot.data as String,
-                    fadeOutCurve: Curves.easeOutExpo,
-                    imageBuilder: (c, provider) {
-                      return Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.black,
-                        ),
-                        child: CircleAvatar(
-                          radius: MediaQuery.of(context).size.width / 8,
-                          backgroundImage: provider,
-                        ),
-                      );
-
-                      /* placeholder: (c, s) {
-                         return getCircularProgressBar();
-                        },
-                        errorWidget: (c, s, d) {
-                          return getCircularProgressBar();
-                        }, 
-                      */
-                    }));
+                  key: UniqueKey(),
+                  fit: BoxFit.cover,
+                  imageUrl: snapshot.data as String,
+                  fadeOutCurve: Curves.easeOutExpo,
+                  imageBuilder: (c, provider) {
+                    return Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.black,
+                      ),
+                      child: CircleAvatar(
+                        radius: MediaQuery.of(context).size.width / 8,
+                        backgroundImage: provider,
+                      ),
+                    );
+                  },
+                  placeholder: (c, s) {
+                    return getCircularProgressBar();
+                  },
+                  errorWidget: (c, s, d) {
+                    return getCircularProgressBar();
+                  },
+                ));
           } else if (snapshot.hasError) {
             debug.log(
                 "Error Fetching Group Members Images Data - ${snapshot.error}");
@@ -133,7 +131,6 @@ class GroupCompetitorWidget extends StatelessWidget {
             return getCircularProgressBar();
           }
         });
-    ;
   }
 
   //Accept A Maximum Of Five Group Members.

@@ -120,14 +120,12 @@ class DrawGrandPriceCreationWidgetState
                         ),
                       );
                     },
-
-                    /* placeholder: (c, s) {
-                        return getCircularProgressBar();
-                      },
-                      errorWidget: (c, s, d) {
-                        return getCircularProgressBar();
-                      }, 
-                    */
+                    placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    },
                   ),
                 );
         });
@@ -169,14 +167,12 @@ class DrawGrandPriceCreationWidgetState
                         ),
                       );
                     },
-
-                    /* placeholder: (c, s) {
-                        return getCircularProgressBar();
-                      },
-                      errorWidget: (c, s, d) {
-                        return getCircularProgressBar();
-                      }, 
-                    */
+                    placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    },
                   ),
                 );
         });
@@ -218,14 +214,12 @@ class DrawGrandPriceCreationWidgetState
                         ),
                       );
                     },
-
-                    /* placeholder: (c, s) {
-                        return getCircularProgressBar();
-                      },
-                      errorWidget: (c, s, d) {
-                        return getCircularProgressBar();
-                      }, 
-                    */
+                    placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    },
                   ),
                 );
         });
@@ -267,14 +261,12 @@ class DrawGrandPriceCreationWidgetState
                         ),
                       );
                     },
-
-                    /* placeholder: (c, s) {
-                        return getCircularProgressBar();
-                      },
-                      errorWidget: (c, s, d) {
-                        return getCircularProgressBar();
-                      }, 
-                    */
+                    placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    },
                   ),
                 );
         });
@@ -316,14 +308,12 @@ class DrawGrandPriceCreationWidgetState
                         ),
                       );
                     },
-
-                    /* placeholder: (c, s) {
-                        return getCircularProgressBar();
-                      },
-                      errorWidget: (c, s, d) {
-                        return getCircularProgressBar();
-                      }, 
-                    */
+                    placeholder: (c, s) {
+                      return getCircularProgressBar();
+                    },
+                    errorWidget: (c, s, d) {
+                      return getCircularProgressBar();
+                    },
                   ),
                 );
         });

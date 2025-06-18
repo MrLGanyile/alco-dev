@@ -94,7 +94,6 @@ class AdminRegistrationWidget extends StatelessWidget {
                 ),
                 dropdownTextStyle:
                     TextStyle(fontSize: 16, color: MyApplication.logoColor1),
-                //onChanged: (phone) =>phoneNumberEditingController.text = phone.completeNumber,
                 initialCountryCode: 'ZA',
                 flagsButtonPadding: const EdgeInsets.only(right: 10),
                 keyboardType: TextInputType.phone,
@@ -203,14 +202,12 @@ class AdminRegistrationWidget extends StatelessWidget {
                             radius: MediaQuery.of(context).size.width * 0.15,
                           );
                         },
-
-                        /* placeholder: (c, s) {
-                              return getCircularProgressBar();
-                            },
-                            errorWidget: (c, s, d) {
-                              return getCircularProgressBar();
-                            }, 
-                          */
+                        placeholder: (c, s) {
+                          return getCircularProgressBar();
+                        },
+                        errorWidget: (c, s, d) {
+                          return getCircularProgressBar();
+                        },
                       )
                     : const SizedBox.shrink();
               }),

@@ -29,7 +29,6 @@ class StoreInfoWidget extends StatefulWidget {
   });
 
   Column retrieveStoreDetails(BuildContext context) {
-    debug.log('store info widget retrieveStoreDetails...');
     // Information About The Hosting Store.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,14 +128,12 @@ class StoreInfoWidget extends StatefulWidget {
             ),
           );
         },
-
-        /* placeholder: (c, s) {
-            return getCircularProgressBar();
+        placeholder: (c, s) {
+          return getCircularProgressBar();
         },
         errorWidget: (c, s, d) {
           return getCircularProgressBar();
-        }, 
-      */
+        },
       ),
     );
   }
@@ -175,7 +172,6 @@ class StoreInfoWidgetState extends State<StoreInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    debug.log('store info widget build...');
     return FutureBuilder(
         future: widget.createStoreImageURL(),
         builder: (context, snapshot) {

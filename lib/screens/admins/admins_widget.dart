@@ -77,14 +77,12 @@ class AdminsWidgetState extends State<AdminsWidget> {
                               backgroundImage: provider,
                             );
                           },
-
-                          /* placeholder: (c, s) {
-                              return getCircularProgressBar();
-                            },
-                            errorWidget: (c, s, d) {
-                              return getCircularProgressBar();
-                            }, 
-                          */
+                          placeholder: (c, s) {
+                            return getCircularProgressBar();
+                          },
+                          errorWidget: (c, s, d) {
+                            return getCircularProgressBar();
+                          },
                         );
                       } else if (snapshot.hasError) {
                         return getCircularProgressBar();

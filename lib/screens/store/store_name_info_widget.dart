@@ -197,14 +197,12 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
             ),
           );
         },
-
-        /* placeholder: (c, s) {
-            return getCircularProgressBar();
-          },
-          errorWidget: (c, s, d) {
-            return getCircularProgressBar();
-          }, 
-        */
+        placeholder: (c, s) {
+          return getCircularProgressBar();
+        },
+        errorWidget: (c, s, d) {
+          return getCircularProgressBar();
+        },
       ),
     );
   }

@@ -48,14 +48,12 @@ class WonPriceCommentWidget extends StatelessWidget {
                                 backgroundImage: provider,
                               );
                             },
-
-                            /* placeholder: (c, s) {
-                                  return getCircularProgressBar();
-                              },
-                              errorWidget: (c, s, d) {
-                                return getCircularProgressBar();
-                              }, 
-                            */
+                            placeholder: (c, s) {
+                              return getCircularProgressBar();
+                            },
+                            errorWidget: (c, s, d) {
+                              return getCircularProgressBar();
+                            },
                           );
                         } else if (snapshot.hasError) {
                           debug.log(snapshot.error.toString());

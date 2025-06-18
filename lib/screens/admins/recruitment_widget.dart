@@ -84,14 +84,12 @@ class RecruitmentWidgetState extends State<RecruitmentWidget> {
                                   NetworkImage(snapshot.data as String),
                             );
                           },
-
-                          /* placeholder: (c, s) {
-                              return getCircularProgressBar();
-                            },
-                            errorWidget: (c, s, d) {
-                              return getCircularProgressBar();
-                            }, 
-                          */
+                          placeholder: (c, s) {
+                            return getCircularProgressBar();
+                          },
+                          errorWidget: (c, s, d) {
+                            return getCircularProgressBar();
+                          },
                         );
                       } else if (snapshot.hasError) {
                         return getCircularProgressBar();

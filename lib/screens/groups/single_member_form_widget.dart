@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../controllers/shared_dao_functions.dart';
 import '../../controllers/group_controller.dart';
 import '../../main.dart';
+import '../utils/globals.dart';
 import '../utils/single_member_text_field.dart';
 
 import 'dart:developer' as debug;
@@ -147,14 +148,12 @@ class SingleMemberFormWidgetState extends State<SingleMemberFormWidget> {
                       ),
                     );
                   },
-
-                  /* placeholder: (c, s) {
-                      return getCircularProgressBar();
-                    },
-                    errorWidget: (c, s, d) {
-                      return getCircularProgressBar();
-                    }, 
-                  */
+                  placeholder: (c, s) {
+                    return getCircularProgressBar();
+                  },
+                  errorWidget: (c, s, d) {
+                    return getCircularProgressBar();
+                  },
                 );
         });
       case 2:
@@ -187,14 +186,12 @@ class SingleMemberFormWidgetState extends State<SingleMemberFormWidget> {
                       ),
                     );
                   },
-
-                  /* placeholder: (c, s) {
-                      return getCircularProgressBar();
-                    },
-                    errorWidget: (c, s, d) {
-                      return getCircularProgressBar();
-                    }, 
-                  */
+                  placeholder: (c, s) {
+                    return getCircularProgressBar();
+                  },
+                  errorWidget: (c, s, d) {
+                    return getCircularProgressBar();
+                  },
                 );
         });
       case 3:
@@ -227,14 +224,12 @@ class SingleMemberFormWidgetState extends State<SingleMemberFormWidget> {
                       ),
                     );
                   },
-
-                  /* placeholder: (c, s) {
-                      return getCircularProgressBar();
-                    },
-                    errorWidget: (c, s, d) {
-                      return getCircularProgressBar();
-                    }, 
-                  */
+                  placeholder: (c, s) {
+                    return getCircularProgressBar();
+                  },
+                  errorWidget: (c, s, d) {
+                    return getCircularProgressBar();
+                  },
                 );
         });
       case 4:
@@ -267,14 +262,12 @@ class SingleMemberFormWidgetState extends State<SingleMemberFormWidget> {
                       ),
                     );
                   },
-
-                  /* placeholder: (c, s) {
-                      return getCircularProgressBar();
-                    },
-                    errorWidget: (c, s, d) {
-                      return getCircularProgressBar();
-                    }, 
-                  */
+                  placeholder: (c, s) {
+                    return getCircularProgressBar();
+                  },
+                  errorWidget: (c, s, d) {
+                    return getCircularProgressBar();
+                  },
                 );
         });
       default:
@@ -307,14 +300,12 @@ class SingleMemberFormWidgetState extends State<SingleMemberFormWidget> {
                       ),
                     );
                   },
-
-                  /* placeholder: (c, s) {
-                      return getCircularProgressBar();
-                    },
-                    errorWidget: (c, s, d) {
-                      return getCircularProgressBar();
-                    }, 
-                  */
+                  placeholder: (c, s) {
+                    return getCircularProgressBar();
+                  },
+                  errorWidget: (c, s, d) {
+                    return getCircularProgressBar();
+                  },
                 );
         });
     }

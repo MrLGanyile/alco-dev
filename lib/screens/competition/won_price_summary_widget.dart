@@ -347,14 +347,12 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
             ),
           );
         },
-
-        /* placeholder: (c, s) {
-              return getCircularProgressBar();
-          },
-          errorWidget: (c, s, d) {
-            return getCircularProgressBar();
-          }, 
-        */
+        placeholder: (c, s) {
+          return getCircularProgressBar();
+        },
+        errorWidget: (c, s, d) {
+          return getCircularProgressBar();
+        },
       ),
     );
   }
@@ -405,14 +403,12 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
                       backgroundImage: provider,
                     );
                   },
-
-                  /* placeholder: (c, s) {
-                        return getCircularProgressBar();
-                    },
-                    errorWidget: (c, s, d) {
-                      return getCircularProgressBar();
-                    }, 
-                  */
+                  placeholder: (c, s) {
+                    return getCircularProgressBar();
+                  },
+                  errorWidget: (c, s, d) {
+                    return getCircularProgressBar();
+                  },
                 ),
               ),
             );
@@ -544,14 +540,12 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
                                               backgroundImage: provider,
                                             );
                                           },
-
-                                          /* placeholder: (c, s) {
-                                                return getCircularProgressBar();
-                                            },
-                                            errorWidget: (c, s, d) {
-                                              return getCircularProgressBar();
-                                            }, 
-                                          */
+                                          placeholder: (c, s) {
+                                            return getCircularProgressBar();
+                                          },
+                                          errorWidget: (c, s, d) {
+                                            return getCircularProgressBar();
+                                          },
                                         );
                                       } else if (snapshot.hasError) {
                                         debug.log(

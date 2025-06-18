@@ -257,14 +257,12 @@ class PastPostCreationWidgetState extends State<PastPostCreationWidget> {
               ),
             );
           },
-
-          /* placeholder: (c, s) {
-              return getCircularProgressBar();
-            },
-            errorWidget: (c, s, d) {
-              return getCircularProgressBar();
-            }, 
-          */
+          placeholder: (c, s) {
+            return getCircularProgressBar();
+          },
+          errorWidget: (c, s, d) {
+            return getCircularProgressBar();
+          },
         ),
       ),
     );
@@ -389,14 +387,12 @@ class PastPostCreationWidgetState extends State<PastPostCreationWidget> {
               ),
             );
           },
-
-          /* placeholder: (c, s) {
-              return getCircularProgressBar();
-            },
-            errorWidget: (c, s, d) {
-              return getCircularProgressBar();
-            }, 
-          */
+          placeholder: (c, s) {
+            return getCircularProgressBar();
+          },
+          errorWidget: (c, s, d) {
+            return getCircularProgressBar();
+          },
         ),
       ),
     );

@@ -302,14 +302,12 @@ class SinglePastPostWidget extends StatelessWidget {
                       ),
                     );
                   },
-
-                  /* placeholder: (c, s) {
-                      return getCircularProgressBar();
-                    },
-                    errorWidget: (c, s, d) {
-                      return getCircularProgressBar();
-                    }, 
-                  */
+                  placeholder: (c, s) {
+                    return getCircularProgressBar();
+                  },
+                  errorWidget: (c, s, d) {
+                    return getCircularProgressBar();
+                  },
                 );
               } else if (snapshot.hasError) {
                 debug.log('Error Fetching Post Image - ${snapshot.error}');
@@ -427,7 +425,7 @@ class SinglePastPostWidget extends StatelessWidget {
                   if (snapshot.hasData) {
                     /*return CircleAvatar(
                       radius: MediaQuery.of(context).size.width * 0.09,
-                      backgroundColor: Colors.grey,
+                      backgroundColor: backgroundResourcesColor,
                       backgroundImage: NetworkImage(snapshot.data as String),
                     ); */
 
@@ -439,19 +437,16 @@ class SinglePastPostWidget extends StatelessWidget {
                       imageBuilder: (c, provider) {
                         return CircleAvatar(
                           radius: MediaQuery.of(context).size.width * 0.09,
-                          backgroundColor: Colors.grey,
-                          backgroundImage:
-                              NetworkImage(snapshot.data as String),
+                          backgroundColor: backgroundResourcesColor,
+                          backgroundImage: provider,
                         );
                       },
-
-                      /* placeholder: (c, s) {
-                          return getCircularProgressBar();
-                        },
-                        errorWidget: (c, s, d) {
-                          return getCircularProgressBar();
-                        }, 
-                      */
+                      placeholder: (c, s) {
+                        return getCircularProgressBar();
+                      },
+                      errorWidget: (c, s, d) {
+                        return getCircularProgressBar();
+                      },
                     );
                   } else if (snapshot.hasError) {
                     return getCircularProgressBar();
