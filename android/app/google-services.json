@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "85889747561",
+    "project_id": "alco-dev-3fd77",
+    "storage_bucket": "alco-dev-3fd77.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85889747561:android:feeb82f87865f9bc3770f8",
+        "android_client_info": {
+          "package_name": "com.example.alco_dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmtXj0Jgy_IwJrq7hnojm3WjR-Q9i7s9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
