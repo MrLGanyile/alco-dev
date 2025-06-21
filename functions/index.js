@@ -1591,6 +1591,62 @@ export const saveFakeAdmins = onRequest(
         res.json({ result: `Fake Admins Successfully Created.` });
     });
 
+export const saveFakePosts = onRequest(
+    {
+        region: "africa-south1"
+    },
+    async (req, res) => {
+
+        let postId;
+        let postCreator;
+        let dateCreated;
+
+        let whereWereYouText;
+        let whereWereYouImageURL;
+        let whereWereYouVoiceRecordURL;
+        let whereWereYouVideoURL;
+
+        let whoWereYouWithText;
+        let whoWereYouWithImageURL;
+        let whoWereYouWithVoiceRecordURL;
+        let whoWereYouWithVideoURL;
+
+        let whatHappenedText;
+        let whatHappenedVoiceRecordURL;
+        let whatHappenedVideoURL;
+
+        let reference;
+        let date;
+
+        // Mayville Posts
+        reference = getFirestore().collection("posts").doc();
+        postId = reference.id;
+        date = Timestamp.now();
+        dateCreated = {
+            year: date.year,
+            month: date.month,
+            date: date.day,
+            hour: date.hour,
+            minute: date.minute
+        };
+        reference = getFirestore().collection("alcoholics").doc("xHylOxUqu7JZJLTaLsqzmK0pNSX0");
+        postCreator = {
+            userId: reference.id,
+            profileImageURL: "mayville/alcoholics/profile_images/+27612345678.jpg",
+            phoneNumber: "+27612345678",
+            area: {
+                townOrInstitutionFK: "5",
+                areaName: "Cato Crest-Mayville-Durban-Kwa Zulu Natal-South ",
+                areaNo: "31",
+            },
+            username: "Sakhile",
+            password: "12abc12",
+        };
+
+
+
+    });
+
 // ########################################Development Functions [End]#######################################################
 
 

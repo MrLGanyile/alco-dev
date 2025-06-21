@@ -39,7 +39,13 @@ class PastPost implements Comparable<PastPost> {
   Map<String, dynamic> toJson() => {
         'postId': postId,
         'postCreator': postCreator.toJson(),
-        'dateCreated': dateCreated,
+        'dateCreated': {
+          'year': dateCreated!.year,
+          'month': dateCreated!.month,
+          'date': dateCreated!.day,
+          'hour': dateCreated!.hour,
+          'minute': dateCreated!.minute
+        },
         'whereWereYouText': whereWereYouText,
         'whereWereYouImageURL': whereWereYouImageURL,
         'whereWereYouVoiceRecordURL': whereWereYouVoiceRecordURL,
