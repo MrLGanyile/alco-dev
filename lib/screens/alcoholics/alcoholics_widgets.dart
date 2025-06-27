@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/location_controller.dart';
@@ -60,58 +59,39 @@ class AlcoholicsWidget extends StatelessWidget {
               List<Alcoholic> alcoholics = snapshot.data!;
               return Column(
                 children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 100,
-                          width: 100,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/logo.png')),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-
-                        // Search Area
-                        StreamBuilder<List<SupportedArea>>(
-                          stream: supportedAreasStream,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              List<String> dbItems = [];
-                              for (int areaIndex = 0;
-                                  areaIndex < snapshot.data!.length;
-                                  areaIndex++) {
-                                dbItems
-                                    .add(snapshot.data![areaIndex].toString());
-                              }
-                              items = dbItems;
-                              return pickAreaName(context);
-                            } else if (snapshot.hasError) {
-                              debug.log(
-                                  "Error Fetching Supported Areas Data - ${snapshot.error}");
-                              return getCircularProgressBar();
-                            } else {
-                              return getCircularProgressBar();
-                            }
-                          },
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                      ],
-                    ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  // Search Area
+                  StreamBuilder<List<SupportedArea>>(
+                    stream: supportedAreasStream,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<String> dbItems = [];
+                        for (int areaIndex = 0;
+                            areaIndex < snapshot.data!.length;
+                            areaIndex++) {
+                          dbItems.add(snapshot.data![areaIndex].toString());
+                        }
+                        items = dbItems;
+                        return pickAreaName(context);
+                      } else if (snapshot.hasError) {
+                        debug.log(
+                            "Error Fetching Supported Areas Data - ${snapshot.error}");
+                        return getCircularProgressBar();
+                      } else {
+                        return getCircularProgressBar();
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   // Alcoholics For A Particular Area.
-                  Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: allUsers(alcoholics),
-                      )),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: allUsers(alcoholics),
+                  ),
                 ],
               );
             } else if (snapshot.hasError) {
@@ -192,7 +172,7 @@ class AlcoholicsWidget extends StatelessWidget {
         iconDisabledColor: Colors.grey,
       ),
       dropdownStyleData: DropdownStyleData(
-        maxHeight: 200,
+        maxHeight: MediaQuery.of(context).size.height * 0.7,
         width: MediaQuery.of(context).size.width * 0.95,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(14),
@@ -258,8 +238,8 @@ class AlcoholicsWidget extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return SizedBox(
-                height: 150,
-                width: 150,
+                height: 130,
+                width: 130,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -300,7 +280,7 @@ class AlcoholicsWidget extends StatelessWidget {
                       username,
                       style: TextStyle(
                           color: MyApplication.storesTextColor,
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold),
                     ),
                   ],

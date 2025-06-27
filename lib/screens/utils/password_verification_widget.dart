@@ -1,17 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import '../../controllers/shared_dao_functions.dart';
 import '../../main.dart';
-import 'dart:developer' as debug;
 
 import '../../models/users/admin.dart';
 import '../../models/users/alcoholic.dart';
 import 'globals.dart';
 import 'start_screen.dart';
-import 'verification_screen.dart';
 import '../../models/users/user.dart' as my;
 
 class PasswordVerificationWidget extends StatelessWidget {

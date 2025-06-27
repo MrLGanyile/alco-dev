@@ -221,11 +221,10 @@ class AlcoholicController extends GetxController {
 
   Stream<List<Alcoholic>> readAlcoholics() {
     return firestore
-        .collection(
-            'alcoholics') /*
+        .collection('alcoholics')
         .where('area.areaNo',
             isEqualTo:
-                Converter.toSupportedArea(locateableSectionName.value!).areaNo) */
+                Converter.toSupportedArea(locateableSectionName.value!).areaNo)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) {
               Alcoholic alcoholic = Alcoholic.fromJson(doc.data());
