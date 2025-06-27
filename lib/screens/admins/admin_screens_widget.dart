@@ -1,3 +1,6 @@
+import 'package:alco_dev/screens/utils/globals.dart';
+import 'package:alco_dev/screens/utils/start_screen.dart';
+
 import '../../controllers/admin_controller.dart';
 import '../../controllers/group_controller.dart';
 import '../../controllers/shared_dao_functions.dart';
@@ -80,7 +83,7 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
             icon: const Icon(Icons.arrow_back),
             iconSize: MyApplication.backArrowFontSize,
             color: MyApplication.backArrowColor,
-            onPressed: (() => Get.back()),
+            onPressed: (() => Get.to(StartScreen())),
           ),
           title: Text(
             titles[currentIndex],
@@ -149,9 +152,39 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
             ),
             child: TabBarView(controller: _tabController, children: [
               AdminsWidget(),
-              AdminRegistrationWidget(),
-              const StoreDrawRegistrationWidget(),
-              NotificationCreationWidget(),
+              (getCurrentlyLoggenInUser() as Admin).isSuperiorAdmin
+                  ? AdminRegistrationWidget()
+                  : Center(
+                      child: Text(
+                        'Superior Admin Territory',
+                        style: TextStyle(
+                            color: MyApplication.attractiveColor1,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+              (getCurrentlyLoggenInUser() as Admin).isSuperiorAdmin
+                  ? const StoreDrawRegistrationWidget()
+                  : Center(
+                      child: Text(
+                        'Superior Admin Territory',
+                        style: TextStyle(
+                            color: MyApplication.attractiveColor1,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+              (getCurrentlyLoggenInUser() as Admin).isSuperiorAdmin
+                  ? NotificationCreationWidget()
+                  : Center(
+                      child: Text(
+                        'Superior Admin Territory',
+                        style: TextStyle(
+                            color: MyApplication.attractiveColor1,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
               RecruitmentWidget(),
             ]),
           ),

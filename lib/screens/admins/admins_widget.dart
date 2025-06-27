@@ -50,7 +50,8 @@ class AdminsWidgetState extends State<AdminsWidget> {
               setState(() {
                 bool newValue = !admin.isBlocked;
 
-                adminController.blockOrUnblockAdmin(admin.phoneNumber, false);
+                adminController.blockOrUnblockAdmin(
+                    admin.phoneNumber, newValue);
               });
             } else {
               getSnapbar('Unauthorized User', 'Update Failed');

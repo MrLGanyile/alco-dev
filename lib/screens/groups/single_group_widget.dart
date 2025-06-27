@@ -402,9 +402,23 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
               // Group Name & Group Id
               SizedBox(
                 height: 30,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: groupNameAndOrPhoneNumber(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: groupNameAndOrPhoneNumber(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: CircleAvatar(
+                        radius: 7,
+                        backgroundColor: widget.competitorsGroup.isActive
+                            ? Colors.green
+                            : Colors.grey,
+                      ),
+                    )
+                  ],
                 ),
               ),
               const SizedBox(

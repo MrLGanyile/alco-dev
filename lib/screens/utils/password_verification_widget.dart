@@ -1,3 +1,5 @@
+import 'package:alco_dev/screens/admins/admin_screens_widget.dart';
+import 'package:alco_dev/screens/admins/admins_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -110,11 +112,12 @@ class PasswordVerificationWidget extends StatelessWidget {
             if (user.password.compareTo(passwordEditingController.text) == 0) {
               if (user is Alcoholic) {
                 alcoholicController.loginUserUsingObject(user as Alcoholic);
+                getSnapbar('Welcome', 'You Are Currently Logged in.');
+                Get.to(() => StartScreen());
               } else {
                 adminController.loginAdminUsingObject(user as Admin);
+                Get.to(() => AdminScreensWidget());
               }
-              getSnapbar('Welcome', 'You Are Currently Logged in.');
-              Get.to(() => StartScreen());
             } else {
               auth.currentUser!.delete();
               getSnapbar('Login Failed', 'Wrong Password');
