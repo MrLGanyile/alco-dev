@@ -382,8 +382,9 @@ class AdminRegistrationWidget extends StatelessWidget {
                                     debug.log(
                                         '1. Successfully Signed In User From AdminRegistrationScreen...');
                                     Future<AdminSavingStatus>
-                                        adminSavingStatus = adminController
-                                            .saveAdmin(auth.currentUser!.uid);
+                                        adminSavingStatus =
+                                        adminController.saveAdmin(
+                                            auth.currentUser!.phoneNumber!);
 
                                     adminSavingStatus.then((value) {
                                       if (value ==

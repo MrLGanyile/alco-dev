@@ -39,16 +39,16 @@ class AdminController extends GetxController {
   static AdminController adminController = Get.find();
 
   // ignore: prefer_final_fields
-  Rx<Admin?> _currentlyLoggedInAdmin = Rx(// null
-      Admin(
-          userId: 'xubH8xhr7al6aXr9ZkNa',
+  Rx<Admin?> _currentlyLoggedInAdmin = Rx(null
+      /*Admin(
           phoneNumber: '+27611111111',
           password: 'qwerty321',
           joinedOn: DateTime(2025, 2, 5),
           profileImageURL: 'admins/profile_images/+27611111111.png',
           isFemale: false,
           isSuperiorAdmin: true,
-          key: "000"));
+          key: "000") */
+      );
   Admin? get currentlyLoggedInAdmin => _currentlyLoggedInAdmin.value;
 
   // ignore: prefer_final_fields
@@ -81,16 +81,9 @@ class AdminController extends GetxController {
   late Rx<String?> _superiorAdminEntranceCode = Rx<String?>(null);
   String? get superiorAdminEntranceCode => _superiorAdminEntranceCode.value;
 
-  void loginAdmin(String uid) async {
-    DocumentReference reference = firestore.collection('admins').doc(uid);
-
-    reference.get().then((adminDoc) {
-      if (adminDoc.exists) {
-        Admin admin = Admin.fromJson(adminDoc.data());
-        _currentlyLoggedInAdmin = Rx(admin);
-        auth.authStateChanges();
-        debug.log('${adminDoc.id}[${admin.phoneNumber}] has logged in');
-      }
+  Future<Admin?> findAdmin(String phoneNumber) {
+    return firestore.collection('admins').doc(phoneNumber).get().then((value) {
+      return value.exists ? Admin.fromJson(value.data()) : null;
     });
   }
 
@@ -100,10 +93,8 @@ class AdminController extends GetxController {
   }
 
   void logoutAdmin() {
-    if (_currentlyLoggedInAdmin.value != null) {
-      _currentlyLoggedInAdmin = Rx(null);
-      auth.signOut();
-    }
+    _currentlyLoggedInAdmin = Rx(null);
+    auth.signOut();
   }
 
   void chooseAdminProfileImageFromGallery(String phoneNumber) async {
@@ -203,8 +194,9 @@ class AdminController extends GetxController {
     return stream;
   }
 
-  Future<AdminSavingStatus> saveAdmin(String uid) async {
-    DocumentReference adminReference = firestore.collection('admins').doc(uid);
+  Future<AdminSavingStatus> saveAdmin(String phoneNumber) async {
+    DocumentReference adminReference =
+        firestore.collection('admins').doc(phoneNumber);
 
     return adminReference
         .snapshots()
@@ -267,6 +259,7 @@ class AdminController extends GetxController {
 
     reference.get().then((value) async {
       if (value.exists) {
+        debug.log('About To Block Admin...');
         await value.reference.update({"blocked": action});
       } else {
         getSnapbar('No Such Admin', 'Admin Do Not Exist');

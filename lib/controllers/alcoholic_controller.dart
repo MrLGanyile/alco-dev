@@ -12,6 +12,7 @@ import '../models/locations/converter.dart';
 import '../models/locations/section_name.dart';
 import '../models/locations/supported_area.dart';
 import '../models/users/alcoholic.dart';
+import '../models/users/user.dart' as my;
 import 'shared_dao_functions.dart';
 
 enum AlcoholicSavingStatus {
@@ -19,6 +20,7 @@ enum AlcoholicSavingStatus {
   adminAlreadyExist,
   loginRequired,
   unathourized,
+  alcoholCreationError,
   saved,
 }
 
@@ -40,7 +42,6 @@ class AlcoholicController extends GetxController {
   // ignore: prefer_final_fields
   Rx<Alcoholic?> _currentlyLoggedInAlcoholic = Rx(null
       /*Alcoholic(
-          userId: 'xHylOxUqu7JZJLTaLsqzmK0pNSX0',
           phoneNumber: '+27612345678',
           profileImageURL:
               'mayville/alcoholics/profile_images/+27612345678.jpg',
@@ -88,16 +89,13 @@ class AlcoholicController extends GetxController {
     _newAlcoholicPassword = Rx(password);
   }
 
-  void loginAlcoholic(String uid) async {
-    DocumentReference reference = firestore.collection('alcoholics').doc(uid);
-
-    reference.get().then((alcoholicDoc) {
-      if (alcoholicDoc.exists) {
-        Alcoholic alcoholic = Alcoholic.fromJson(alcoholicDoc.data());
-        _currentlyLoggedInAlcoholic = Rx(alcoholic);
-        auth.authStateChanges();
-        debug.log('${alcoholicDoc.id}[${alcoholic.phoneNumber}] has logged in');
-      }
+  Future<Alcoholic?> findAlcoholic(String phoneNumber) {
+    return firestore
+        .collection('alcoholics')
+        .doc(phoneNumber)
+        .get()
+        .then((value) {
+      return value.exists ? Alcoholic.fromJson(value.data()) : null;
     });
   }
 
@@ -107,10 +105,8 @@ class AlcoholicController extends GetxController {
   }
 
   void logoutAlcoholic() {
-    if (_currentlyLoggedInAlcoholic.value != null) {
-      _currentlyLoggedInAlcoholic = Rx(null);
-      auth.signOut();
-    }
+    _currentlyLoggedInAlcoholic = Rx(null);
+    auth.signOut();
   }
 
   void captureAlcoholicProfileImageWithCamera(
@@ -201,10 +197,24 @@ class AlcoholicController extends GetxController {
 
   String trimmedImageURL() {
     String host = Converter.townOrInstitutionAsString(
-        Converter.toSupportedTownOrInstitution(newAlcoholicArea.sectionName)
-            .townOrInstitutionName);
+            Converter.toSupportedTownOrInstitution(newAlcoholicArea.sectionName)
+                .townOrInstitutionName)
+        .toLowerCase();
+
+    if (host.contains('howard college ukzn') &&
+        'howard college ukzn'.contains(host)) {
+      host = 'ukzn'; // Supposed to be ukzn-howard
+    } else if (host.contains('mangosuthu (mut)') &&
+        'mangosuthu (mut)'.contains(host)) {
+      host = 'mut';
+    }
+
+    if (!_newAlcoholicImageURL.value!.contains('/$host') ||
+        !_newAlcoholicImageURL.value!.contains('?')) {
+      return _newAlcoholicImageURL.value!.replaceAll('%2F', '/');
+    }
     return _newAlcoholicImageURL.value!
-        .substring(_newAlcoholicImageURL.value!.indexOf('/$host/alcoholics'),
+        .substring(_newAlcoholicImageURL.value!.indexOf('/$host'),
             _newAlcoholicImageURL.value!.indexOf('?'))
         .replaceAll('%2F', '/');
   }
@@ -236,6 +246,13 @@ class AlcoholicController extends GetxController {
   }
 
   Future<AlcoholicSavingStatus> saveAlcoholic(String uid) async {
+    my.User? user = getCurrentlyLoggenInUser();
+
+    if (user != null) {
+      Get.snackbar("Saving Error", "Logout Before Registering New Users.");
+      return AlcoholicSavingStatus.unathourized;
+    }
+
     if (newAlcoholicProfileImageFile != null &&
         _newAlcoholicImageURL.value != null &&
         _newAlcoholicPhoneNumber.value != null &&
@@ -254,16 +271,16 @@ class AlcoholicController extends GetxController {
 
         await firestore
             .collection('alcoholics')
-            .doc(alcoholic.userId!)
+            .doc(alcoholic.phoneNumber)
             .set(alcoholic.toJson());
         loginUserUsingObject(alcoholic);
         showProgressBar = false;
         return AlcoholicSavingStatus.saved;
       } catch (error) {
-        Get.snackbar("Saving Error", "Alcoholic Couldn'\t Be Saved.");
+        Get.snackbar("Saving Error", "Alcoholic Couldn'\t Be Created.");
         debug.log(error.toString());
         showProgressBar = false;
-        return AlcoholicSavingStatus.unathourized;
+        return AlcoholicSavingStatus.alcoholCreationError;
       }
     } else {
       return AlcoholicSavingStatus.incompleteData;

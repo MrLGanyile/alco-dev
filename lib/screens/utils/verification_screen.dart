@@ -1,3 +1,5 @@
+import '../../models/users/admin.dart';
+import '../../models/users/alcoholic.dart';
 import '/controllers/admin_controller.dart';
 import '/controllers/alcoholic_controller.dart';
 import '/controllers/shared_dao_functions.dart' as shared;
@@ -16,6 +18,7 @@ import 'dart:developer' as debug;
 
 import '../admins/admin_screens_widget.dart';
 import 'globals.dart';
+import 'password_verification_widget.dart';
 
 // Branch : group_resources_crud ->  create_group_resources_front_end
 class VerificationScreen extends StatefulWidget {
@@ -57,8 +60,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
       final auth = FirebaseAuth.instance;
       await auth.signInWithCredential(credential);
 
+      debug.log('Credentials Verified Successfully');
+
       auth.currentUser!.getIdToken(true).then((token) async {
-        // Send token to backend
+        /*// Send token to backend
         HttpsCallable callableFuntion =
             FirebaseFunctions.instance.httpsCallable(
           'setCurrentUID',
@@ -72,141 +77,138 @@ class _VerificationScreenState extends State<VerificationScreen> {
           'userId': auth.currentUser!.uid,
         };
 
-        bool hasSignedIn = (await callableFuntion.call(data)) as bool;
+        bool hasSignedIn = (await callableFuntion.call(data)) as bool; */
 
-        if (hasSignedIn) {
-          if (widget.forAdmin) {
-            Future<AdminSavingStatus> adminSavingStatus =
-                adminController.saveAdmin(auth.currentUser!.uid);
-            debug.log('Admin Saving TRIED');
+        if (widget.forAdmin) {
+          Future<AdminSavingStatus> adminSavingStatus =
+              adminController.saveAdmin(auth.currentUser!.uid);
+          debug.log('forAdmin == true');
 
-            adminSavingStatus.then((value) {
-              showProgressBar = false;
-              if (value == AdminSavingStatus.unathourized) {
-                debug.log(
-                    'AdminSavingStatus.unathourized From VerificationScreen...');
-                getSnapbar(
-                    // backgroundColor: snackBarBackgroundColor,
-                    // duration: snackBarDuration,
-                    // colorText: snackBarColorText,
-                    // borderColor: snackBarBorderColor,
-                    // borderColor: snackBarBorderColor,
-                    'Error',
-                    'You Are Not Authorized To Register An Admin.');
-                Get.close(2);
-              } else if (value == AdminSavingStatus.adminAlreadyExist) {
-                debug.log(
-                    'AdminSavingStatus.adminAlreadyExist From VerificationScreen...');
-                getSnapbar(
-                    // backgroundColor: snackBarBackgroundColor,
-                    // duration: snackBarDuration,
-                    // colorText: snackBarColorText,
-                    // borderColor: snackBarBorderColor,
-                    'Error',
-                    'Admin Already Exist.');
-                Get.back();
-              } else if (value == AdminSavingStatus.loginRequired) {
-                debug.log(
-                    'AdminSavingStatus.loginRequired From VerificationScreen...');
-                getSnapbar(
-                    // backgroundColor: snackBarBackgroundColor,
-                    // duration: snackBarDuration,
-                    // colorText: snackBarColorText,
-                    // borderColor: snackBarBorderColor,
-                    'Error',
-                    'Login Required.');
-                Get.to(() => LoginWidget(forAdmin: true));
-              } else if (value == AdminSavingStatus.incompleteData) {
-                debug.log(
-                    'AdminSavingStatus.incompleteData From VerificationScreen...');
-                getSnapbar(
-                    // backgroundColor: snackBarBackgroundColor,
-                    // duration: snackBarDuration,
-                    // colorText: snackBarColorText,
-                    // borderColor: snackBarBorderColor,
-                    'Error',
-                    'Incomplete Admin Info.');
-                Get.back();
-              } else {
-                debug.log(
-                    '2. Successfully Saved User From VerificationScreen...');
+          adminSavingStatus.then((value) {
+            showProgressBar = false;
+            if (value == AdminSavingStatus.unathourized) {
+              debug.log(
+                  'AdminSavingStatus.unathourized From VerificationScreen...');
+              getSnapbar(
+                  // backgroundColor: snackBarBackgroundColor,
+                  // duration: snackBarDuration,
+                  // colorText: snackBarColorText,
+                  // borderColor: snackBarBorderColor,
+                  // borderColor: snackBarBorderColor,
+                  'Error',
+                  'You Are Not Authorized To Register An Admin.');
+              Get.close(2);
+            } else if (value == AdminSavingStatus.adminAlreadyExist) {
+              debug.log(
+                  'AdminSavingStatus.adminAlreadyExist From VerificationScreen...');
+              getSnapbar(
+                  // backgroundColor: snackBarBackgroundColor,
+                  // duration: snackBarDuration,
+                  // colorText: snackBarColorText,
+                  // borderColor: snackBarBorderColor,
+                  'Error',
+                  'Admin Already Exist.');
+              Get.back();
+            } else if (value == AdminSavingStatus.loginRequired) {
+              debug.log(
+                  'AdminSavingStatus.loginRequired From VerificationScreen...');
+              getSnapbar(
+                  // backgroundColor: snackBarBackgroundColor,
+                  // duration: snackBarDuration,
+                  // colorText: snackBarColorText,
+                  // borderColor: snackBarBorderColor,
+                  'Error',
+                  'Login Required.');
+              Get.to(() => LoginWidget(forAdmin: true));
+            } else if (value == AdminSavingStatus.incompleteData) {
+              debug.log(
+                  'AdminSavingStatus.incompleteData From VerificationScreen...');
+              getSnapbar(
+                  // backgroundColor: snackBarBackgroundColor,
+                  // duration: snackBarDuration,
+                  // colorText: snackBarColorText,
+                  // borderColor: snackBarBorderColor,
+                  'Error',
+                  'Incomplete Admin Info.');
+              Get.back();
+            } else {
+              debug
+                  .log('2. Successfully Saved User From VerificationScreen...');
 
-                getSnapbar(
-                    // backgroundColor: snackBarBackgroundColor,
-                    // duration: snackBarDuration,
-                    // colorText: snackBarColorText,
-                    // borderColor: snackBarBorderColor,
-                    'Admin Saved',
-                    'Registration Succeeded.');
-                Get.to(AdminScreensWidget());
-              }
-            });
-          } else {
-            Future<AlcoholicSavingStatus> alcoholSavingStatus =
-                alcoholicController.saveAlcoholic(auth.currentUser!.uid);
+              getSnapbar(
+                  // backgroundColor: snackBarBackgroundColor,
+                  // duration: snackBarDuration,
+                  // colorText: snackBarColorText,
+                  // borderColor: snackBarBorderColor,
+                  'Admin Saved',
+                  'Registration Succeeded.');
+              Get.to(AdminScreensWidget());
+            }
+          });
+        } else {
+          Future<AlcoholicSavingStatus> alcoholSavingStatus =
+              alcoholicController.saveAlcoholic(auth.currentUser!.uid);
+          debug.log('forAdmin == false');
 
-            alcoholSavingStatus.then((value) {
-              shared.showProgressBar = false;
-              if (value == AlcoholicSavingStatus.unathourized) {
-                debug.log(
-                    'AlcoholicSavingStatus.unathourized From VerificationScreen...');
-                getSnapbar(
-                    // backgroundColor: snackBarBackgroundColor,
-                    // duration: snackBarDuration,
-                    // colorText: snackBarColorText,
-                    // borderColor: snackBarBorderColor,
-                    'Error',
-                    'You Are Not Authorized To Register A New User.');
-                Get.close(2);
-              } else if (value == AlcoholicSavingStatus.adminAlreadyExist) {
-                debug.log(
-                    'AlcoholicSavingStatus.adminAlreadyExist From VerificationScreen...');
-                getSnapbar(
-                    // backgroundColor: snackBarBackgroundColor,
-                    // duration: snackBarDuration,
-                    // colorText: snackBarColorText,
-                    // borderColor: snackBarBorderColor,
-                    'Error',
-                    'User Already Exist.');
-                Get.back();
-              } else if (value == AlcoholicSavingStatus.loginRequired) {
-                debug.log(
-                    'AlcoholicSavingStatus.loginRequired From VerificationScreen...');
-                getSnapbar(
-                    // backgroundColor: snackBarBackgroundColor,
-                    // duration: snackBarDuration,
-                    // colorText: snackBarColorText,
-                    // borderColor: snackBarBorderColor,
-                    'Error',
-                    'Login Required.');
-                Get.to(() => LoginWidget(forAdmin: widget.forAdmin));
-              } else if (value == AlcoholicSavingStatus.incompleteData) {
-                debug.log(
-                    'AlcoholicSavingStatus.incompleteData From VerificationScreen...');
-                getSnapbar(
-                    // backgroundColor: snackBarBackgroundColor,
-                    // duration: snackBarDuration,
-                    // colorText: snackBarColorText,
-                    // borderColor: snackBarBorderColor,
-                    'Error',
-                    'Incomplete Info.');
-                Get.back();
-              } else {
-                debug.log('Successfully Saved User From VerificationScreen...');
-                getSnapbar(
-                    // backgroundColor: snackBarBackgroundColor,
-                    // duration: snackBarDuration,
-                    // colorText: snackBarColorText,
-                    // borderColor: snackBarBorderColor,
-                    'User Saved',
-                    'Congratulations Registration Succeeded!!!.');
-                Get.close(2);
-              }
-            });
-          }
+          alcoholSavingStatus.then((value) {
+            shared.showProgressBar = false;
+            if (value == AlcoholicSavingStatus.unathourized) {
+              debug.log(
+                  'AlcoholicSavingStatus.unathourized From VerificationScreen...');
+              getSnapbar(
+                  // backgroundColor: snackBarBackgroundColor,
+                  // duration: snackBarDuration,
+                  // colorText: snackBarColorText,
+                  // borderColor: snackBarBorderColor,
+                  'Error',
+                  'You Are Not Authorized To Register A New User.');
+              Get.close(2);
+            } else if (value == AlcoholicSavingStatus.alcoholCreationError) {
+              debug.log(
+                  'AlcoholicSavingStatus.alcoholCreationError From VerificationScreen...');
+              getSnapbar("Saving Error", "Alcoholic Couldn'\t Be Created.");
+              Get.close(2);
+            } else if (value == AlcoholicSavingStatus.adminAlreadyExist) {
+              debug.log(
+                  'AlcoholicSavingStatus.adminAlreadyExist From VerificationScreen...');
+              getSnapbar(
+                  // backgroundColor: snackBarBackgroundColor,
+                  // duration: snackBarDuration,
+                  // colorText: snackBarColorText,
+                  // borderColor: snackBarBorderColor,
+                  'Error',
+                  'User Already Exist.');
+              Get.back();
+            } else if (value == AlcoholicSavingStatus.loginRequired) {
+              debug.log(
+                  'AlcoholicSavingStatus.loginRequired From VerificationScreen...');
+              getSnapbar(
+                  // backgroundColor: snackBarBackgroundColor,
+                  // duration: snackBarDuration,
+                  // colorText: snackBarColorText,
+                  // borderColor: snackBarBorderColor,
+                  'Error',
+                  'Login Required.');
+              Get.to(() => LoginWidget(forAdmin: widget.forAdmin));
+            } else if (value == AlcoholicSavingStatus.incompleteData) {
+              debug.log(
+                  'AlcoholicSavingStatus.incompleteData From VerificationScreen...');
+              getSnapbar(
+                  // backgroundColor: snackBarBackgroundColor,
+                  // duration: snackBarDuration,
+                  // colorText: snackBarColorText,
+                  // borderColor: snackBarBorderColor,
+                  'Error',
+                  'Incomplete Info.');
+              Get.back();
+            } else {
+              Get.close(2);
+            }
+          });
         }
       }).catchError((onError) {});
     } catch (error) {
+      debug.log('Credentials Verified Unsuccessfully');
       getSnapbar(
           // backgroundColor: snackBarBackgroundColor,
           // duration: snackBarDuration,
@@ -216,7 +218,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
           'Wrong Verification Code.');
       debug.log('Wrong Verification Code');
     } finally {
-      shared.showProgressBar = false;
+      setState(() {
+        shared.showProgressBar = false;
+      });
     }
   }
 
@@ -228,35 +232,40 @@ class _VerificationScreenState extends State<VerificationScreen> {
       final auth = FirebaseAuth.instance;
       await auth.signInWithCredential(credential);
 
+      debug.log('verifyLogin passed...');
+
       auth.currentUser!.getIdToken(true).then((token) async {
-        // Send token to backend
-        HttpsCallable callableFuntion =
-            FirebaseFunctions.instance.httpsCallable(
-          'setCurrentUID',
-          options: HttpsCallableOptions(
-            timeout: const Duration(seconds: 1),
-          ),
-        );
-
-        Map<String, dynamic> data = {
-          'token': token,
-          'userId': auth.currentUser!.uid,
-        };
-
-        bool hasSignedIn = (await callableFuntion.call(data)) as bool;
-
-        if (hasSignedIn) {
-          if (widget.forAdmin) {
-            adminController.loginAdmin(auth.currentUser!.uid);
-            // Alert message required
-
-          } else {
-            alcoholicController.loginAlcoholic(auth.currentUser!.uid);
-            // Alert message required
-          }
-
-          // Go back two times.
-          Get.close(2);
+        if (widget.forAdmin) {
+          await adminController
+              .findAdmin(auth.currentUser!.phoneNumber!)
+              .then((admin) {
+            if (admin == null) {
+              debug.log('admin doc do not exist...');
+              auth.currentUser!.delete();
+              getSnapbar('Registration Required', 'User Do Not Exist.');
+            } else {
+              debug.log('admin doc do exist...');
+              Get.to(() => PasswordVerificationWidget(
+                    user: admin,
+                  ));
+            }
+          });
+        } else {
+          await alcoholicController
+              .findAlcoholic(auth.currentUser!.phoneNumber!)
+              .then((alcoholic) {
+            if (alcoholic == null) {
+              debug.log('alcoholic doc do not exist...');
+              auth.currentUser!.delete();
+              getSnapbar('Registration Required', 'User Do Not Exist.');
+              Get.to(() => AlcoholicRegistrationWidget());
+            } else {
+              debug.log('alcoholic doc do exist...');
+              Get.to(() => PasswordVerificationWidget(
+                    user: alcoholic,
+                  ));
+            }
+          });
         }
       }).catchError((onError) {});
     } catch (error) {
@@ -329,7 +338,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
               ),
               shared.showProgressBar
-                  ? const Center(child: CircularProgressIndicator())
+                  ? getCircularProgressBar()
                   : Container(
                       width: MediaQuery.of(context).size.width,
                       height: 60,
@@ -342,6 +351,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       ),
                       child: InkWell(
                         onTap: () async {
+                          shared.showProgressBar = false;
                           widget.forLogin ? verifyLogin() : verifySignin();
                         },
                         child: const Center(

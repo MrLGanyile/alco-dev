@@ -7,14 +7,17 @@ import '../../controllers/shared_dao_functions.dart';
 import '../../main.dart';
 import 'dart:developer' as debug;
 
+import '../../models/users/admin.dart';
+import '../../models/users/alcoholic.dart';
 import 'globals.dart';
+import 'start_screen.dart';
 import 'verification_screen.dart';
+import '../../models/users/user.dart' as my;
 
-class LoginWidget extends StatelessWidget {
-  TextEditingController phoneNumberEditingController = TextEditingController();
+class PasswordVerificationWidget extends StatelessWidget {
   TextEditingController passwordEditingController = TextEditingController();
-  bool forAdmin;
-  LoginWidget({required this.forAdmin});
+  my.User user;
+  PasswordVerificationWidget({required this.user});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,22 +56,18 @@ class LoginWidget extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: TextField(
-                      keyboardType: TextInputType.number,
                       minLines: 1,
-                      maxLength: 10,
+                      maxLength: 20,
                       style: TextStyle(color: MyApplication.logoColor1),
                       cursorColor: MyApplication.logoColor1,
-                      controller: phoneNumberEditingController,
+                      controller: passwordEditingController,
                       decoration: InputDecoration(
-                        labelText: 'Phone Number',
+                        labelText: 'Password',
                         prefixIcon:
-                            Icon(Icons.phone, color: MyApplication.logoColor1),
+                            Icon(Icons.lock, color: MyApplication.logoColor1),
                         labelStyle: TextStyle(
                           fontSize: 14,
                           color: MyApplication.logoColor2,
@@ -86,7 +85,7 @@ class LoginWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-                      obscureText: false,
+                      obscureText: true,
                     ),
                   ),
                   Padding(
@@ -111,40 +110,22 @@ class LoginWidget extends StatelessWidget {
             )),
         child: InkWell(
           onTap: () async {
-            String phoneNumber =
-                '+27${phoneNumberEditingController.text.substring(1)}';
-
-            final auth = FirebaseAuth.instance;
-
-            await auth.verifyPhoneNumber(
-              phoneNumber: phoneNumber,
-              verificationCompleted: (PhoneAuthCredential credential) async {
-                debug.log('1. About To Signed In User From LoginWidget...');
-                // ANDROID ONLY!
-                // Sign the user in (or link) with the auto-generated credential
-                await auth.signInWithCredential(credential);
-              },
-              verificationFailed: (FirebaseAuthException e) {
-                if (e.code == 'invalid-phone-number') {
-                  debug.log('The provided phone number is not valid.');
-                }
-
-                // Handle other errors
-              },
-              codeSent: (String verificationId, int? resendToken) async {
-                Get.to(() => VerificationScreen(
-                      phoneNumber: phoneNumber,
-                      verificationId: verificationId,
-                      forAdmin: forAdmin,
-                      forLogin: true,
-                    ));
-              },
-              codeAutoRetrievalTimeout: (String verificationId) {},
-            );
+            if (user.password.compareTo(passwordEditingController.text) == 0) {
+              if (user is Alcoholic) {
+                alcoholicController.loginUserUsingObject(user as Alcoholic);
+              } else {
+                adminController.loginAdminUsingObject(user as Admin);
+              }
+              getSnapbar('Welcome', 'You Are Currently Logged in.');
+              Get.to(() => StartScreen());
+            } else {
+              auth.currentUser!.delete();
+              getSnapbar('Login Failed', 'Wrong Password');
+            }
           },
           child: const Center(
             child: Text(
-              'Proceed',
+              'Login',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.black,

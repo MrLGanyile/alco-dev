@@ -15,7 +15,7 @@ class FakeAdmins {
 
         let admin;
 
-        adminReference = getFirestore().collection("admins").doc('xubH8xhr7al6aXr9ZkNa');
+        adminReference = getFirestore().collection("admins").doc('+27611111111');
 
         // Superior Admin
         admin =
@@ -38,13 +38,13 @@ class FakeAdmins {
 
         await adminReference.set(admin);
 
-        adminReference = getFirestore().collection("admins").doc();
+        adminReference = getFirestore().collection("admins").doc('+27610101010');
 
         admin =
         {
             userId: adminReference.id,
             isSuperior: true,
-            key: "002",
+            key: "001",
             isFemale: true,
             townOrInstitution: "DUT",
             phoneNumber: "+27610101010",
@@ -63,13 +63,13 @@ class FakeAdmins {
         month = 1 + Math.floor(Math.random() * 11);
         day = 1 + Math.floor(Math.random() * 30);
 
-        adminReference = getFirestore().collection("admins").doc();
+        adminReference = getFirestore().collection("admins").doc('+27620202020');
 
         admin =
         {
             userId: adminReference.id,
-            isSuperior: true,
-            key: "003",
+            isSuperior: false,
+            key: "002",
             isFemale: true,
             townOrInstitution: "Mayville",
             phoneNumber: "+27620202020",
@@ -88,13 +88,13 @@ class FakeAdmins {
         month = 1 + Math.floor(Math.random() * 11);
         day = 1 + Math.floor(Math.random() * 30);
 
-        adminReference = getFirestore().collection("admins").doc();
+        adminReference = getFirestore().collection("admins").doc('+27630303030');
 
         admin =
         {
             userId: adminReference.id,
-            isSuperior: true,
-            key: "004",
+            isSuperior: false,
+            key: "003",
             isFemale: true,
             townOrInstitution: "UKZN",
             phoneNumber: "+27630303030",
@@ -113,12 +113,37 @@ class FakeAdmins {
         month = 1 + Math.floor(Math.random() * 11);
         day = 1 + Math.floor(Math.random() * 30);
 
-        adminReference = getFirestore().collection("admins").doc();
+        adminReference = getFirestore().collection("admins").doc('+27640404040');
 
         admin =
         {
             userId: adminReference.id,
-            isSuperior: true,
+            isSuperior: false,
+            key: "004",
+            isFemale: true,
+            townOrInstitution: "Sydenham",
+            phoneNumber: "+27640404040",
+            profileImageURL: "/admins/profile_images/+27640404040.jpg",
+            password: "404040",
+            isBlocked: false,
+            joinedOn: {
+                year: year,
+                month: month,
+                day: day,
+            }
+        };
+
+        await adminReference.set(admin);
+
+        month = 1 + Math.floor(Math.random() * 11);
+        day = 1 + Math.floor(Math.random() * 30);
+
+        adminReference = getFirestore().collection("admins").doc('+27640404040');
+
+        admin =
+        {
+            userId: adminReference.id,
+            isSuperior: false,
             key: "005",
             isFemale: true,
             townOrInstitution: "Sydenham",
@@ -138,37 +163,12 @@ class FakeAdmins {
         month = 1 + Math.floor(Math.random() * 11);
         day = 1 + Math.floor(Math.random() * 30);
 
-        adminReference = getFirestore().collection("admins").doc();
+        adminReference = getFirestore().collection("admins").doc('+27650505050');
 
         admin =
         {
             userId: adminReference.id,
-            isSuperior: true,
-            key: "005",
-            isFemale: true,
-            townOrInstitution: "Sydenham",
-            phoneNumber: "+27640404040",
-            profileImageURL: "/admins/profile_images/+27640404040.jpg",
-            password: "404040",
-            isBlocked: false,
-            joinedOn: {
-                year: year,
-                month: month,
-                day: day,
-            }
-        };
-
-        await adminReference.set(admin);
-
-        month = 1 + Math.floor(Math.random() * 11);
-        day = 1 + Math.floor(Math.random() * 30);
-
-        adminReference = getFirestore().collection("admins").doc();
-
-        admin =
-        {
-            userId: adminReference.id,
-            isSuperior: true,
+            isSuperior: false,
             key: "006",
             isFemale: true,
             townOrInstitution: "Sydenham",
@@ -188,12 +188,12 @@ class FakeAdmins {
         month = 1 + Math.floor(Math.random() * 11);
         day = 1 + Math.floor(Math.random() * 30);
 
-        adminReference = getFirestore().collection("admins").doc();
+        adminReference = getFirestore().collection("admins").doc('+27660606060');
 
         admin =
         {
             userId: adminReference.id,
-            isSuperior: true,
+            isSuperior: false,
             key: "007",
             isFemale: true,
             townOrInstitution: "Durban Central",
@@ -213,12 +213,12 @@ class FakeAdmins {
         month = 1 + Math.floor(Math.random() * 11);
         day = 1 + Math.floor(Math.random() * 30);
 
-        adminReference = getFirestore().collection("admins").doc();
+        adminReference = getFirestore().collection("admins").doc('+27670707070');
 
         admin =
         {
             userId: adminReference.id,
-            isSuperior: true,
+            isSuperior: false,
             key: "008",
             isFemale: true,
             townOrInstitution: "UKZN",
@@ -238,19 +238,19 @@ class FakeAdmins {
         month = 1 + Math.floor(Math.random() * 11);
         day = 1 + Math.floor(Math.random() * 30);
 
-        adminReference = getFirestore().collection("admins").doc();
+        adminReference = getFirestore().collection("admins").doc('+27680808080');
 
         admin =
         {
             userId: adminReference.id,
-            isSuperior: true,
+            isSuperior: false,
             key: "009",
             isFemale: true,
             townOrInstitution: "DUT",
             phoneNumber: "+27680808080",
             profileImageURL: "/admins/profile_images/+27680808080.jpg",
             password: "808080",
-            isBlocked: false,
+            isBlocked: true,
             joinedOn: {
                 year: year,
                 month: month,

@@ -65,6 +65,7 @@ import HowardFakeGroups from "./models/users/groups/howard_fake_groups.js";
 import DUTFakeGroups from "./models/users/groups/dut_fake_groups.js";
 import DurbanCentralFakeGroups from "./models/users/groups/durban_central_fake_groups.js";
 import FakeAdmins from "./models/users/admins/fake_admins.js";
+import FakePosts from "./models/posts/fake_posts.js";
 
 const mayvilleFakeGroups = new MayvilleFakeGroups();
 const sydenhamFakeGroups = new SydenhamFakeGroups();
@@ -72,6 +73,7 @@ const howardFakeGroups = new HowardFakeGroups();
 const dutFakeGroups = new DUTFakeGroups();
 const durbanCentralFakeGroups = new DurbanCentralFakeGroups();
 const fakeAdmins = new FakeAdmins();
+const fakePosts = new FakePosts();
 
 
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createSupportedLocations/
@@ -81,7 +83,7 @@ const fakeAdmins = new FakeAdmins();
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeGroups?hostIndex=2
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeDraws?hostIndex=2
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createCompetitions
-
+// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveFakePosts
 
 // ###################Production Functions [Start]########################
 
@@ -1454,7 +1456,7 @@ export const createFakeAlcoholics = onRequest(
         let reference;
 
         // Mayville
-        reference = getFirestore().collection("alcoholics").doc("xHylOxUqu7JZJLTaLsqzmK0pNSX0");
+        reference = getFirestore().collection("alcoholics").doc("+27612345678");
         alcoholic = {
             userId: reference.id,
             profileImageURL: "mayville/alcoholics/profile_images/+27612345678.jpg",
@@ -1471,7 +1473,7 @@ export const createFakeAlcoholics = onRequest(
 
 
         // UKZN
-        reference = getFirestore().collection("alcoholics").doc("KmtOMzr1UQ5HERElRWRQmxXRhAlw");
+        reference = getFirestore().collection("alcoholics").doc("+27623456789");
         alcoholic = {
             userId: reference.id,
             profileImageURL: "ukzn/alcoholics/profile_images/+27623456789.jpg",
@@ -1487,7 +1489,7 @@ export const createFakeAlcoholics = onRequest(
         await reference.set(alcoholic);
 
         // Sydenham
-        reference = getFirestore().collection("alcoholics").doc("v6bHYeYwgYh2uoP45gtHzpreoHgj");
+        reference = getFirestore().collection("alcoholics").doc("+27634567890");
         alcoholic = {
             userId: reference.id,
             profileImageURL: "sydenham/alcoholics/profile_images/+27634567890.jpg",
@@ -1503,7 +1505,7 @@ export const createFakeAlcoholics = onRequest(
         await reference.set(alcoholic);
 
         // Durban Central
-        reference = getFirestore().collection("alcoholics").doc("mFXUtMuBumC3oJ0SfMfqpsYpMz0m");
+        reference = getFirestore().collection("alcoholics").doc("+27645678901");
         alcoholic = {
             userId: reference.id,
             profileImageURL: "durban central/alcoholics/profile_images/+27645678901.jpg",
@@ -1519,7 +1521,7 @@ export const createFakeAlcoholics = onRequest(
         await reference.set(alcoholic);
 
         // DUT
-        reference = getFirestore().collection("alcoholics").doc("FjfBwPidh4pg6jHHjEAXcEIR6f9e");
+        reference = getFirestore().collection("alcoholics").doc("+27656789012");
         alcoholic = {
             userId: reference.id,
             profileImageURL: "dut/alcoholics/profile_images/+27656789012.jpg",
@@ -1535,7 +1537,7 @@ export const createFakeAlcoholics = onRequest(
         await reference.set(alcoholic);
 
         // DUT
-        reference = getFirestore().collection("alcoholics").doc("FjfBwPidh4pg6jHHjEAXcEIR6f9f");
+        reference = getFirestore().collection("alcoholics").doc("+27667890123");
         alcoholic = {
             userId: reference.id,
             profileImageURL: "dut/alcoholics/profile_images/+27667890123.jpg",
@@ -1552,7 +1554,7 @@ export const createFakeAlcoholics = onRequest(
 
         // DUT
 
-        reference = getFirestore().collection("alcoholics").doc("FjfBwPidh4pg6jHHjEAXcEIR6f9g");
+        reference = getFirestore().collection("alcoholics").doc("+27601234567");
         alcoholic = {
             userId: reference.id,
             profileImageURL: "dut/alcoholics/profile_images/+27601234567.jpg",
@@ -1591,59 +1593,15 @@ export const saveFakeAdmins = onRequest(
         res.json({ result: `Fake Admins Successfully Created.` });
     });
 
+// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveFakePosts
 export const saveFakePosts = onRequest(
     {
         region: "africa-south1"
     },
     async (req, res) => {
 
-        let postId;
-        let postCreator;
-        let dateCreated;
-
-        let whereWereYouText;
-        let whereWereYouImageURL;
-        let whereWereYouVoiceRecordURL;
-        let whereWereYouVideoURL;
-
-        let whoWereYouWithText;
-        let whoWereYouWithImageURL;
-        let whoWereYouWithVoiceRecordURL;
-        let whoWereYouWithVideoURL;
-
-        let whatHappenedText;
-        let whatHappenedVoiceRecordURL;
-        let whatHappenedVideoURL;
-
-        let reference;
-        let date;
-
-        // Mayville Posts
-        reference = getFirestore().collection("posts").doc();
-        postId = reference.id;
-        date = Timestamp.now();
-        dateCreated = {
-            year: date.year,
-            month: date.month,
-            date: date.day,
-            hour: date.hour,
-            minute: date.minute
-        };
-        reference = getFirestore().collection("alcoholics").doc("xHylOxUqu7JZJLTaLsqzmK0pNSX0");
-        postCreator = {
-            userId: reference.id,
-            profileImageURL: "mayville/alcoholics/profile_images/+27612345678.jpg",
-            phoneNumber: "+27612345678",
-            area: {
-                townOrInstitutionFK: "5",
-                areaName: "Cato Crest-Mayville-Durban-Kwa Zulu Natal-South ",
-                areaNo: "31",
-            },
-            username: "Sakhile",
-            password: "12abc12",
-        };
-
-
+        fakePosts.createFakePosts();
+        res.json({ result: `Fake Posts Successfully Created.` });
 
     });
 

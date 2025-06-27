@@ -1,3 +1,5 @@
+import 'package:alco_dev/screens/utils/login_widget.dart';
+
 import '../../controllers/shared_dao_functions.dart';
 import '../admins/admin_entrance_widget.dart';
 import '../posts/past_post_creation_widget.dart';
@@ -164,11 +166,15 @@ class _StartScreenState extends State<StartScreen>
                 height: 5,
               ),
               ListTile(
-                  leading: Icon(Icons.logout, size: listTilesIconSize),
+                  leading: Icon(
+                      getCurrentlyLoggenInUser() != null
+                          ? Icons.logout
+                          : Icons.login,
+                      size: listTilesIconSize),
                   iconColor: MyApplication.logoColor1,
                   textColor: MyApplication.logoColor2,
                   title: Text(
-                    'Logout',
+                    getCurrentlyLoggenInUser() != null ? 'Logout' : 'Login',
                     style: TextStyle(
                       fontSize: listTilesFontSize,
                     ),
@@ -176,26 +182,13 @@ class _StartScreenState extends State<StartScreen>
                   onTap: () {
                     if (getCurrentlyLoggenInUser() != null) {
                       logoutUser();
-
-                      Get.to(() => AlertDialog(
-                            title: Text(
-                              'Goodbye',
-                              style: TextStyle(
-                                  fontSize: listTilesFontSize,
-                                  color: MyApplication.storesTextColor),
-                            ),
-                            content: Container(
-                                decoration:
-                                    const BoxDecoration(color: Colors.black),
-                                child: Text(
-                                  'You Have Successfully Logged Out.',
-                                  style: TextStyle(
-                                      fontSize: listTilesFontSize - 5,
-                                      color: MyApplication.storesTextColor),
-                                )),
-                          ));
+                      getSnapbar(
+                          'Notification', 'You Have Logged Out Successfully.');
+                      Get.close(1);
                     } else {
-                      getSnapbar('Error', 'You Are Not Currently Logged In.');
+                      Get.to(() => LoginWidget(
+                            forAdmin: false,
+                          ));
                     }
                   }),
             ],
@@ -304,7 +297,6 @@ class _StartScreenState extends State<StartScreen>
               HomeWidget(),
               StoresWidget(),
               const GroupsScreen(),
-              // const StoreDrawRegistrationWidget(),
               ShowOffScreen()
             ]),
           ),

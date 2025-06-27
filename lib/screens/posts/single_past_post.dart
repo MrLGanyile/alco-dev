@@ -146,25 +146,29 @@ class SinglePastPostWidget extends StatelessWidget {
             )),
       );
     } else if (pastPost.hasWhoWereYouWithImage()) {
-      widget = Align(
-        alignment: Alignment.bottomLeft,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Who Was With Me?',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  fontSize: 16, color: MyApplication.attractiveColor1),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            displayImage(pastPost.whoWereYouWithImageURL),
-            const SizedBox(
-              height: 5,
-            ),
-          ],
+      widget = Card(
+        color: Colors.black.withBlue(30),
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+        child: Align(
+          alignment: Alignment.bottomLeft,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Who Was With Me?',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                    fontSize: 16, color: MyApplication.attractiveColor1),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              displayImage(pastPost.whoWereYouWithImageURL),
+              const SizedBox(
+                height: 5,
+              ),
+            ],
+          ),
         ),
       );
     } else if (pastPost.hasWhoWereYouWithVoiceRecord()) {
@@ -271,7 +275,7 @@ class SinglePastPostWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: AspectRatio(
-        aspectRatio: 2 / 2,
+        aspectRatio: 2 / 3,
         child: FutureBuilder(
             future: findFullImageURL(imageURL),
             builder: (context, snapshot) {
@@ -295,8 +299,8 @@ class SinglePastPostWidget extends StatelessWidget {
                     return Container(
                       //margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/8) ,
                       decoration: BoxDecoration(
-                        color: backgroundResourcesColor,
-                        borderRadius: BorderRadius.circular(20),
+                        // color: backgroundResourcesColor,
+                        borderRadius: BorderRadius.circular(5),
                         image:
                             DecorationImage(fit: BoxFit.cover, image: provider),
                       ),
@@ -408,7 +412,7 @@ class SinglePastPostWidget extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height / 1.8,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.only(top: 10.0),
           child: widget,
         ),
       );

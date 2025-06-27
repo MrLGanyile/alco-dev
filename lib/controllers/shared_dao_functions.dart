@@ -20,7 +20,7 @@ final functions = FirebaseFunctions.instance;
 final reference = FirebaseStorage
 //.instance.ref();
 
-// instance.refFromURL("gs://alco-dev-3fd77.firebasestorage.app");
+        //  .instanceFor(bucket: "gs://alco-dev-3fd77.firebasestorage.app")
         .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
     .ref();
 final auth = FirebaseAuth.instance;
@@ -71,6 +71,37 @@ Future<String> findFullImageURL(String imageURL) async {
   return await reference.child(imageURL).getDownloadURL();
 }
 
+Future<bool> isLoginAcceptable(
+    String phoneNumber, String password, bool forAdmin) async {
+  Query<Map<String, dynamic>> reference;
+  if (forAdmin) {
+    reference = firestore.collection('admins');
+    reference.get().then((snapshot) {
+      snapshot.docs.map((adminDoc) {
+        Admin admin = Admin.fromJson(adminDoc.data());
+
+        if (admin.phoneNumber.compareTo(phoneNumber) == 0 &&
+            admin.password.compareTo(password) == 0) {
+          return true;
+        }
+      });
+    });
+  } else {
+    reference = firestore.collection('alcoholics');
+    reference.get().then((snapshot) {
+      snapshot.docs.map((alcoholicDoc) {
+        Alcoholic alcoholic = Alcoholic.fromJson(alcoholicDoc.data());
+
+        if (alcoholic.phoneNumber.compareTo(phoneNumber) == 0 &&
+            alcoholic.password.compareTo(password) == 0) {
+          return true;
+        }
+      });
+    });
+  }
+  return false;
+}
+
 Future<AggregateQuerySnapshot> isCredentialsCorrect(
     String phoneNumber, String password, bool forAdmin) async {
   Query<Map<String, dynamic>> reference;
@@ -84,6 +115,8 @@ Future<AggregateQuerySnapshot> isCredentialsCorrect(
         .collection('alcoholics')
         .where("phoneNumber", isEqualTo: phoneNumber)
         .where('password', isEqualTo: password);
+
+    reference = firestore.collection('alcoholics');
   }
 
   AggregateQuerySnapshot? result = await reference.count().get();

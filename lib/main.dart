@@ -40,8 +40,8 @@ Future main() async {
     final functions = FirebaseFunctions.instance;
     final storage = FirebaseStorage
             // .instance.ref();
-            // instance.refFromURL("gs://alco-dev-3fd77.firebasestorage.app");
-            .instanceFor(bucket: "gs://alco-dev-3fd77.firebasestorage.app")
+            // .instanceFor(bucket: "gs://alco-dev-3fd77.firebasestorage.app")
+            .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
         .ref();
 
     final auth = FirebaseAuth.instance;

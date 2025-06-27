@@ -18,7 +18,6 @@ class Alcoholic extends User {
       required this.username,
       required password})
       : super(
-            userId: userId,
             phoneNumber: phoneNumber,
             profileImageURL: profileImageURL,
             password: password);

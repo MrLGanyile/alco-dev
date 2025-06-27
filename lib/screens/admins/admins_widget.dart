@@ -37,15 +37,20 @@ class AdminsWidgetState extends State<AdminsWidget> {
             User? user = getCurrentlyLoggenInUser();
 
             if (user is Admin) {
-              if (user.isSuperiorAdmin) {
+              if (admin.isSuperiorAdmin) {
                 getSnapbar(
                     'Action Prohibited', 'Cannot Block A Superior Admin');
+                return;
+              }
+
+              if (user.isBlocked) {
+                getSnapbar('Action Prohibited', 'You Are Blocked');
                 return;
               }
               setState(() {
                 bool newValue = !admin.isBlocked;
 
-                adminController.blockOrUnblockAdmin(admin.userId!, newValue);
+                adminController.blockOrUnblockAdmin(admin.phoneNumber, false);
               });
             } else {
               getSnapbar('Unauthorized User', 'Update Failed');
@@ -152,7 +157,7 @@ class AdminsWidgetState extends State<AdminsWidget> {
           height: 5,
         ),
         Expanded(
-          child: StreamBuilder(
+          child: StreamBuilder<List<Admin>>(
               stream: adminsStream,
               builder: ((context, snapshot) {
                 if (snapshot.hasData) {

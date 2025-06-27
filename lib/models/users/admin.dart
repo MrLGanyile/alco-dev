@@ -22,7 +22,6 @@ class Admin extends User {
       this.isBlocked = false,
       required this.key})
       : super(
-            userId: userId,
             phoneNumber: phoneNumber,
             profileImageURL: profileImageURL,
             password: password);

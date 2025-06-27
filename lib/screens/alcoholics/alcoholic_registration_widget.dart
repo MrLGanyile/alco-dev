@@ -370,7 +370,12 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                               )),
                           child: InkWell(
                             onTap: () async {
-                              shared.showProgressBar = true;
+                              if (shared.getCurrentlyLoggenInUser() != null) {
+                                Get.snackbar("Signing Error",
+                                    "Logout Before Registering New Users.");
+                                return;
+                              }
+
                               alcoholicController.setNewAlcoholicPassword(
                                   passwordEditingController.text);
                               debug.log(
@@ -390,7 +395,7 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                                 debug.log(
                                     'Alcoholic Validated From AlcoholicRegistrationScreen');
                                 final auth = FirebaseAuth.instance;
-
+                                shared.showProgressBar = true;
                                 await auth.verifyPhoneNumber(
                                   phoneNumber:
                                       '+27${phoneNumberEditingController.text}',
