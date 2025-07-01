@@ -31,7 +31,6 @@ class FakePosts {
 
         // Mayville Posts
         postCreator = {
-            userId: 'xHylOxUqu7JZJLTaLsqzmK0pNSX0',
             profileImageURL: "mayville/alcoholics/profile_images/+27612345678.jpg",
             phoneNumber: "+27612345678",
             area: {
@@ -77,7 +76,6 @@ class FakePosts {
 
         // UKZN
         postCreator = {
-            userId: 'KmtOMzr1UQ5HERElRWRQmxXRhAlw',
             profileImageURL: "ukzn/alcoholics/profile_images/+27623456789.jpg",
             phoneNumber: "+27623456789",
             area: {
@@ -124,7 +122,6 @@ class FakePosts {
 
         // Sydenham Posts
         postCreator = {
-            userId: 'v6bHYeYwgYh2uoP45gtHzpreoHgj',
             profileImageURL: "sydenham/alcoholics/profile_images/+27634567890.jpg",
             phoneNumber: "+27634567890",
             area: {
@@ -171,7 +168,6 @@ class FakePosts {
 
         // Durban Central
         postCreator = {
-            userId: 'mFXUtMuBumC3oJ0SfMfqpsYpMz0m',
             profileImageURL: "durban central/alcoholics/profile_images/+27645678901.jpg",
             phoneNumber: "+27645678901",
             area: {

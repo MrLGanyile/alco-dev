@@ -80,7 +80,7 @@ const fakePosts = new FakePosts();
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeAlcoholics
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveStores
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveFakeAdmins
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeGroups?hostIndex=2
+// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeGroups?hostIndex=0
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeDraws?hostIndex=2
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createCompetitions
 // http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveFakePosts
@@ -1136,12 +1136,12 @@ export const createFakeGroups = onRequest(
             case 0:// Mayville
 
                 await mayvilleFakeGroups.catoCrestGroups();  // Marketing Strategy 1-2
-                await mayvilleFakeGroups.richviewKoPeachGroups(); // Marketing Strategy 1-1
-                await mayvilleFakeGroups.richviewKoYellowGroups(); // Marketing Strategy 1-1
-                await mayvilleFakeGroups.richviewKoGreenGroups();  // Marketing Strategy 1-1
-                await mayvilleFakeGroups.richviewEmathininiGroups(); // Marketing Strategy 1-1
+                // await mayvilleFakeGroups.richviewKoPeachGroups(); // Marketing Strategy 1-1
+                // await mayvilleFakeGroups.richviewKoYellowGroups(); // Marketing Strategy 1-1
+                // await mayvilleFakeGroups.richviewKoGreenGroups();  // Marketing Strategy 1-1
+                // await mayvilleFakeGroups.richviewEmathininiGroups(); // Marketing Strategy 1-1
 
-                await mayvilleFakeGroups.nsimbiniGroups();  // Marketing Strategy 1-1
+                // await mayvilleFakeGroups.nsimbiniGroups();  // Marketing Strategy 1-1
 
                 // await mayvilleFakeGroups.masxhaGroups();  // Marketing Strategy 1-1
 

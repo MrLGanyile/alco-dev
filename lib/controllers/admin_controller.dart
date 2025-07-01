@@ -254,13 +254,14 @@ class AdminController extends GetxController {
         .then((value) => value);
   }
 
-  Future<void> blockOrUnblockAdmin(String adminId, bool action) async {
-    DocumentReference reference = firestore.collection('admins').doc(adminId);
+  Future<void> blockOrUnblockAdmin(String phoneNumber, bool action) async {
+    DocumentReference reference =
+        firestore.collection('admins').doc(phoneNumber);
 
     reference.get().then((value) async {
       if (value.exists) {
         debug.log('About To Block Admin...');
-        await value.reference.update({"blocked": action});
+        await value.reference.update({"isBlocked": action});
       } else {
         getSnapbar('No Such Admin', 'Admin Do Not Exist');
       }

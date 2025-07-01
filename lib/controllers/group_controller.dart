@@ -777,11 +777,14 @@ class GroupController extends GetxController {
     WriteBatch batch = firestore.batch();
     CollectionReference reference = firestore.collection('groups');
 
-    reference.get().then((groupsSnapshot) {
+    reference.get().then((groupsSnapshot) async {
       debug.log('Size ${groupsSnapshot.size}');
       groupsSnapshot.docs.forEach((groupDoc) async {
+        debug.log('Group Id ${groupDoc.id}');
         batch.update(groupDoc.reference, {"isActive": action});
       });
+
+      batch.commit();
     });
   }
 

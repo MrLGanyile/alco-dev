@@ -47,6 +47,12 @@ class AdminsWidgetState extends State<AdminsWidget> {
                 getSnapbar('Action Prohibited', 'You Are Blocked');
                 return;
               }
+
+              if (!user.isSuperiorAdmin) {
+                getSnapbar('Action Prohibited',
+                    'Only Superior Admin May Block Other Admins.');
+                return;
+              }
               setState(() {
                 bool newValue = !admin.isBlocked;
 

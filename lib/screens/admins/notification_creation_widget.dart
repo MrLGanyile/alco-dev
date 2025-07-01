@@ -47,11 +47,13 @@ class NotificationCreationWidgetState
             const SizedBox(
               height: 10,
             ),
-            retrieveTextField('Message', messageTextEditingController),
+            retrieveTextField('Message', messageTextEditingController,
+                iconData: Icons.message, color: MyApplication.logoColor2),
             const SizedBox(
               height: 10,
             ),
-            retrieveTextField('Audience Ids', audienceIdsTextEditingController),
+            retrieveTextField('Audience Ids', audienceIdsTextEditingController,
+                iconData: Icons.group, color: MyApplication.logoColor2),
             const SizedBox(
               height: 10,
             ),

@@ -4,7 +4,6 @@ import '../../controllers/shared_dao_functions.dart';
 import '../admins/admin_entrance_widget.dart';
 import '../posts/past_post_creation_widget.dart';
 import '../posts/showoff_screen.dart';
-import '../store/store_draw_registration_widget.dart';
 import '../alcoholics/alcoholic_registration_widget.dart';
 import '../alcoholics/alcoholics_widgets.dart';
 import '../groups/group_registration_widget.dart';
@@ -212,7 +211,7 @@ class _StartScreenState extends State<StartScreen>
           leading: Builder(builder: (context) {
             return IconButton(
               icon: const Icon(Icons.menu),
-              iconSize: 30,
+              iconSize: blueIconsSize,
               color: MyApplication.logoColor2,
               onPressed: (() {
                 Scaffold.of(context).openDrawer();
@@ -233,13 +232,13 @@ class _StartScreenState extends State<StartScreen>
             // Not Needed
             IconButton(
               icon: const Icon(Icons.search),
-              iconSize: 30,
+              iconSize: blueIconsSize,
               color: MyApplication.logoColor2,
               onPressed: (() {}),
             ),
             IconButton(
               icon: const Icon(Icons.notifications_none),
-              iconSize: 30,
+              iconSize: blueIconsSize,
               color: MyApplication.logoColor2,
               onPressed: (() {}),
             ),

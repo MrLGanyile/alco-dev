@@ -12,6 +12,7 @@ Reference storageReference = FirebaseStorage.instance
 // String storageURL = "gs://alcoholic-expressions.appspot.com/";
 
 Color backgroundResourcesColor = Colors.black;
+double blueIconsSize = 30;
 
 Widget getCircularProgressBar() => Center(
         child: CircularProgressIndicator(
@@ -29,7 +30,12 @@ void getSnapbar(title, message) {
   Get.snackbar(title, message);
 }
 
-Widget retrieveTextField(String description, TextEditingController controller) {
+Widget retrieveTextField(
+  String description,
+  TextEditingController controller, {
+  Color? color,
+  IconData? iconData,
+}) {
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 15),
     child: TextField(
@@ -39,16 +45,23 @@ Widget retrieveTextField(String description, TextEditingController controller) {
       cursorColor: MyApplication.scaffoldBodyColor,
       controller: controller,
       decoration: InputDecoration(
+        prefixIcon: iconData == null
+            ? null
+            : Icon(iconData, color: MyApplication.logoColor1),
         labelText: description,
         helperMaxLines: 10,
         labelStyle: TextStyle(
           fontSize: 14,
-          color: MyApplication.logoColor1,
+          color: color == null
+              ? MyApplication.logoColor1
+              : MyApplication.logoColor2,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(6),
           borderSide: BorderSide(
-            color: MyApplication.logoColor1,
+            color: color == null
+                ? MyApplication.logoColor1
+                : MyApplication.logoColor2,
           ),
         ),
         focusedBorder: OutlineInputBorder(

@@ -1,3 +1,5 @@
+import 'package:alco_dev/controllers/shared_dao_functions.dart';
+import 'package:alco_dev/models/users/admin.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +8,7 @@ import '../../controllers/group_controller.dart';
 import '../../controllers/store_controller.dart';
 import '../../main.dart';
 import '../../models/locations/converter.dart';
+import '../../models/users/user.dart';
 import '../utils/globals.dart';
 import 'date_picker.dart';
 import 'dart:developer' as debug;
@@ -64,7 +67,7 @@ class StoreDrawRegistrationWidgetState
             const SizedBox(
               height: 5,
             ),
-            Text(
+            /*Text(
               'Alco',
               style: TextStyle(
                   fontSize: MyApplication.infoTextFontSize,
@@ -73,7 +76,7 @@ class StoreDrawRegistrationWidgetState
             ),
             const SizedBox(
               height: 10,
-            ),
+            ), */
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
@@ -402,6 +405,15 @@ class StoreDrawRegistrationWidgetState
             )),
         child: InkWell(
           onTap: () async {
+            User? user = getCurrentlyLoggenInUser();
+
+            if (user is Admin == false ||
+                (user is Admin && !user.isSuperiorAdmin)) {
+              getSnapbar('Action Prohibited',
+                  'Only Superior Admin May Create A Draw.');
+              return;
+            }
+
             storeController.setAdminCode(adminCodeEditingController.text);
             if (!storeController.hasAcceptableAdminCredentials()) {
               getSnapbar('Error', 'Not Authorized To Create Draw.');

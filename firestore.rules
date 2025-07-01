@@ -167,17 +167,17 @@ service cloud.firestore {
 
     // Note: Has Model Named {Admin}
     match /admins/{adminPhoneNumber}{
-      // allow write, read;
-      allow create: if isSuperiorAdmin() && 
-      request.resource.data.isSuperiorAdmin == false;
+      allow write, read;
+      // allow create: if isSuperiorAdmin() && 
+      // request.resource.data.isSuperiorAdmin == false;
 
-      allow read;//: if isSuperiorAdmin() || 
+      // allow read;//: if isSuperiorAdmin() || 
       //(request.auth != null && request.auth.uid == resource.data.phoneNumber);
 
-      allow delete: if isSuperiorAdmin() && 
-      resource.data.isSuperiorAdmin == false;
+      // allow delete: if isSuperiorAdmin() && 
+      // resource.data.isSuperiorAdmin == false;
 
-      allow update; // : if isSuperiorAdmin()
+      // allow update; // : if isSuperiorAdmin()
     }
 
     // ==============================Done With Unit Testing [End]==============================

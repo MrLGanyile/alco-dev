@@ -33,7 +33,13 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
   int currentIndex = 0;
   double listTilesFontSize = 15;
   double listTilesIconSize = 30;
-  List<String> titles = ['Admins', 'Recruit', 'Draws', 'Notify', 'Activation'];
+  List<String> titles = [
+    'Admins',
+    'Recruiion',
+    'Draws',
+    'Notification',
+    'Activation'
+  ];
   bool groupsDeactivated = false;
 
   late TabController _tabController;
@@ -58,11 +64,10 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
     setState(() => currentIndex = index);
   }
 
-  void refresh() {
-    setState(() {
-      groupsDeactivated = !groupsDeactivated;
-      groupController.activateOrDeactivateAllGroups(groupsDeactivated);
-    });
+  void refresh() async {
+    groupsDeactivated = !groupsDeactivated;
+    await groupController.activateOrDeactivateAllGroups(groupsDeactivated);
+    setState(() {});
   }
 
   mayDeactivateAllGroups() {
@@ -80,8 +85,8 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
         appBar: AppBar(
           backgroundColor: MyApplication.scaffoldColor,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            iconSize: MyApplication.backArrowFontSize,
+            icon: const Icon(Icons.home),
+            iconSize: blueIconsSize,
             color: MyApplication.backArrowColor,
             onPressed: (() => Get.to(StartScreen())),
           ),
@@ -97,13 +102,21 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
             mayDeactivateAllGroups()
                 ? IconButton(
                     icon: const Icon(Icons.refresh),
-                    iconSize: MyApplication.backArrowFontSize,
+                    iconSize: blueIconsSize,
                     color: MyApplication.backArrowColor,
                     onPressed: (() {
                       refresh();
                     }),
                   )
                 : const SizedBox.shrink(),
+            IconButton(
+                icon: const Icon(Icons.logout),
+                iconSize: blueIconsSize,
+                color: MyApplication.backArrowColor,
+                onPressed: (() {
+                  adminController.logoutAdmin();
+                  Get.to(StartScreen());
+                })),
           ],
           elevation: 0,
           centerTitle: true,
@@ -163,28 +176,8 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-              (getCurrentlyLoggenInUser() as Admin).isSuperiorAdmin
-                  ? const StoreDrawRegistrationWidget()
-                  : Center(
-                      child: Text(
-                        'Superior Admin Territory',
-                        style: TextStyle(
-                            color: MyApplication.attractiveColor1,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-              (getCurrentlyLoggenInUser() as Admin).isSuperiorAdmin
-                  ? NotificationCreationWidget()
-                  : Center(
-                      child: Text(
-                        'Superior Admin Territory',
-                        style: TextStyle(
-                            color: MyApplication.attractiveColor1,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
+              const StoreDrawRegistrationWidget(),
+              NotificationCreationWidget(),
               RecruitmentWidget(),
             ]),
           ),
