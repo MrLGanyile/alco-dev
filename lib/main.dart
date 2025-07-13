@@ -22,14 +22,30 @@ import 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
 // Branching Strategy - Trunk-Based Dev
 /* 
    FNB ACC No 63117824359
+  ***********Currently Start***********
+  Qonsi
+  Mahlabekufeni (both)
+  Mavumbuka
+  Mlunge
+  Nsukumbili
+  ***********Currently Start***********
+
+  ***********To Find Start***********
+  Devenport QUIT Place Uhamba Nge Toyota Ebovu
+  Zaba -> Range, volvo, fortuner Thobani Mabhakede
+  ***********To Find End***********
+
+  ***********Phone Numbers Start***********
+   My Numbers Telkom -0754856234 Vodacom - 0796305714
    Mlu NERD 0842457343
    Crouch 0762816517
    Njabulo 0835367834
    Mafungwashe, 0766915230
    Msizi Dle 0782578628
    Cebo 0658040676
-   Zee 
+   Zee
    Luke 0605246154
+   ***********Phone Numbers End***********
 */
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,8 +56,8 @@ Future main() async {
     final functions = FirebaseFunctions.instance;
     final storage = FirebaseStorage
             // .instance.ref();
-            // .instanceFor(bucket: "gs://alco-dev-3fd77.firebasestorage.app")
-            .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
+            .instanceFor(bucket: "gs://alco-dev-3fd77.firebasestorage.app")
+        //.instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
         .ref();
 
     final auth = FirebaseAuth.instance;
@@ -85,13 +101,13 @@ Future main() async {
         auth: auth));
   });
   // Ideal time to initialize
-  await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
+  /*await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
   await FirebaseStorage //.instance
 
           .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
       .useStorageEmulator('127.0.0.1', 9199);
   FirebaseFunctions.instance.useFunctionsEmulator('127.0.0.1', 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
+  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080); */
 
   runApp(MyApplication());
 }

@@ -1,3 +1,5 @@
+import 'package:alco_dev/screens/admins/admin_screens_widget.dart';
+import 'package:alco_dev/screens/utils/start_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -127,7 +129,7 @@ class NotificationCreationWidgetState
                   }
 
                   if (user is Admin) {
-                    if (!user.isSuperiorAdmin) {
+                    if (!user.isSuperior) {
                       getSnapbar(
                           'Unauthorized', 'Only Superior Admins May Publish');
                       return;
@@ -144,7 +146,9 @@ class NotificationCreationWidgetState
                       if (value == NoticeSavingStatus.saved) {
                         messageTextEditingController.clear();
                         audienceIdsTextEditingController.clear();
-                        Get.back();
+                        getSnapbar(
+                            'Notice Saved', 'Notice Published Successfully.');
+                        Get.to(() => AdminScreensWidget());
                       }
                     },
                   );

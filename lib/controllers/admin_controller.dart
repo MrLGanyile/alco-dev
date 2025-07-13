@@ -211,7 +211,7 @@ class AdminController extends GetxController {
             return AdminSavingStatus.invalidInput;
           }
 
-          if (!(currentlyLoggedInAdmin as Admin).isSuperiorAdmin) {
+          if (!(currentlyLoggedInAdmin as Admin).isSuperior) {
             return AdminSavingStatus.unathourized;
           }
 
@@ -233,13 +233,12 @@ class AdminController extends GetxController {
             key += characters[random.nextInt(characters.length)];
 
             Admin admin = Admin(
-              userId: adminReference.id,
               joinedOn: joinedOn,
               phoneNumber: _newAdminPhoneNumber.value,
               profileImageURL: _newAdminProfileImageURL.value,
               key: key,
               isFemale: _newAdminIsFemale.value,
-              isSuperiorAdmin: false,
+              isSuperior: false,
               password: _newAdminPassword.value,
             );
 

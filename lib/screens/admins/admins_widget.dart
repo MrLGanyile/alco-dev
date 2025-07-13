@@ -37,7 +37,7 @@ class AdminsWidgetState extends State<AdminsWidget> {
             User? user = getCurrentlyLoggenInUser();
 
             if (user is Admin) {
-              if (admin.isSuperiorAdmin) {
+              if (admin.isSuperior) {
                 getSnapbar(
                     'Action Prohibited', 'Cannot Block A Superior Admin');
                 return;
@@ -48,7 +48,7 @@ class AdminsWidgetState extends State<AdminsWidget> {
                 return;
               }
 
-              if (!user.isSuperiorAdmin) {
+              if (!user.isSuperior) {
                 getSnapbar('Action Prohibited',
                     'Only Superior Admin May Block Other Admins.');
                 return;

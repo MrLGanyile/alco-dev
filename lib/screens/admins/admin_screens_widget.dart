@@ -35,7 +35,7 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
   double listTilesIconSize = 30;
   List<String> titles = [
     'Admins',
-    'Recruiion',
+    'Recruition',
     'Draws',
     'Notification',
     'Activation'
@@ -73,7 +73,7 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
   mayDeactivateAllGroups() {
     Admin? admin = adminController.currentlyLoggedInAdmin;
     if (admin != null) {
-      return admin.isSuperiorAdmin;
+      return admin.isSuperior;
     }
 
     return false;
@@ -165,7 +165,7 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
             ),
             child: TabBarView(controller: _tabController, children: [
               AdminsWidget(),
-              (getCurrentlyLoggenInUser() as Admin).isSuperiorAdmin
+              (getCurrentlyLoggenInUser() as Admin).isSuperior
                   ? AdminRegistrationWidget()
                   : Center(
                       child: Text(

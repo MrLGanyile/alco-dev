@@ -39,7 +39,6 @@ class Alcoholic extends User {
   }
 
   factory Alcoholic.fromJson(dynamic json) => Alcoholic(
-      userId: json['userId'],
       profileImageURL: json['profileImageURL'],
       phoneNumber: json['phoneNumber'],
       area: SupportedArea.fromJson(json['area']),

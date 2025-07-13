@@ -3,7 +3,7 @@ import '../locations/town_or_institution.dart';
 import 'user.dart';
 
 class Admin extends User {
-  bool isSuperiorAdmin;
+  bool isSuperior;
   String key;
   bool isFemale;
   TownOrInstitution townOrInstitution;
@@ -11,13 +11,12 @@ class Admin extends User {
   DateTime joinedOn;
 
   Admin(
-      {userId,
-      required phoneNumber,
+      {required phoneNumber,
       required this.joinedOn,
       this.townOrInstitution = TownOrInstitution.umlazi,
       required profileImageURL,
       required this.isFemale,
-      required this.isSuperiorAdmin,
+      required this.isSuperior,
       required password,
       this.isBlocked = false,
       required this.key})
@@ -36,7 +35,7 @@ class Admin extends User {
         'month': joinedOn.month,
         'day': joinedOn.day
       },
-      'isSuperior': isSuperiorAdmin,
+      'isSuperior': isSuperior,
       'key': key,
       'isBlocked': isBlocked,
       'isFemale': isFemale,
@@ -48,7 +47,6 @@ class Admin extends User {
   }
 
   factory Admin.fromJson(dynamic json) => Admin(
-      userId: json['userId'],
       joinedOn: DateTime(
         json['joinedOn']['year'],
         json['joinedOn']['month'],
@@ -59,7 +57,7 @@ class Admin extends User {
           Converter.toTownOrInstitution(json['townOrInstitution']),
       profileImageURL: json['profileImageURL'],
       isFemale: json['isFemale'],
-      isSuperiorAdmin: json['isSuperior'],
+      isSuperior: json['isSuperior'],
       password: json['password'],
       isBlocked: json['isBlocked'],
       key: json['key']);

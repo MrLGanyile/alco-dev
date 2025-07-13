@@ -828,7 +828,9 @@ class GroupController extends GetxController {
           firestore.collection('recruitment_history').doc();
 
       RecruitmentHistory recruitmentHistory = RecruitmentHistory(
-          adminId: user.phoneNumber, historyId: reference.id, action: action);
+          adminPhoneNumber: user.phoneNumber,
+          historyId: reference.id,
+          action: action);
 
       await reference.set(recruitmentHistory.toJson());
       return RecruitmentHistorySavingStatus.saved;

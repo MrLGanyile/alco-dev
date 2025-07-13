@@ -9,11 +9,15 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
-    function isSuperiorAdmin(){
+    function isSuperiorAdmin(adminPhoneNumber){
+      return isAdmin(adminPhoneNumber) && get(/databases/$(database)/documents/admins/
+      $(adminPhoneNumber)).data.isSuperior;
+    }
+
+    function isAdmin(adminPhoneNumber){
       return request.auth != null &&
       exists(/databases/$(database)/documents/admins/
-      $(request.auth.uid)) && get(/databases/$(database)/documents/admins/
-      $(request.auth.uid)).data.isSuperiorAdmin;
+      $(adminPhoneNumber));
     }
 
     // Branch : supported_locations_resources_crud -> supported_locaitons_resources_crud_firestore_security_rules
@@ -213,8 +217,7 @@ service cloud.firestore {
         // Anybody can view store draws.
         allow read;
 
-        // Only accept store draw update or delete from the store owner while the straw is still open.
-        allow update, delete: if isSuperiorAdmin();
+        allow update, delete: if false;
 
         // Branch : store_resources_crud ->  store_resources_crud_storage_security_rules
         // Done With Unit Testing.
@@ -241,9 +244,7 @@ service cloud.firestore {
           // Anybody can view store draws.
           allow read;
 
-          // Only accept deletion of a competitor from the store owner while the draw is still open.
           allow update, delete: if 
-          isSuperiorAdmin() &&
           resource.data.storeDrawFK==storeDrawId &&
           get(/databases/$(database)/documents/stores/$(storeOwnerPhoneNumber)/store_draws/$(storeDrawId)).isOpen;
         }
@@ -335,22 +336,26 @@ service cloud.firestore {
 
     match /past_posts/{postId}{
       allow read;
-      allow write;
+      allow create: if request.auth != null;
+      allow update, delete: if false;
 
       match /comments/{commentId}{
         allow read;
-        allow write;
+        allow create: if request.auth != null;
+        allow update, delete: if false;
       }
     }
 
+    // Ready For Publication
     match /notifications/{notificationId}{
       allow read;
-      allow write;
+      allow write: if isSuperiorAdmin(request.resource.data.creatorPhoneNumber);
     }
 
+    // Ready For Publication
     match /recruitment_history/{recruitmentHistoryId}{
       allow read;
-      allow write;
+      allow write: if isAdmin(request.resource.data.adminPhoneNumber);
     }
   }
 }  

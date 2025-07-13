@@ -345,8 +345,7 @@ class AdminRegistrationWidget extends StatelessWidget {
                                 getSnapbar('Unauthorized',
                                     'Only Admins May Register Other Admins');
                                 return;
-                              } else if (user is Admin &&
-                                  !user.isSuperiorAdmin) {
+                              } else if (user is Admin && !user.isSuperior) {
                                 getSnapbar('Unauthorized',
                                     'Only Superior Admins May Register Other Admins');
                                 return;

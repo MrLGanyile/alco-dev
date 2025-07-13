@@ -1135,12 +1135,11 @@ export const createFakeGroups = onRequest(
         switch (parseInt(req.query.hostIndex)) {
             case 0:// Mayville
 
-                await mayvilleFakeGroups.catoCrestGroups();  // Marketing Strategy 1-2
+                // await mayvilleFakeGroups.catoCrestGroups();  // Marketing Strategy 1-2
                 // await mayvilleFakeGroups.richviewKoPeachGroups(); // Marketing Strategy 1-1
-                // await mayvilleFakeGroups.richviewKoYellowGroups(); // Marketing Strategy 1-1
+                await mayvilleFakeGroups.richviewKoYellowGroups(); // Marketing Strategy 1-1
                 // await mayvilleFakeGroups.richviewKoGreenGroups();  // Marketing Strategy 1-1
                 // await mayvilleFakeGroups.richviewEmathininiGroups(); // Marketing Strategy 1-1
-
                 // await mayvilleFakeGroups.nsimbiniGroups();  // Marketing Strategy 1-1
 
                 // await mayvilleFakeGroups.masxhaGroups();  // Marketing Strategy 1-1
@@ -1193,7 +1192,7 @@ export const createFakeDraws = onRequest(
     async (req, res) => {
         const drawDateAndTime = new Date();
         const year = drawDateAndTime.getFullYear();
-        const month = drawDateAndTime.getMonth() + 1;
+        const month = drawDateAndTime.getMonth() + 2;
         const date = drawDateAndTime.getDate();
         const hour = drawDateAndTime.getHours() + 2;
 

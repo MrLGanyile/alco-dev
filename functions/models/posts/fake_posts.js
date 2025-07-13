@@ -50,6 +50,7 @@ class FakePosts {
         post = {
             postId: postId,
             postCreator: postCreator,
+            forTownOrInstitution: "Mayville",
             dateCreated: {
                 year: 2025,
                 month: 6,
@@ -95,6 +96,7 @@ class FakePosts {
 
         post = {
             postId: postId,
+            forTownOrInstitution: "Howard College UKZN",
             postCreator: postCreator,
             dateCreated: {
                 year: 2025,
@@ -141,6 +143,7 @@ class FakePosts {
 
         post = {
             postId: postId,
+            forTownOrInstitution: "Sydenham",
             postCreator: postCreator,
             dateCreated: {
                 year: 2025,
@@ -184,12 +187,13 @@ class FakePosts {
 
         whatHappenedVideoURL = '';
 
-        whereWereYouImageURL = `durban central/past_posts/where_were_you/images/${postId}.png`
+        whereWereYouImageURL = `durban central/past_posts/where_were_you/images/${postId}.jpg`
         whoWereYouWithVideoURL = `durban central/past_posts/who_were_you_with/videos/${postId}.mp4`;
         whatHappenedText = `We Partied All Nights, The Funny This is, There Was A Guy Who Pissed Himself!!! How Groose...`;
 
         post = {
             postId: postId,
+            forTownOrInstitution: "Durban Central",
             postCreator: postCreator,
             dateCreated: {
                 year: 2025,

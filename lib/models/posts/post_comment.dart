@@ -1,3 +1,6 @@
+import '../locations/converter.dart';
+import '../locations/town_or_institution.dart';
+
 class PostComment implements Comparable<PostComment> {
   String? postCommentId;
   String postFK;
@@ -5,9 +8,11 @@ class PostComment implements Comparable<PostComment> {
   DateTime? dateCreated;
   String imageURL;
   String username;
+  TownOrInstitution forTownOrInstitution;
 
   PostComment({
     this.postCommentId,
+    required this.forTownOrInstitution,
     required this.postFK,
     required this.message,
     this.dateCreated,
@@ -19,6 +24,8 @@ class PostComment implements Comparable<PostComment> {
     dateCreated = DateTime.now();
     final map = {
       'postCommentId': postCommentId,
+      'forTownOrInstitution':
+          Converter.townOrInstitutionAsString(forTownOrInstitution),
       'postFK': postFK,
       'message': message,
       'dateCreated': {
@@ -36,6 +43,8 @@ class PostComment implements Comparable<PostComment> {
 
   factory PostComment.fromJson(dynamic json) => PostComment(
       postCommentId: json['postCommentId'],
+      forTownOrInstitution:
+          Converter.toTownOrInstitution(json['forTownOrInstitution']),
       postFK: json['postFK'],
       message: json['message'],
       dateCreated: DateTime(

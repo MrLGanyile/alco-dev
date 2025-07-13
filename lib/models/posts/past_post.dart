@@ -1,5 +1,4 @@
 import '../users/alcoholic.dart';
-import '../users/user.dart';
 
 class PastPost implements Comparable<PastPost> {
   String postId;

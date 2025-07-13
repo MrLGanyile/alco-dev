@@ -17,6 +17,7 @@ import 'dart:developer' as debug;
 
 import '../models/locations/converter.dart';
 import '../models/stores/notification.dart';
+import '../models/users/admin.dart';
 import '../models/users/alcoholic.dart';
 import '../models/users/user.dart' as my;
 import '../screens/utils/globals.dart';
@@ -767,11 +768,16 @@ class StoreController extends GetxController {
 
   /*======================Draw Grand Price[End]============================ */
 
+  /*======================Notification Start]============================ */
   Future<NoticeSavingStatus> saveNotice(String message, List<String> audience,
       {bool forAll = false, DateTime? endTime}) async {
     my.User? user = getCurrentlyLoggenInUser();
     if (user == null || user is Alcoholic) {
       getSnapbar('Saving Failed', 'Admin Logging Required.');
+      return NoticeSavingStatus.adminLoginRequired;
+    } else if (!(user as Admin).isSuperior) {
+      getSnapbar(
+          'Saving Failed', 'Only Superior Admins May Create Notifications.');
       return NoticeSavingStatus.adminLoginRequired;
     } else if (message.isEmpty || (audience.isEmpty && !forAll)) {
       getSnapbar('Saving Failed', 'Incomplete Info.');
@@ -781,6 +787,7 @@ class StoreController extends GetxController {
 
       Notification notification = Notification(
           notificationId: reference.id,
+          creatorPhoneNumber: user.phoneNumber,
           message: message,
           audience: audience,
           endDate: endTime ?? DateTime.now().add(const Duration(days: 7)),

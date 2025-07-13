@@ -223,13 +223,12 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
             ),
           ));
         },
-
-        /* placeholder: (c, s) {
+        placeholder: (c, s) {
           return getCircularProgressBar();
         },
         errorWidget: (c, s, d) {
           return getCircularProgressBar();
-        }, */
+        },
       ),
     );
   }
@@ -360,7 +359,7 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
   Widget groupNameAndOrPhoneNumber() {
     User? user = getCurrentlyLoggenInUser();
 
-    if (user != null && user is Admin && user.isSuperiorAdmin) {
+    if (user != null && user is Admin && user.isSuperior) {
       return Row(
         children: [
           // Group Name [Phone Number]

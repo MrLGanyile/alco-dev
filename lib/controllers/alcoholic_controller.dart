@@ -261,7 +261,6 @@ class AlcoholicController extends GetxController {
             firestore.collection('alcoholics').doc(uid);
 
         Alcoholic alcoholic = Alcoholic(
-            userId: reference.id,
             password: _newAlcoholicPassword.value,
             phoneNumber: _newAlcoholicPhoneNumber.value,
             profileImageURL: trimmedImageURL(),

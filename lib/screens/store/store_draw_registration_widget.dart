@@ -407,8 +407,7 @@ class StoreDrawRegistrationWidgetState
           onTap: () async {
             User? user = getCurrentlyLoggenInUser();
 
-            if (user is Admin == false ||
-                (user is Admin && !user.isSuperiorAdmin)) {
+            if (user is Admin == false || (user is Admin && !user.isSuperior)) {
               getSnapbar('Action Prohibited',
                   'Only Superior Admin May Create A Draw.');
               return;

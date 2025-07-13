@@ -1,3 +1,4 @@
+import 'package:alco_dev/models/locations/town_or_institution.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,10 +12,12 @@ import '../models/locations/supported_area.dart';
 import '../models/locations/supported_town_or_institution.dart';
 import '../models/users/admin.dart';
 import '../models/users/alcoholic.dart';
+import '../models/users/user.dart' as my;
 import '../models/users/won_price_comment.dart';
 
 import 'dart:developer' as debug;
 
+import '../screens/utils/globals.dart';
 import 'admin_controller.dart';
 import 'alcoholic_controller.dart';
 import 'group_controller.dart';
@@ -122,12 +125,16 @@ class CompetitionController extends GetxController {
             comments = [
               WonPriceComment(
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
+                  forTownOrInstitution:
+                      supportedTownOrInstitution.townOrInstitutionName,
                   dateCreated: DateTime(2024, 3, 1, 9, 38),
                   imageURL: '$host/alcoholics/profile_images/+27601234567.jpg',
                   username: 'Mountain Mkhize Mhlongo',
                   message: 'Nhlobo, Ayikhathali Nhlobo, Inhliziyo'),
               WonPriceComment(
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
+                  forTownOrInstitution:
+                      supportedTownOrInstitution.townOrInstitutionName,
                   dateCreated: DateTime(2024, 3, 1, 9, 38),
                   imageURL: '$host/alcoholics/profile_images/+27612345678.jpg',
                   username: 'Mountain Mkhize Mhlongo',
@@ -135,6 +142,8 @@ class CompetitionController extends GetxController {
                       'Igijima Emaweni, Ayilali Nhlobo, Ayilambi Nhlobo, Ayikhathali Nhlobo, Inhliziyo Inhlabelela Ubusuku Nemini'),
               WonPriceComment(
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
+                  forTownOrInstitution:
+                      supportedTownOrInstitution.townOrInstitutionName,
                   imageURL: '$host/alcoholics/profile_images/+27623456789.jpg',
                   username: 'Mandla',
                   dateCreated: DateTime(2025, 2, 13, 5, 13),
@@ -142,24 +151,32 @@ class CompetitionController extends GetxController {
                       'Nomangabe Kuyashisa Iyahlanelela, Nomangabe Kuyabanga Iyahlabelela, Nomangabe Liyaduma Lishaya Umbani Oshayisa Ngovalo Yona Ayimi Nhlobo Iyahlabelela. '),
               WonPriceComment(
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
+                  forTownOrInstitution:
+                      supportedTownOrInstitution.townOrInstitutionName,
                   imageURL: '$host/alcoholics/profile_images/+27634567890.jpg',
                   username: 'Mountain Mkhize Mhlongo',
                   dateCreated: DateTime(2025, 2, 13, 23, 35),
                   message: 'Iyazi Ibhekephi Futhi Ngeke Ivinjwe Lutho'),
               WonPriceComment(
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
+                  forTownOrInstitution:
+                      supportedTownOrInstitution.townOrInstitutionName,
                   dateCreated: DateTime(2025, 1, 31, 20, 12),
                   imageURL: '$host/alcoholics/profile_images/+27645678901.jpg',
                   username: 'Yebo',
                   message: 'Uloyo'),
               WonPriceComment(
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
+                  forTownOrInstitution:
+                      supportedTownOrInstitution.townOrInstitutionName,
                   dateCreated: DateTime(2024, 11, 13, 12, 0),
                   imageURL: '$host/alcoholics/profile_images/+27656789012.jpg',
                   username: 'Zwe Captain',
                   message: 'Naloyo Ophuma Umphefumulo Into Yokuqala Ayisho '),
               WonPriceComment(
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
+                  forTownOrInstitution:
+                      supportedTownOrInstitution.townOrInstitutionName,
                   dateCreated: DateTime(2025, 2, 16, 23, 44),
                   imageURL: '$host/alcoholics/profile_images/+27667890123.jpg',
                   username: 'Snathi',
@@ -188,10 +205,20 @@ class CompetitionController extends GetxController {
     String wonPriceSummaryFK,
     String message,
   ) async {
-    // Suppose to be an xor
-    if (alcoholicController.currentlyLoggedInAlcoholic == null &&
-        adminController.currentlyLoggedInAdmin == null) {
+    my.User? user = getCurrentlyLoggenInUser();
+
+    if (user == null) {
+      getSnapbar('Unauthorized Action', 'Login Before Commenting');
       return;
+    }
+
+    TownOrInstitution townOrInstitution;
+    if (user is Alcoholic) {
+      townOrInstitution =
+          Converter.toSupportedTownOrInstitution(user.area.sectionName)
+              .townOrInstitutionName;
+    } else {
+      townOrInstitution = (user as Admin).townOrInstitution;
     }
 
     DocumentReference wonPriceSummaryRef =
@@ -215,6 +242,7 @@ class CompetitionController extends GetxController {
           if (alcoholicController.currentlyLoggedInAlcoholic != null) {
             comment = WonPriceComment(
                 wonPriceCommentId: commentReference.id,
+                forTownOrInstitution: townOrInstitution,
                 wonPriceSummaryFK: wonPriceSummaryFK,
                 message: message,
                 imageURL: alcoholicController
@@ -224,6 +252,7 @@ class CompetitionController extends GetxController {
           } else if (adminController.currentlyLoggedInAdmin != null) {
             comment = WonPriceComment(
                 wonPriceCommentId: commentReference.id,
+                forTownOrInstitution: townOrInstitution,
                 wonPriceSummaryFK: wonPriceSummaryFK,
                 message: message,
                 imageURL:

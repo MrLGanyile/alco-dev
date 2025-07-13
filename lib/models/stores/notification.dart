@@ -1,5 +1,6 @@
 class Notification {
   String notificationId;
+  String creatorPhoneNumber;
   List<String> audience;
   String message;
   bool forAll;
@@ -7,6 +8,7 @@ class Notification {
 
   Notification({
     required this.notificationId,
+    required this.creatorPhoneNumber,
     required this.message,
     required this.audience,
     required this.endDate,
@@ -15,6 +17,7 @@ class Notification {
 
   Map<String, dynamic> toJson() => {
         "notificationId": notificationId,
+        "creatorPhoneNumber": creatorPhoneNumber,
         "message": message,
         "audience": audience,
         'endDate': {
@@ -27,6 +30,7 @@ class Notification {
 
   factory Notification.fromJson(dynamic json) => Notification(
       notificationId: json['notificationId'],
+      creatorPhoneNumber: json['creatorPhoneNumber'],
       message: json['message'],
       audience: convert(json['audience']),
       endDate: DateTime(

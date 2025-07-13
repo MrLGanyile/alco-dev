@@ -12,11 +12,13 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:developer' as debug;
 
 import '../models/locations/converter.dart';
+import '../models/locations/town_or_institution.dart';
 import '../models/posts/past_post.dart';
 import '../models/posts/post_comment.dart';
 import '../models/users/admin.dart';
 import '../models/users/alcoholic.dart';
 import '../models/users/user.dart' as my;
+import '../screens/utils/globals.dart';
 import 'admin_controller.dart';
 import 'alcoholic_controller.dart';
 import 'shared_dao_functions.dart';
@@ -632,10 +634,19 @@ class PostController extends GetxController {
   }
 
   Future<void> savePostComment(String postFK, String message) async {
-    // Suppose to be an xor
-    if (alcoholicController.currentlyLoggedInAlcoholic == null &&
-        adminController.currentlyLoggedInAdmin == null) {
+    my.User? user = getCurrentlyLoggenInUser();
+
+    if (user == null) {
+      getSnapbar('Unauthorized Action', 'Login Before Commenting');
       return;
+    }
+    TownOrInstitution townOrInstitution;
+    if (user is Alcoholic) {
+      townOrInstitution =
+          Converter.toSupportedTownOrInstitution(user.area.sectionName)
+              .townOrInstitutionName;
+    } else {
+      townOrInstitution = (user as Admin).townOrInstitution;
     }
 
     DocumentReference pastPostRef =
@@ -657,6 +668,7 @@ class PostController extends GetxController {
           if (alcoholicController.currentlyLoggedInAlcoholic != null) {
             comment = PostComment(
                 postCommentId: commentReference.id,
+                forTownOrInstitution: townOrInstitution,
                 postFK: postFK,
                 message: message,
                 imageURL: alcoholicController
@@ -666,6 +678,7 @@ class PostController extends GetxController {
           } else if (adminController.currentlyLoggedInAdmin != null) {
             comment = PostComment(
                 postCommentId: commentReference.id,
+                forTownOrInstitution: townOrInstitution,
                 postFK: postFK,
                 message: message,
                 imageURL:

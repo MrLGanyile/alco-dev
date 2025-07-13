@@ -1,3 +1,7 @@
+import 'package:alco_dev/models/locations/town_or_institution.dart';
+
+import '../locations/converter.dart';
+
 class WonPriceComment implements Comparable<WonPriceComment> {
   String? wonPriceCommentId;
   String wonPriceSummaryFK;
@@ -5,9 +9,11 @@ class WonPriceComment implements Comparable<WonPriceComment> {
   DateTime? dateCreated;
   String imageURL;
   String username;
+  TownOrInstitution forTownOrInstitution;
 
   WonPriceComment({
     this.wonPriceCommentId,
+    required this.forTownOrInstitution,
     required this.wonPriceSummaryFK,
     required this.message,
     this.dateCreated,
@@ -20,6 +26,8 @@ class WonPriceComment implements Comparable<WonPriceComment> {
     final map = {
       'wonPriceCommentId': wonPriceCommentId,
       'wonPriceSummaryFK': wonPriceSummaryFK,
+      'forTownOrInstitution':
+          Converter.townOrInstitutionAsString(forTownOrInstitution),
       'message': message,
       'dateCreated': {
         'year': dateCreated!.year,
@@ -36,6 +44,8 @@ class WonPriceComment implements Comparable<WonPriceComment> {
 
   factory WonPriceComment.fromJson(dynamic json) => WonPriceComment(
       wonPriceCommentId: json['wonPriceCommentId'],
+      forTownOrInstitution:
+          Converter.toTownOrInstitution(json['forTownOrInstitution']),
       wonPriceSummaryFK: json['wonPriceSummaryFK'],
       message: json['message'],
       dateCreated: DateTime(

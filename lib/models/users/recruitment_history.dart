@@ -1,12 +1,12 @@
 class RecruitmentHistory {
   String historyId;
-  String adminId;
+  String adminPhoneNumber;
   String action;
   bool isRefresh;
   DateTime? dateCreated;
 
   RecruitmentHistory(
-      {required this.adminId,
+      {required this.adminPhoneNumber,
       required this.historyId,
       this.isRefresh = false,
       this.dateCreated,
@@ -14,14 +14,14 @@ class RecruitmentHistory {
 
   Map<String, dynamic> toJson() => {
         'historyId': historyId,
-        'adminId': adminId,
+        'adminPhoneNumber': adminPhoneNumber,
         'action': action,
         'isRefresh': isRefresh,
         'dateCreated': null,
       };
 
   factory RecruitmentHistory.fromJson(dynamic json) => RecruitmentHistory(
-      adminId: json['adminId'],
+      adminPhoneNumber: json['adminPhoneNumber'],
       historyId: json['historyId'],
       isRefresh: json['isRefresh'],
       dateCreated: DateTime(json['year'], json['month'], json['day'],
