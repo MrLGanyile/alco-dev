@@ -1135,9 +1135,9 @@ export const createFakeGroups = onRequest(
         switch (parseInt(req.query.hostIndex)) {
             case 0:// Mayville
 
-                // await mayvilleFakeGroups.catoCrestGroups();  // Marketing Strategy 1-2
+                await mayvilleFakeGroups.catoCrestGroups();  // Marketing Strategy 1-2
                 // await mayvilleFakeGroups.richviewKoPeachGroups(); // Marketing Strategy 1-1
-                await mayvilleFakeGroups.richviewKoYellowGroups(); // Marketing Strategy 1-1
+                // await mayvilleFakeGroups.richviewKoYellowGroups(); // Marketing Strategy 1-1
                 // await mayvilleFakeGroups.richviewKoGreenGroups();  // Marketing Strategy 1-1
                 // await mayvilleFakeGroups.richviewEmathininiGroups(); // Marketing Strategy 1-1
                 // await mayvilleFakeGroups.nsimbiniGroups();  // Marketing Strategy 1-1
@@ -1150,8 +1150,8 @@ export const createFakeGroups = onRequest(
             case 1:// DUT
 
                 await dutFakeGroups.dutBereaGroups(); // Marketing Strategy 1-1
-                await dutFakeGroups.dutSydenhamGroups(); // Marketing Strategy 1-1
-                await dutFakeGroups.dutMixedGroups(); // Marketing Strategy 1-1
+                // await dutFakeGroups.dutSydenhamGroups(); // Marketing Strategy 1-1
+                // await dutFakeGroups.dutMixedGroups(); // Marketing Strategy 1-1
 
                 // Send back a message that we"ve successfully written to the db.
                 res.json({ result: `All DUT Fake Groups Are Saved.` });
@@ -1165,14 +1165,14 @@ export const createFakeGroups = onRequest(
             case 3:// Sydenham
 
                 await sydenhamFakeGroups.foreman1Groups(); // Marketing Strategy 1-1
-                await sydenhamFakeGroups.foreman2Groups(); // Marketing Strategy 1-1
+                // await sydenhamFakeGroups.foreman2Groups(); // Marketing Strategy 1-1
 
-                await sydenhamFakeGroups.burnwoodGroups(); // Marketing Strategy 1-1
-                await sydenhamFakeGroups.kennedyGroups();  // Marketing Strategy 1-1
-                await sydenhamFakeGroups.palmetGroups();  // Marketing Strategy 1-1
+                // await sydenhamFakeGroups.burnwoodGroups(); // Marketing Strategy 1-1
+                // await sydenhamFakeGroups.kennedyGroups();  // Marketing Strategy 1-1
+                // await sydenhamFakeGroups.palmetGroups();  // Marketing Strategy 1-1
 
-                await sydenhamFakeGroups.sydenhamHeightGroups(); // Marketing Strategy 1-1
-                await sydenhamFakeGroups.threeRandGroups(); // Marketing Strategy 1-1
+                // await sydenhamFakeGroups.sydenhamHeightGroups(); // Marketing Strategy 1-1
+                // await sydenhamFakeGroups.threeRandGroups(); // Marketing Strategy 1-1
                 // Send back a message that we"ve successfully written to the db.
                 res.json({ result: `All Sydenham Fake Groups Are Saved.` });
                 break;

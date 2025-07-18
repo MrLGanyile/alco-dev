@@ -196,7 +196,7 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
   AspectRatio retrieveGroupImage(BuildContext context, String groupImageURL) {
     return AspectRatio(
       aspectRatio: 8 / 2,
-      /* child: Container(
+      child: Container(
         decoration: BoxDecoration(
           color: backgroundResourcesColor,
           borderRadius: BorderRadius.circular(20),
@@ -205,9 +205,9 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
             image: NetworkImage(groupImageURL),
           ),
         ),
-      ), */
+      ),
 
-      child: CachedNetworkImage(
+      /* child: CachedNetworkImage(
         key: UniqueKey(),
         fit: BoxFit.cover,
         imageUrl: groupImageURL,
@@ -229,7 +229,7 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
         errorWidget: (c, s, d) {
           return getCircularProgressBar();
         },
-      ),
+      ), */
     );
   }
 
@@ -327,9 +327,10 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
   }
 
   Future<String> findGroupImageURL() async {
-    return await storageReference
+    String downloadURL = await storageReference
         .child(widget.competitorsGroup.groupImageURL)
         .getDownloadURL();
+    return downloadURL;
   }
 
   Future<String> findGroupCreatorImageURL() async {

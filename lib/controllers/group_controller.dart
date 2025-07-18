@@ -74,8 +74,8 @@ class GroupController extends GetxController {
   late Rx<String?> _groupName = Rx('');
   String? get groupName => _groupName.value;
 
-  late Rx<SupportedArea> _groupArea = Rx(Converter.toSupportedArea(
-      SectionName.foremanSydenhamDurbanKwaZuluNatalSouthAfrica));
+  late Rx<SupportedArea> _groupArea = Rx(
+      Converter.toSupportedArea(SectionName.dutDurbanKwaZuluNatalSouthAfrica));
 
   SupportedArea get groupSupportedArea => _groupArea.value;
 
@@ -232,7 +232,7 @@ class GroupController extends GetxController {
                 _leaderProfileImageFile.value!,
                 '/$host/group_members/${_leaderPhoneNumber.value}/profile_images/$phoneNumber'));
         }
-        Get.snackbar('Image Status', 'Image File Successfully Picked.');
+
         update();
       } else {
         Get.snackbar('Error', 'Image Wasn\'t Picked.');
@@ -304,7 +304,7 @@ class GroupController extends GetxController {
                 _leaderProfileImageFile.value!,
                 '/$host/group_members/${_leaderPhoneNumber.value}/profile_images/$phoneNumber'));
         }
-        Get.snackbar('Image Status', 'Image File Successfully Captured.');
+
         update();
       } else {
         Get.snackbar('Error', 'Image Wasn\'t Captured.');
@@ -369,7 +369,6 @@ class GroupController extends GetxController {
         _groupArea = Rx(Converter.toSupportedArea(sectionName));
         _groupSpecificArea = Rx(groupSpecificArea);
 
-        Get.snackbar('Image Status', 'Image File Successfully Picked.');
         update();
       } else {
         Get.snackbar('Error', 'Image Wasn\'t Picked.');
@@ -421,7 +420,6 @@ class GroupController extends GetxController {
         _groupArea = Rx(Converter.toSupportedArea(sectionName));
         _groupSpecificArea = Rx(groupSpecificArea);
 
-        Get.snackbar('Image Status', 'Image File Successfully Picked.');
         update();
       } else {
         Get.snackbar('Error', 'Image Wasn\'t Picked.');

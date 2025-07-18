@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:alco_dev/screens/utils/start_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -232,57 +233,13 @@ class GroupRegistrationWidget extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   List<String> dbItems = [];
-                  dbItems.add(
-                      'Foreman-Sydenham-Durban-Kwa Zulu Natal-South Africa');
+
                   for (int areaIndex = 0;
                       areaIndex < snapshot.data!.length;
                       areaIndex++) {
                     dbItems.add(snapshot.data![areaIndex].toString());
                   }
                   items = dbItems;
-                  /*items = [
-                    'Foreman-Sydenham-Durban-Kwa Zulu Natal-South Africa',
-                    'Burnwood-Sydenham-Durban-Kwa Zulu Natal-South Africa',
-                    'Kennedy-Sydenham-Durban-Kwa Zulu Natal-South Africa',
-                    'Palmet-Sydenham-Durban-Kwa Zulu Natal-South Africa',
-                    'Cato Crest-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                    'Cato Manor-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                    'Richview-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                    'Masxha-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                    'Bonela-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                    'Nsimbini-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                    'A Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'AA Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'B Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'BB Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'C Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'CC Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'D Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'E Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'F Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'G Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'H Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'J Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'K Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'L Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'M Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'N Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'P Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'Q Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'R Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'S Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'U Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'V Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'W Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'Malukazi-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'Y Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'Z Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'Philani-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                    'Mangosuthu (MUT)-Durban-Kwa Zulu Natal-South Africa',
-                    'Howard College (UKZN)-Durban-Kwa Zulu Natal-South Africa',
-                    'DUT-Durban-Kwa Zulu Natal-South Africa',
-                  ];
-                  */
                   items.sort();
                   return pickAreaName(context);
                 } else if (snapshot.hasError) {
@@ -535,7 +492,7 @@ class GroupRegistrationWidget extends StatelessWidget {
 
                 // Does not go to the next screen.
                 if (result == GroupSavingStatus.saved) {
-                  debug.log('Show dialog box');
+                  Get.to(() => StartScreen());
                 }
               } else {
                 final auth = FirebaseAuth.instance;

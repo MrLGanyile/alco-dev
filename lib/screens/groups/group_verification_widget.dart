@@ -45,30 +45,9 @@ class _GroupVerificationWidgetState extends State<GroupVerificationWidget> {
       await auth.signInWithCredential(credential);
 
       auth.currentUser!.getIdToken(true).then((token) async {
-        // Send token to backend
-        HttpsCallable callableFuntion =
-            FirebaseFunctions.instance.httpsCallable(
-          'setCurrentUID',
-          options: HttpsCallableOptions(
-            timeout: const Duration(seconds: 1),
-          ),
-        );
-
         if (!isLeaderValidated) {
           setIsLeaderValidated(true);
-        }
-
-        Map<String, dynamic> data = {
-          'token': token,
-          'userId': auth.currentUser!.uid,
-        };
-
-        debug.log('About to save a group');
-        final result = await groupController.createGroup();
-
-        // Does not go to the next screen.
-        if (result == GroupSavingStatus.saved) {
-          debug.log('Show dialog box');
+          Get.back();
         }
       }).catchError((onError) {});
     } catch (error) {
@@ -79,7 +58,6 @@ class _GroupVerificationWidgetState extends State<GroupVerificationWidget> {
           // borderColor: snackBarBorderColor,
           'Error',
           'Wrong Verification Code.');
-      debug.log('Wrong Verification Code');
     } finally {
       shared.showProgressBar = false;
     }

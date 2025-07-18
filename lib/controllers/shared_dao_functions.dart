@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'dart:io';
 
 import '../models/users/admin.dart';
@@ -25,7 +27,7 @@ final reference = FirebaseStorage
     .ref();
 final auth = FirebaseAuth.instance;
 
-Rx<bool> _isLeaderValidated = Rx(true);
+Rx<bool> _isLeaderValidated = Rx(false);
 bool get isLeaderValidated => _isLeaderValidated.value;
 
 AdminController adminController = AdminController.adminController;
@@ -59,12 +61,47 @@ Future<String> uploadResource(File resource, String storagePath,
     {String contentType = "image/jpeg"}) async {
   final metadata = SettableMetadata(contentType: contentType);
 
-  UploadTask uploadTask =
-      reference.child(storagePath).putFile(resource, metadata);
-  TaskSnapshot taskSnapshot = await uploadTask;
+  return await compressImage(resource).then((compressedImageFile) async {
+    UploadTask uploadTask;
+    TaskSnapshot taskSnapshot;
+    String downloadURL;
+    if (compressedImageFile == null) {
+      uploadTask = reference.child(storagePath).putFile(resource, metadata);
+      taskSnapshot = await uploadTask;
 
-  String downloadURL = await taskSnapshot.ref.getDownloadURL();
-  return downloadURL;
+      downloadURL = await taskSnapshot.ref.getDownloadURL();
+      return downloadURL;
+    } else {
+      uploadTask =
+          reference.child(storagePath).putFile(compressedImageFile, metadata);
+      taskSnapshot = await uploadTask;
+
+      downloadURL = await taskSnapshot.ref.getDownloadURL();
+      return downloadURL;
+    }
+  });
+}
+
+Future<File?> compressImage(File file) async {
+  debug.log('Before Compression ${file.lengthSync() / 1024}kb');
+
+  XFile? result = (await FlutterImageCompress.compressAndGetFile(
+    file.absolute.path,
+    '${file.path}.compressed.jpg',
+    quality: 88,
+    // rotate: 180,
+  ));
+
+  if (result == null) {
+    debug.log('After Compression Result Is Null');
+    return null;
+  } else {
+    result.length().then((value) {
+      debug.log('Result Path [After Compression] ${result.path}');
+    });
+
+    return File(result.path);
+  }
 }
 
 Future<String> findFullImageURL(String imageURL) async {

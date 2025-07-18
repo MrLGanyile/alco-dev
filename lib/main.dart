@@ -18,6 +18,7 @@ import 'screens/utils/firebase_options.dart';
 import 'screens/utils/start_screen.dart';
 
 import 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
+import 'dart:developer' as debug;
 
 // Branching Strategy - Trunk-Based Dev
 /* 
@@ -37,6 +38,8 @@ import 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
 
   ***********Phone Numbers Start***********
    My Numbers Telkom -0754856234 Vodacom - 0796305714
+   Siya Magwaza Polar Liquior 0847392686 [WHATSAPP]
+
    Mlu NERD 0842457343
    Crouch 0762816517
    Njabulo 0835367834
@@ -45,6 +48,8 @@ import 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
    Cebo 0658040676
    Zee
    Luke 0605246154
+   Math tutor 0728044157
+   mayise 0725704960
    ***********Phone Numbers End***********
 */
 Future main() async {
@@ -52,8 +57,11 @@ Future main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) {
-    final firestore = FirebaseFirestore.instance;
-    final functions = FirebaseFunctions.instance;
+    // FirebaseApp app = Firebase.app('alco-dev');
+    FirebaseApp app = Firebase.app();
+    debug.log(app.name);
+    final firestore = FirebaseFirestore.instanceFor(app: app);
+    final functions = FirebaseFunctions.instanceFor(app: app);
     final storage = FirebaseStorage
             // .instance.ref();
             .instanceFor(bucket: "gs://alco-dev-3fd77.firebasestorage.app")
