@@ -696,6 +696,15 @@ class Converter {
     }
   }
 
+  static bool isInstitution(SectionName sectionName) {
+    String sectionNameAsString = Converter.asString(sectionName);
+    String firstPortion =
+        sectionNameAsString.substring(0, sectionNameAsString.indexOf('-'));
+    return firstPortion.contains('DUT') ||
+        firstPortion.contains('Howard College (UKZN)') ||
+        firstPortion.contains('Mangosuthu (MUT)');
+  }
+
   static int townOrInstitutionAsNumber(TownOrInstitution townOrInstitution) {
     switch (townOrInstitution) {
       case TownOrInstitution.umlazi:

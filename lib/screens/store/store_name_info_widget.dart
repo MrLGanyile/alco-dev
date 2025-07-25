@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../../controllers/group_controller.dart';
 import '../../models/locations/supported_town_or_institution.dart';
 import '../competition/competition_finished_widget.dart';
+import '../competition/simple_group_competitor_widget.dart';
 import '../competition/won_grand_price_widget.dart';
 import '../utils/globals.dart';
 import '/controllers/competition_controller.dart';
@@ -70,6 +71,7 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
   // late Stream<List<Group>> groupsStream;
   late List<Group> groups;
   List<GroupCompetitorWidget> groupCompetitorsWidgets = [];
+  List<SimpleGroupCompetitorWidget> simpleGroupCompetitorsWidgets = [];
 
   // Not used yet, but will be later to avoid flickuring of group members images.
   OnCurrentGroupSet? onCurrentGroupSet;
@@ -490,7 +492,8 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
   }
 
   Widget displayGroupCompetitors() {
-    if (groupCompetitorsWidgets.isEmpty) {
+    if (/*groupCompetitorsWidgets.isEmpty*/ simpleGroupCompetitorsWidgets
+        .isEmpty) {
       return StreamBuilder<List<Group>>(
         // stream: groupsStream,
         stream: groupController
@@ -500,7 +503,10 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
           if (snapshot.hasData) {
             groups = snapshot.data!;
             addGroupCompetitorsWidgets();
-            return groupCompetitorsWidgets[
+            /*return groupCompetitorsWidgets[
+                currentlyPointedGroupCompetitorIndex]; */
+
+            return simpleGroupCompetitorsWidgets[
                 currentlyPointedGroupCompetitorIndex];
           } else if (snapshot.hasError) {
             debug.log(
@@ -512,12 +518,15 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
         },
       );
     } else {
-      return groupCompetitorsWidgets[currentlyPointedGroupCompetitorIndex];
+      // return groupCompetitorsWidgets[currentlyPointedGroupCompetitorIndex];
+      return simpleGroupCompetitorsWidgets[
+          currentlyPointedGroupCompetitorIndex];
     }
   }
 
   void addGroupCompetitorsWidgets() {
-    if (groupCompetitorsWidgets.isEmpty) {
+    if (/*groupCompetitorsWidgets.isEmpty*/ simpleGroupCompetitorsWidgets
+        .isEmpty) {
       for (int groupCompetitorIndex = 0;
           groupCompetitorIndex < competition.competitorsOrder.length;
           groupCompetitorIndex++) {
@@ -525,8 +534,13 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
           if (groups[i].groupCreatorPhoneNumber.compareTo(
                   competition.competitorsOrder[groupCompetitorIndex]) ==
               0) {
+            // Below is a group with images included.
+            /*
             groupCompetitorsWidgets
-                .add(GroupCompetitorWidget(group: groups[i]));
+                .add(GroupCompetitorWidget(group: groups[i])); */
+
+            simpleGroupCompetitorsWidgets
+                .add(SimpleGroupCompetitorWidget(group: groups[i]));
           }
         }
       }

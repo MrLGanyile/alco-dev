@@ -15,6 +15,24 @@
       ]
     },
     {
+      "collectionGroup": "groups",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "groupTownOrInstitution.townOrInstitutionName",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "groupName",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "groupArea.areaName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "Groups",
       "queryScope": "COLLECTION",
       "fields": [
@@ -24,6 +42,36 @@
         },
         {
           "fieldPath": "groupName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "store_draws",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "drawDateAndTime.day",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "drawDateAndTime.hour",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "drawDateAndTime.minute",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "drawDateAndTime.month",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "drawDateAndTime.year",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "storeName",
           "order": "ASCENDING"
         }
       ]

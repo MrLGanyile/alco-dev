@@ -509,7 +509,6 @@ class StoreController extends GetxController {
               _drawGrandPrice5ImageFile.value!,
               '$host/grand_prices_images/$grandPriceId'));
       }
-      getSnapbar('Image Status', 'Image File Successfully Captured.');
       update();
     }
   }

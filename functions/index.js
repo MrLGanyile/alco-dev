@@ -175,6 +175,7 @@ export const saveStores = onRequest(
 
         store = {
             storeOwnerPhoneNumber: "+27744127814", // Abo
+            storeOwnerFullName: "Abongile Ganyile",
             storeName: "DUT",
             storeImageURL: "store_owners/stores_images/+27744127814.jpg",
             sectionName: "DUT-Durban-Kwa Zulu Natal-South Africa",
@@ -188,6 +189,7 @@ export const saveStores = onRequest(
 
         store = {
             storeOwnerPhoneNumber: "+27766915230", // Mafungwashe
+            storeOwnerFullName: "Mafungwashe Ganyile",
             storeName: "UKZN",
             storeImageURL: "store_owners/stores_images/+27766915230.jpg",
             sectionName: "Howard College (UKZN)-Durban-Kwa Zulu Natal-South Africa",
@@ -200,11 +202,12 @@ export const saveStores = onRequest(
         await storeReference.set(store);
 
         store = {
-            storeOwnerPhoneNumber: "+27637339962", // Esethu
+            storeOwnerPhoneNumber: "+27637339962", // Mfazi kamthiza
             storeName: "Mayville",
+            storeOwnerFullName: "Mfazi Kamthiza",
             storeImageURL: "store_owners/stores_images/+27637339962.jpg",
             sectionName: "Cato Crest-Mayville-Durban-Kwa Zulu Natal-South Africa",
-            storeArea: "Emafrigini (Mobile)",
+            storeArea: "Top City Tavern",
         };
 
         storeReference = getFirestore().collection("stores")
@@ -215,6 +218,7 @@ export const saveStores = onRequest(
         store = {
             storeOwnerPhoneNumber: "+27651482118",
             storeName: "Sydenham",
+            storeOwnerFullName: "Majali Ganyile",
             storeImageURL: "store_owners/stores_images/+27651482118.jpg", // Majali
             sectionName: "Sydenham Height-Sydenham-Durban-Kwa Zulu Natal-South Africa",
             storeArea: "Sparks (Mobile)",
@@ -225,25 +229,13 @@ export const saveStores = onRequest(
 
         await storeReference.set(store);
 
-        /*store = {
-          storeOwnerPhoneNumber: "+27661813561",
-          storeName: "Durban Central",
-          storeImageURL: "store_owners/stores_images/+27661813561.jpg",// Nkuxa 2
-          sectionName: "Glenwood-Durban Central-Durban-Kwa Zulu Natal-South Africa",
-          storeArea: "Devenport (Mobile)",
-        };
-      
-        storeReference = getFirestore().collection("stores")
-          .doc(store.storeOwnerPhoneNumber);
-      
-        await storeReference.set(store); */
-
         store = {
-            storeOwnerPhoneNumber: "+27782578628",
+            storeOwnerPhoneNumber: "+27782578628", // Magwaza
+            storeOwnerFullName: "Sya Magwaza",
             storeName: "Durban Central",
-            storeImageURL: "store_owners/stores_images/+27782578628.jpg",// Dle
+            storeImageURL: "store_owners/stores_images/+27782578628.jpg",
             sectionName: "Berea-Durban Central-Durban-Kwa Zulu Natal-South Africa",
-            storeArea: "Berea Center (Mobile)",
+            storeArea: "Polar's Liquior",
         };
 
         storeReference = getFirestore().collection("stores")
@@ -1136,13 +1128,13 @@ export const createFakeGroups = onRequest(
             case 0:// Mayville
 
                 await mayvilleFakeGroups.catoCrestGroups();  // Marketing Strategy 1-2
-                // await mayvilleFakeGroups.richviewKoPeachGroups(); // Marketing Strategy 1-1
-                // await mayvilleFakeGroups.richviewKoYellowGroups(); // Marketing Strategy 1-1
-                // await mayvilleFakeGroups.richviewKoGreenGroups();  // Marketing Strategy 1-1
-                // await mayvilleFakeGroups.richviewEmathininiGroups(); // Marketing Strategy 1-1
-                // await mayvilleFakeGroups.nsimbiniGroups();  // Marketing Strategy 1-1
+                await mayvilleFakeGroups.richviewKoPeachGroups(); // Marketing Strategy 1-1
+                await mayvilleFakeGroups.richviewKoYellowGroups(); // Marketing Strategy 1-1
+                await mayvilleFakeGroups.richviewKoGreenGroups();  // Marketing Strategy 1-1
+                await mayvilleFakeGroups.richviewEmathininiGroups(); // Marketing Strategy 1-1
+                await mayvilleFakeGroups.nsimbiniGroups();  // Marketing Strategy 1-1
 
-                // await mayvilleFakeGroups.masxhaGroups();  // Marketing Strategy 1-1
+                await mayvilleFakeGroups.masxhaGroups();  // Marketing Strategy 1-1
 
                 // Send back a message that we"ve successfully written to the db.
                 res.json({ result: `All Mayville Fake Groups Are Saved.` });
@@ -1150,8 +1142,8 @@ export const createFakeGroups = onRequest(
             case 1:// DUT
 
                 await dutFakeGroups.dutBereaGroups(); // Marketing Strategy 1-1
-                // await dutFakeGroups.dutSydenhamGroups(); // Marketing Strategy 1-1
-                // await dutFakeGroups.dutMixedGroups(); // Marketing Strategy 1-1
+                await dutFakeGroups.dutSydenhamGroups(); // Marketing Strategy 1-1
+                await dutFakeGroups.dutMixedGroups(); // Marketing Strategy 1-1
 
                 // Send back a message that we"ve successfully written to the db.
                 res.json({ result: `All DUT Fake Groups Are Saved.` });
@@ -1165,14 +1157,14 @@ export const createFakeGroups = onRequest(
             case 3:// Sydenham
 
                 await sydenhamFakeGroups.foreman1Groups(); // Marketing Strategy 1-1
-                // await sydenhamFakeGroups.foreman2Groups(); // Marketing Strategy 1-1
+                await sydenhamFakeGroups.foreman2Groups(); // Marketing Strategy 1-1
 
-                // await sydenhamFakeGroups.burnwoodGroups(); // Marketing Strategy 1-1
-                // await sydenhamFakeGroups.kennedyGroups();  // Marketing Strategy 1-1
-                // await sydenhamFakeGroups.palmetGroups();  // Marketing Strategy 1-1
+                await sydenhamFakeGroups.burnwoodGroups(); // Marketing Strategy 1-1
+                await sydenhamFakeGroups.kennedyGroups();  // Marketing Strategy 1-1
+                await sydenhamFakeGroups.palmetGroups();  // Marketing Strategy 1-1
 
-                // await sydenhamFakeGroups.sydenhamHeightGroups(); // Marketing Strategy 1-1
-                // await sydenhamFakeGroups.threeRandGroups(); // Marketing Strategy 1-1
+                await sydenhamFakeGroups.sydenhamHeightGroups(); // Marketing Strategy 1-1
+                await sydenhamFakeGroups.threeRandGroups(); // Marketing Strategy 1-1
                 // Send back a message that we"ve successfully written to the db.
                 res.json({ result: `All Sydenham Fake Groups Are Saved.` });
                 break;
@@ -1192,7 +1184,7 @@ export const createFakeDraws = onRequest(
     async (req, res) => {
         const drawDateAndTime = new Date();
         const year = drawDateAndTime.getFullYear();
-        const month = drawDateAndTime.getMonth() + 2;
+        const month = drawDateAndTime.getMonth() + 1;
         const date = drawDateAndTime.getDate();
         const hour = drawDateAndTime.getHours() + 2;
 

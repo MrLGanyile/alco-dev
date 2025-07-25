@@ -14,7 +14,7 @@ import 'controllers/post_controller.dart';
 import 'controllers/store_controller.dart';
 import 'controllers/group_controller.dart';
 
-import 'screens/utils/firebase_options.dart';
+import 'firebase_options.dart';
 import 'screens/utils/start_screen.dart';
 
 import 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
@@ -22,7 +22,8 @@ import 'dart:developer' as debug;
 
 // Branching Strategy - Trunk-Based Dev
 /* 
-   FNB ACC No 63117824359
+  9687856170 4214
+  FNB ACC No 63117824359
   ***********Currently Start***********
   Qonsi
   Mahlabekufeni (both)
@@ -52,20 +53,20 @@ import 'dart:developer' as debug;
    mayise 0725704960
    ***********Phone Numbers End***********
 */
+
+// Testing framework(mocha) not yet intalled.
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) {
-    // FirebaseApp app = Firebase.app('alco-dev');
-    FirebaseApp app = Firebase.app();
-    debug.log(app.name);
-    final firestore = FirebaseFirestore.instanceFor(app: app);
-    final functions = FirebaseFunctions.instanceFor(app: app);
+    final firestore = FirebaseFirestore.instance;
+    debug.log(firestore.app.name);
+    final functions = FirebaseFunctions.instance;
     final storage = FirebaseStorage
             // .instance.ref();
-            .instanceFor(bucket: "gs://alco-dev-3fd77.firebasestorage.app")
-        //.instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
+            //  .instanceFor(bucket: "gs://alco-dev-3fd77.firebasestorage.app")
+            .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
         .ref();
 
     final auth = FirebaseAuth.instance;
@@ -109,13 +110,13 @@ Future main() async {
         auth: auth));
   });
   // Ideal time to initialize
-  /*await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
+  await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
   await FirebaseStorage //.instance
 
           .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
       .useStorageEmulator('127.0.0.1', 9199);
   FirebaseFunctions.instance.useFunctionsEmulator('127.0.0.1', 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080); */
+  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
 
   runApp(MyApplication());
 }

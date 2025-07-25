@@ -39,16 +39,15 @@ class AdminController extends GetxController {
   static AdminController adminController = Get.find();
 
   // ignore: prefer_final_fields
-  Rx<Admin?> _currentlyLoggedInAdmin = Rx(null
-      /*Admin(
+  Rx<Admin?> _currentlyLoggedInAdmin = Rx(//null
+      Admin(
           phoneNumber: '+27611111111',
           password: 'qwerty321',
           joinedOn: DateTime(2025, 2, 5),
           profileImageURL: 'admins/profile_images/+27611111111.png',
           isFemale: false,
-          isSuperiorAdmin: true,
-          key: "000") */
-      );
+          isSuperior: true,
+          key: "000"));
   Admin? get currentlyLoggedInAdmin => _currentlyLoggedInAdmin.value;
 
   // ignore: prefer_final_fields
