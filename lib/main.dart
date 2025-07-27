@@ -27,8 +27,6 @@ import 'dart:developer' as debug;
   ***********Currently Start***********
   Qonsi
   Mahlabekufeni (both)
-  Mavumbuka
-  Mlunge
   Nsukumbili
   ***********Currently Start***********
 
