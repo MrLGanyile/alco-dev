@@ -749,10 +749,12 @@ class GroupController extends GetxController {
     return stream;
   }
 
+  // Read only active groups of a particular town or institution.
   Stream<List<String>> readGroupsPhoneNumbers(int townOrInstitutionNo) {
     debug.log('townOrInstitutionNo $townOrInstitutionNo');
     Stream<List<String>> stream = firestore
         .collection('groups')
+        .where("isActive", isEqualTo: true)
         .where("groupTownOrInstitution.townOrInstitutionNo",
             isEqualTo: townOrInstitutionNo.toString())
         .snapshots()

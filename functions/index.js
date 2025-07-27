@@ -675,7 +675,10 @@ export const createGroupCompetitiorsGrid =
                                     // Make sure all competitors are visited.
                                     groupsSnapshot.docs.forEach((groupDoc) => {
                                         if (!(groupDoc.id === groupToWinPhoneNumber)) {
-                                            competitorsOrder.push(groupDoc.id);
+                                            if (groupDoc.data()['isActive']) {
+                                                competitorsOrder.push(groupDoc.id);
+                                            }
+
                                         }
 
                                     });
