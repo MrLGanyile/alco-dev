@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 import '../../main.dart';
 
 bool showProgressBar = false;
-Reference storageReference = FirebaseStorage
-/*.instanceFor(
+Reference storageReference = FirebaseStorage.instanceFor(
         bucket: "gs://alco-dev-3fd77.firebasestorage.app")
-    .ref(); */
-        .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
     .ref();
+/*
+        .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
+    .ref(); */
 // String storageURL = "gs://alcoholic-expressions.appspot.com/";
 
 Color backgroundResourcesColor = Colors.black;

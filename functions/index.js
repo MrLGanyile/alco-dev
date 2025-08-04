@@ -372,20 +372,18 @@ export const createCompetitions =
                     )
                     .where("drawDateAndTime.hour",
                         "==", justNow.getHours() + 2, // GTM
-                    )
+                    ) /*
                     .where("drawDateAndTime.minute",
                         "==", justNow.getMinutes() + 1,
-                    )
+                    ) */
                     // Can Be A Bit Tricky If You Think About It.
                     // As a result competitions shouldn't start at o'clock.
                     // Find competitions starting in the next minute.
-                    /*
+
+                    // Index creation is required.
                     .where("drawDateAndTime.minute",
-                      "<=", justNow.getMinutes() + 1,
+                        "<=", justNow.getMinutes() + 3,
                     )
-                    .where("drawDateAndTime.minute",
-                      ">=", justNow.getMinutes(),
-                    )*/
                     .onSnapshot(async (storeDrawsSnapshot) => {
 
                         if (storeDrawsSnapshot.size > 0) {
@@ -432,18 +430,18 @@ export const createCompetitions =
                                                 .doc(storeDrawId);
 
 
-                                            const timeBetweenPricePickingAndGroupPicking = pickingMultipleInSeconds;
+                                            const timeBetweenPricePickingAndGroupPicking = pickingMultipleInSeconds * 3;
                                             const displayPeriodAfterWinners = pickingMultipleInSeconds * 10;
 
                                             /**
                                             * Single Competition Time Interval [Based On 3 Seconds Multiple]
                                             * First 1 minute - Remaining Time Count Down
                                             * Next 18 seconds - Grand Price Picking
-                                            * Next 3 seconds - Won Price Display
+                                            * Next 3*3 seconds - Won Price Display
                                             * Next 600 seconds Max - Group Picking
                                             * Next 30 Seconds - Competition Result Display
                                             * Last 3 seconds - Game Over
-                                            * Total Time = 1 min + 10 min + 30 sec + 18 sec + 3 sec = 11 min 51 seconds
+                                            * Total Time = 1 min + 10 min + 30 sec + 18 sec + 9 sec = 11 min 57 seconds
                                             * Gap Between Competitions - 1 minute
                                             */
 
@@ -842,12 +840,12 @@ export const maintainCountDownClocks =
                      * Single Competition Time Interval [Based On 3 Seconds Multiple]
                      * First 1 minute - Remaining Time Count Down
                      * Next 18 seconds - Grand Price Picking
-                     * Next 3 seconds - Won Price Display
+                     * Next 3*3 = 9 seconds - Won Price Display
                      * Next 600 seconds Max - Group Picking
                      * Next 6 seconds - Display Notification
                      * Next 30 Seconds - Competition Result Display
                      * Last 12 seconds - Game Over
-                     * Total Time = 1 min + 10 min + 6 seconds + 30 sec + 18 sec + 12 sec = 12 min 6 seconds
+                     * Total Time = 1 min 18 sec + 9 sec+ 10 min + 6 seconds + 30 sec + 12 sec = 12 min 15 seconds
                      * Gap Between Competitions - 1 minute
                      */
 
@@ -1110,6 +1108,7 @@ const listAllUsers = async (nextPageToken) => {
             if (listUsersResult.pageToken) {
                 // List next batch of users.
                 listAllUsers(listUsersResult.pageToken);
+
             }
         })
         .catch((error) => {
@@ -1137,7 +1136,7 @@ export const createFakeGroups = onRequest(
                 await mayvilleFakeGroups.richviewEmathininiGroups(); // Marketing Strategy 1-1
                 await mayvilleFakeGroups.nsimbiniGroups();  // Marketing Strategy 1-1
 
-                await mayvilleFakeGroups.masxhaGroups();  // Marketing Strategy 1-1
+                // await mayvilleFakeGroups.masxhaGroups();  // Marketing Strategy 1-1
 
                 // Send back a message that we"ve successfully written to the db.
                 res.json({ result: `All Mayville Fake Groups Are Saved.` });
@@ -1200,12 +1199,21 @@ export const createFakeDraws = onRequest(
         let storeName;
         let townOrInstitution;
         let groupToWinPhoneNumber;
+        let groupCreators;
 
         // Start listing users from the beginning, 1000 at a time.
         // listAllUsers();
 
         switch (parseInt(req.query.hostIndex)) {
             case 0:
+                groupCreators = ["+27601111111", "+27602222222", "+27603333333", "+27604444444",
+                    "+27648395837", "+27638395837", "+27628395837", "+27618395837",
+                    "+27624738493", "+27634738493", "+27644738493", "+27654738493",
+                    "+27724738493", "+27734738493", "+27744738493", "+27714738493",
+                    "+27764738493", "+27834857938", "+27844857938", "+27824857938",
+                    "+27814857938", "+27864857938", "+27867826632", "+27847826632",
+                    "+27837826632", "+27827826632", "+27877826632",
+                ];
                 storeFK = "+27637339962";
                 storeName = "Mayville";
                 townOrInstitution = {
@@ -1213,9 +1221,15 @@ export const createFakeDraws = onRequest(
                     townOrInstitutionName: "Mayville",
                     townOrInstitutionNo: "5",
                 };
-                groupToWinPhoneNumber = "+27604444444";
+                groupToWinPhoneNumber = "+27603333333";
                 break;
             case 1:
+                groupCreators = ["+27837766452", "+27847766452", "+27867766452",
+                    "+27897766452", "+27817766452", "+27701111110",
+                    "+27702222220", "+27703333330", "+27704444440",
+                    "+27701111111", "+27702222222", "+27703333333",
+                    "+27704444444",
+                ];
                 storeFK = "+27744127814";
                 storeName = "DUT";
                 townOrInstitution = {
@@ -1223,9 +1237,12 @@ export const createFakeDraws = onRequest(
                     townOrInstitutionName: "DUT",
                     townOrInstitutionNo: "3",
                 };
-                groupToWinPhoneNumber = "+27701111111";
+                groupToWinPhoneNumber = "+27703333330";
                 break;
             case 2:
+                groupCreators = ["+27801111111", "+27802222222", "+27803333333", "+27804444444",
+                    "+27805555555", "+27806666666",
+                ];
                 storeFK = "+27766915230";
                 storeName = "UKZN";
                 townOrInstitution = {
@@ -1236,6 +1253,14 @@ export const createFakeDraws = onRequest(
                 groupToWinPhoneNumber = "+27803333333";
                 break;
             case 3:
+                groupCreators = ["+27651111111", "+27652222222", "+27653333333", "+27654444444",
+                    "+27655555555", "+27676666666", "+27677777777", "+27688888888", "+27602746533",
+                    "+27612746533", "+27622746533", "+27632746533", "+27632746533", "+27755555550",
+                    "+27776666660", "+27777777770", "+27788888880", "+27634883320", "+27644883320",
+                    "+27654883320", "+27664883320", "+27629483938", "+27639483938", "+27649483938",
+                    "+27659483938", "+27669483938", "+27634883325", "+27644883325", "+27654883325",
+                    "+27664883325", "+27674883325",
+                ];
                 storeFK = "+27651482118";
                 storeName = "Sydenham";
                 townOrInstitution = {
@@ -1243,20 +1268,10 @@ export const createFakeDraws = onRequest(
                     townOrInstitutionName: "Sydenham",
                     townOrInstitutionNo: "6",
                 };
-                groupToWinPhoneNumber = "+27652222222";
+                groupToWinPhoneNumber = "+27629483938";
                 break;
-            /*case 4:
-              storeFK = "+27661813561";
-              storeName = "Durban Central";
-              townOrInstitution = {
-                cityFK: "1",
-                townOrInstitutionName: "Durban Central",
-                townOrInstitutionNo: "7",
-              };
-              groupToWinPhoneNumber = "+27630000000"; 
-              break;*/
-
             default:
+                groupCreators = ["+27600000000", "+27610000000", "+27620000000", "+27630000000"];
                 storeFK = "+27782578628";
                 storeName = "Durban Central";
                 townOrInstitution = {
@@ -1264,7 +1279,7 @@ export const createFakeDraws = onRequest(
                     townOrInstitutionName: "Durban Central",
                     townOrInstitutionNo: "7",
                 };
-                groupToWinPhoneNumber = "+27620000000";
+                groupToWinPhoneNumber = "+27610000000";
         }
 
 

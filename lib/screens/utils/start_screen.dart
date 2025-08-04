@@ -267,7 +267,7 @@ class _StartScreenState extends State<StartScreen>
               Tab(
                 icon: Icon(Icons.local_drink,
                     color: MyApplication.attractiveColor1),
-                text: 'Stores',
+                text: 'Draws',
               ),
               Tab(
                 icon: Icon(Icons.group, color: MyApplication.attractiveColor1),

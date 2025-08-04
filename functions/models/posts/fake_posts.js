@@ -31,8 +31,8 @@ class FakePosts {
 
         // Mayville Posts
         postCreator = {
-            profileImageURL: "mayville/alcoholics/profile_images/+27612345678.jpg",
-            phoneNumber: "+27612345678",
+            profileImageURL: "mayville/alcoholics/profile_images/+27610101010.jpg",
+            phoneNumber: "+27610101010",
             area: {
                 townOrInstitutionFK: "5",
                 areaName: "Cato Crest-Mayville-Durban-Kwa Zulu Natal-South ",
@@ -53,8 +53,8 @@ class FakePosts {
             forTownOrInstitution: "Mayville",
             dateCreated: {
                 year: 2025,
-                month: 6,
-                date: 21,
+                month: 7,
+                date: 29,
                 hour: 16,
                 minute: 5
             },
@@ -77,8 +77,8 @@ class FakePosts {
 
         // UKZN
         postCreator = {
-            profileImageURL: "ukzn/alcoholics/profile_images/+27623456789.jpg",
-            phoneNumber: "+27623456789",
+            profileImageURL: "ukzn/alcoholics/profile_images/+27712345678.jpg",
+            phoneNumber: "+27712345678",
             area: {
                 townOrInstitutionFK: "4",
                 areaName: "Howard College (UKZN)-Durban-Kwa Zulu Natal-South Africa",
@@ -123,7 +123,7 @@ class FakePosts {
         await reference.set(post);
 
         // Sydenham Posts
-        postCreator = {
+        /* postCreator = {
             profileImageURL: "sydenham/alcoholics/profile_images/+27634567890.jpg",
             phoneNumber: "+27634567890",
             area: {
@@ -165,20 +165,20 @@ class FakePosts {
             whatHappenedText: whatHappenedText,
             whatHappenedVoiceRecordURL: whatHappenedVoiceRecordURL,
             whatHappenedVideoURL: whatHappenedVideoURL,
-        }
+        } 
 
-        await reference.set(post);
+        await reference.set(post); */
 
         // Durban Central
         postCreator = {
-            profileImageURL: "durban central/alcoholics/profile_images/+27645678901.jpg",
-            phoneNumber: "+27645678901",
+            profileImageURL: "durban central/alcoholics/profile_images/+27767890123.jpg",
+            phoneNumber: "+27723456789",
             area: {
                 townOrInstitutionFK: "7",
                 areaName: "Berea-Durban Central-Durban-Kwa Zulu Natal-South Africa",
                 areaNo: "44",
             },
-            username: "Thando",
+            username: "Andy",
             password: "cii0",
         };
 

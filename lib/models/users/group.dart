@@ -26,6 +26,7 @@ class Group implements Comparable<Group> {
 
   List<String> groupMembers;
   List<String> get members => groupMembers;
+  double availableBalance;
 
   Group({
     required this.groupName,
@@ -39,6 +40,7 @@ class Group implements Comparable<Group> {
     required this.groupMembers,
     this.isActive = false,
     required this.maxNoOfMembers,
+    this.availableBalance = 0,
   });
 
   Map<String, dynamic> toJson() => {

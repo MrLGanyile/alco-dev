@@ -20,6 +20,8 @@ import 'screens/utils/start_screen.dart';
 import 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
 import 'dart:developer' as debug;
 
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
 // Branching Strategy - Trunk-Based Dev
 /* 
   9687856170 4214
@@ -31,13 +33,13 @@ import 'dart:developer' as debug;
   ***********Currently Start***********
 
   ***********To Find Start***********
-  Devenport QUIT Place Uhamba Nge Toyota Ebovu
-  Zaba -> Range, volvo, fortuner Thobani Mabhakede
+
   ***********To Find End***********
 
   ***********Phone Numbers Start***********
    My Numbers Telkom -0754856234 Vodacom - 0796305714
    Siya Magwaza Polar Liquior 0847392686 [WHATSAPP]
+   Mthiza's Wife 0832769334
 
    Mlu NERD 0842457343
    Crouch 0762816517
@@ -45,16 +47,20 @@ import 'dart:developer' as debug;
    Mafungwashe, 0766915230
    Msizi Dle 0782578628
    Cebo 0658040676
-   Zee
+   Zee 0749650051
    Luke 0605246154
    Math tutor 0728044157
    mayise 0725704960
+   menzi lawyer to be 0729372478
    ***********Phone Numbers End***********
 */
 
 // Testing framework(mocha) not yet intalled.
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
+
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) {
@@ -63,8 +69,8 @@ Future main() async {
     final functions = FirebaseFunctions.instance;
     final storage = FirebaseStorage
             // .instance.ref();
-            //  .instanceFor(bucket: "gs://alco-dev-3fd77.firebasestorage.app")
-            .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
+            .instanceFor(bucket: "gs://alco-dev-3fd77.firebasestorage.app")
+        // .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
         .ref();
 
     final auth = FirebaseAuth.instance;
@@ -107,6 +113,7 @@ Future main() async {
         storage: storage,
         auth: auth));
   });
+  /*
   // Ideal time to initialize
   await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
   await FirebaseStorage //.instance
@@ -114,7 +121,7 @@ Future main() async {
           .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
       .useStorageEmulator('127.0.0.1', 9199);
   FirebaseFunctions.instance.useFunctionsEmulator('127.0.0.1', 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
+  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080); */
 
   runApp(MyApplication());
 }
@@ -201,6 +208,8 @@ class _MyApplicationState extends State<MyApplication> {
     // This method execute only when this state is created for the first time.
     // It get executed befor the build method.
     super.initState();
+    // whenever your initialization is completed, remove the splash screen:
+    FlutterNativeSplash.remove();
   }
 
   @override
