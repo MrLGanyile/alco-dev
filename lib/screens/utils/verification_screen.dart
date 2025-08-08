@@ -1,11 +1,8 @@
-import '../../models/users/admin.dart';
-import '../../models/users/alcoholic.dart';
 import '/controllers/admin_controller.dart';
 import '/controllers/alcoholic_controller.dart';
 import '/controllers/shared_dao_functions.dart' as shared;
 import '/screens/alcoholics/alcoholic_registration_widget.dart';
 import '/screens/utils/login_widget.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -53,7 +50,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
   Color snackBarBorderColor = Colors.white;
 
   void verifySignin() async {
-    shared.showProgressBar = true;
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: widget.verificationId, smsCode: otpController.text);
@@ -85,7 +81,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
           debug.log('forAdmin == true');
 
           adminSavingStatus.then((value) {
-            showProgressBar = false;
+            shared.showProgressBar = false;
             if (value == AdminSavingStatus.unathourized) {
               debug.log(
                   'AdminSavingStatus.unathourized From VerificationScreen...');
@@ -225,7 +221,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   void verifyLogin() async {
-    showProgressBar = true;
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: widget.verificationId, smsCode: otpController.text);
@@ -278,7 +273,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
           'Wrong Verification Code.');
       debug.log('Wrong Verification Code');
     } finally {
-      showProgressBar = false;
+      shared.showProgressBar = false;
     }
   }
 
@@ -337,8 +332,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   obscureText: false,
                 ),
               ),
-              shared.showProgressBar
-                  ? getCircularProgressBar()
+              !alcoholicController.showProgressBar
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: MyApplication.logoColor2,
+                      ),
+                    )
                   : Container(
                       width: MediaQuery.of(context).size.width,
                       height: 60,
@@ -351,7 +350,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       ),
                       child: InkWell(
                         onTap: () async {
-                          shared.showProgressBar = false;
+                          alcoholicController.setShowProgressIndicator(false);
                           widget.forLogin ? verifyLogin() : verifySignin();
                         },
                         child: const Center(

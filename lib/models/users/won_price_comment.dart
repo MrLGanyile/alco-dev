@@ -1,4 +1,4 @@
-import 'package:alco_dev/models/locations/town_or_institution.dart';
+import '../../models/locations/town_or_institution.dart';
 
 import '../locations/converter.dart';
 

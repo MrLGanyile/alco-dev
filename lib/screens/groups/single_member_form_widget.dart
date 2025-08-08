@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/shared_dao_functions.dart';
 import '../../controllers/group_controller.dart';
 import '../../main.dart';
 import '../utils/globals.dart';

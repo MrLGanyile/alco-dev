@@ -19,6 +19,7 @@ class PasswordVerificationWidget extends StatelessWidget {
   PasswordVerificationWidget({required this.user});
   @override
   Widget build(BuildContext context) {
+    alcoholicController.setShowProgressIndicator(false);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -109,16 +110,20 @@ class PasswordVerificationWidget extends StatelessWidget {
             )),
         child: InkWell(
           onTap: () async {
+            alcoholicController.setShowProgressIndicator(true);
             if (user.password.compareTo(passwordEditingController.text) == 0) {
               if (user is Alcoholic) {
                 alcoholicController.loginUserUsingObject(user as Alcoholic);
                 getSnapbar('Welcome', 'You Are Currently Logged in.');
+                alcoholicController.setShowProgressIndicator(false);
                 Get.to(() => StartScreen());
               } else {
                 adminController.loginAdminUsingObject(user as Admin);
+                alcoholicController.setShowProgressIndicator(false);
                 Get.to(() => AdminScreensWidget());
               }
             } else {
+              alcoholicController.setShowProgressIndicator(false);
               auth.currentUser!.delete();
               getSnapbar('Login Failed', 'Wrong Password');
             }

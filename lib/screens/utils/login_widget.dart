@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../../controllers/shared_dao_functions.dart';
 import '../../main.dart';
 import 'dart:developer' as debug;
 
-import 'globals.dart';
 import 'verification_screen.dart';
 
 class LoginWidget extends StatelessWidget {

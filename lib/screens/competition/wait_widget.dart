@@ -1,7 +1,6 @@
 import '../utils/globals.dart';
 import '/controllers/competition_controller.dart';
 import '/screens/competition/group_competitor_widget.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as debug;
 

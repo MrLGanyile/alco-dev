@@ -1,5 +1,5 @@
-import 'package:alco_dev/controllers/shared_dao_functions.dart';
-import 'package:alco_dev/models/users/admin.dart';
+import '../../controllers/shared_dao_functions.dart';
+import '../../models/users/admin.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

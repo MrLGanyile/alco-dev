@@ -1,5 +1,4 @@
-import 'package:alco_dev/screens/admins/admin_screens_widget.dart';
-import 'package:alco_dev/screens/utils/start_screen.dart';
+import '../../screens/admins/admin_screens_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

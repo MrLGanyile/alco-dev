@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../../main.dart';
 
-bool showProgressBar = false;
 Reference storageReference = FirebaseStorage.instanceFor(
         bucket: "gs://alco-dev-3fd77.firebasestorage.app")
     .ref();

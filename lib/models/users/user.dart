@@ -1,6 +1,4 @@
 // Branch : group_resources_crud ->  create_group_resources_front_end
-import '../locations/converter.dart';
-
 abstract class User {
   String phoneNumber;
   String profileImageURL;

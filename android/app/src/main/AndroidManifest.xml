@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     
    <application
-        android:label="alco_dev"
+        android:label="Alco" 
         android:name="${applicationName}"
         android:icon="@mipmap/alco">
         <activity

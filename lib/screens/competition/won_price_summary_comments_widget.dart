@@ -1,10 +1,9 @@
-import 'package:alco_dev/screens/utils/globals.dart';
+import '../../screens/utils/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/competition_controller.dart';
 import '../../controllers/group_controller.dart';
-import '../../controllers/shared_dao_functions.dart';
 import '../../controllers/alcoholic_controller.dart';
 import '../../main.dart';
 import '../../models/users/won_price_comment.dart';

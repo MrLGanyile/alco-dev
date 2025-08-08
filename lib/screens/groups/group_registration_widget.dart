@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:alco_dev/screens/utils/start_screen.dart';
+import '../../screens/utils/start_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -304,7 +302,16 @@ class GroupRegistrationWidget extends StatelessWidget {
             phoneNumberController: phoneNumber4EditingController,
             memberIndex: 4,
           ),
-          createGroupButton(context),
+
+          GetBuilder<GroupController>(builder: (_) {
+            return groupController.showProgressBar
+                ? Center(
+                    child: CircularProgressIndicator(
+                      color: MyApplication.attractiveColor1,
+                    ),
+                  )
+                : createGroupButton(context);
+          }),
         ]),
       ),
     );
@@ -486,15 +493,17 @@ class GroupRegistrationWidget extends StatelessWidget {
               getSnapbar(
                   'Group Registration Error', 'Member4 Image Not Entered.');
             } else {
-              if (isLeaderValidated) {
-                debug.log('About to save a group');
-                final result = await groupController.createGroup();
+              groupController.setShowProgressIndicator(true);
+              //if (isLeaderValidated) {
+              debug.log('About to save a group');
+              final result = await groupController.createGroup();
 
-                // Does not go to the next screen.
-                if (result == GroupSavingStatus.saved) {
-                  Get.to(() => StartScreen());
-                }
-              } else {
+              // It takes time to go to the next page.
+              if (result == GroupSavingStatus.saved) {
+                groupController.setShowProgressIndicator(false);
+                Get.to(() => StartScreen());
+              }
+              /*} else {
                 final auth = FirebaseAuth.instance;
 
                 await auth.verifyPhoneNumber(
@@ -521,7 +530,7 @@ class GroupRegistrationWidget extends StatelessWidget {
                   },
                   codeAutoRetrievalTimeout: (String verificationId) {},
                 );
-              }
+              } */
             }
           },
           child: const Center(

@@ -133,8 +133,15 @@ class GroupController extends GetxController {
   late Rx<String> _leaderUsername = Rx('');
   String get leaderUsername => _leaderUsername.value;
 
-  // Unit Test Strucuture Exist.
+  Rx<bool> _showProgressBar = Rx(false);
+  bool get showProgressBar => _showProgressBar.value;
 
+  void setShowProgressIndicator(bool show) {
+    _showProgressBar = Rx(show);
+    update();
+  }
+
+  // Unit Test Strucuture Exist.
   void clearAll() {
     _groupImageFile = Rx(null);
     _groupImageURL = Rx('');
@@ -527,6 +534,7 @@ class GroupController extends GetxController {
           .substring(_leaderImageURL.value.indexOf('/o/') + 2,
               _leaderImageURL.value.indexOf('?'))
           .replaceAll('%2F', '/')
+          .replaceAll('%20', ' ')
           .replaceAll('%2B', '+'));
     }
 
@@ -536,6 +544,7 @@ class GroupController extends GetxController {
           .substring(_member1ImageURL.value.indexOf('/o/') + 2,
               _member1ImageURL.value.indexOf('?'))
           .replaceAll('%2F', '/')
+          .replaceAll('%20', ' ')
           .replaceAll('%2B', '+'));
     }
 
@@ -545,6 +554,7 @@ class GroupController extends GetxController {
           .substring(_member2ImageURL.value.indexOf('/o/') + 2,
               _member2ImageURL.value.indexOf('?'))
           .replaceAll('%2F', '/')
+          .replaceAll('%20', ' ')
           .replaceAll('%2B', '+'));
     }
 
@@ -554,6 +564,7 @@ class GroupController extends GetxController {
           .substring(_member3ImageURL.value.indexOf('/o/') + 2,
               _member3ImageURL.value.indexOf('?'))
           .replaceAll('%2F', '/')
+          .replaceAll('%20', ' ')
           .replaceAll('%2B', '+'));
     }
 
@@ -563,6 +574,7 @@ class GroupController extends GetxController {
           .substring(_member4ImageURL.value.indexOf('/o/') + 2,
               _member4ImageURL.value.indexOf('?'))
           .replaceAll('%2F', '/')
+          .replaceAll('%20', ' ')
           .replaceAll('%2B', '+'));
     }
 
@@ -572,6 +584,7 @@ class GroupController extends GetxController {
           .substring(_groupImageURL.value!.indexOf('/o/') + 2,
               _groupImageURL.value!.indexOf('?'))
           .replaceAll('%2F', '/')
+          .replaceAll('%20', ' ')
           .replaceAll('%2B', '+'));
     }
   }

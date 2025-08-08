@@ -1,4 +1,4 @@
-import 'package:alco_dev/screens/utils/login_widget.dart';
+import '../../screens/utils/login_widget.dart';
 
 import '../../controllers/shared_dao_functions.dart';
 import '../admins/admin_entrance_widget.dart';

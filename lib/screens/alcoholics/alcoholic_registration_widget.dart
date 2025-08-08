@@ -5,6 +5,7 @@ import '../../controllers/alcoholic_controller.dart';
 import '../../controllers/shared_dao_functions.dart' as shared;
 import '../../models/locations/converter.dart';
 import '../utils/globals.dart';
+import '../utils/start_screen.dart';
 import '../utils/verification_screen.dart';
 import '/models/locations/supported_area.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -51,7 +52,7 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
             iconSize: MyApplication.backArrowFontSize,
             color: MyApplication.backArrowColor,
             onPressed: (() {
-              Get.back();
+              Get.to(() => StartScreen());
             }),
           ),
           title: Text(
@@ -149,49 +150,7 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                         areaIndex++) {
                       dbItems.add(snapshot.data![areaIndex].toString());
                     }
-                    /*items = [
-                      'Foreman-Sydenham-Durban-Kwa Zulu Natal-South Africa',
-                      'Burnwood-Sydenham-Durban-Kwa Zulu Natal-South Africa',
-                      'Kennedy-Sydenham-Durban-Kwa Zulu Natal-South Africa',
-                      'Palmet-Sydenham-Durban-Kwa Zulu Natal-South Africa',
-                      'Cato Crest-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                      'Cato Manor-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                      'Richview-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                      'Masxha-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                      'Bonela-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                      'Nsimbini-Mayville-Durban-Kwa Zulu Natal-South Africa',
-                      'A Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'AA Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'B Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'BB Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'C Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'CC Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'D Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'E Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'F Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'G Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'H Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'J Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'K Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'L Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'M Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'N Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'P Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'Q Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'R Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'S Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'U Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'V Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'W Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'Malukazi-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'Y Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'Z Section-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'Philani-Umlazi-Durban-Kwa Zulu Natal-South Africa',
-                      'Mangosuthu (MUT)-Durban-Kwa Zulu Natal-South Africa',
-                      'Howard College (UKZN)-Durban-Kwa Zulu Natal-South Africa',
-                      'DUT-Durban-Kwa Zulu Natal-South Africa',
-                    ];
-                    items.sort(); */
+
                     items = dbItems;
 
                     return GetBuilder<AlcoholicController>(builder: (_) {
@@ -354,53 +313,62 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                 height: 5,
               ),
 
-              shared.showProgressBar
-                  ? getCircularProgressBar()
-                  : Column(
-                      children: [
-                        // Sign Up Alcoholic
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 60,
-                          margin: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                              color: MyApplication.logoColor1,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              )),
-                          child: InkWell(
-                            onTap: () async {
-                              if (shared.getCurrentlyLoggenInUser() != null) {
-                                Get.snackbar("Signing Error",
-                                    "Logout Before Registering New Users.");
-                                return;
-                              }
+              GetBuilder<AlcoholicController>(builder: (_) {
+                return alcoholicController.showProgressBar
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: MyApplication.logoColor2,
+                        ),
+                      )
+                    : Column(
+                        children: [
+                          // Sign Up Alcoholic
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 60,
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            decoration: BoxDecoration(
+                                color: MyApplication.logoColor1,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                )),
+                            child: InkWell(
+                              onTap: () async {
+                                debug.log('clicked...');
+                                if (shared.getCurrentlyLoggenInUser() != null) {
+                                  Get.snackbar("Signing Error",
+                                      "Logout Before Registering New Users.");
+                                  return;
+                                }
 
-                              alcoholicController.setNewAlcoholicPassword(
-                                  passwordEditingController.text);
-                              debug.log(
-                                  'Alcoholic Validation From AlcoholicRegistrationScreen');
-                              // Create Alcoholic Now
-                              if (alcoholicController
-                                      .newAlcoholicPhoneNumber!.isNotEmpty &&
-                                  alcoholicController
-                                      .newAlcoholicUsername!.isNotEmpty &&
-                                  alcoholicController
-                                      .newAlcoholicPassword.isNotEmpty &&
-                                  alcoholicController
-                                      .newAlcoholicImageURL!.isNotEmpty &&
-                                  alcoholicController
-                                          .newAlcoholicProfileImageFile !=
-                                      null) {
+                                alcoholicController.setNewAlcoholicPassword(
+                                    passwordEditingController.text);
                                 debug.log(
-                                    'Alcoholic Validated From AlcoholicRegistrationScreen');
-                                final auth = FirebaseAuth.instance;
-                                shared.showProgressBar = true;
-                                await auth.verifyPhoneNumber(
-                                  phoneNumber:
-                                      '+27${phoneNumberEditingController.text}',
-                                  verificationCompleted:
-                                      (PhoneAuthCredential credential) async {
+                                    'Alcoholic Validation From AlcoholicRegistrationScreen 1');
+                                // Create Alcoholic Now
+                                if (alcoholicController
+                                        .newAlcoholicPhoneNumber!.isNotEmpty &&
+                                    alcoholicController
+                                        .newAlcoholicUsername!.isNotEmpty &&
+                                    alcoholicController
+                                        .newAlcoholicPassword.isNotEmpty &&
+                                    alcoholicController
+                                        .newAlcoholicImageURL!.isNotEmpty &&
+                                    alcoholicController
+                                            .newAlcoholicProfileImageFile !=
+                                        null) {
+                                  final auth = FirebaseAuth.instance;
+                                  debug.log(
+                                      'Alcoholic Validated From AlcoholicRegistrationScreen 2');
+                                  alcoholicController
+                                      .setShowProgressIndicator(true);
+                                  await auth.verifyPhoneNumber(
+                                    phoneNumber:
+                                        '+27${phoneNumberEditingController.text}',
+                                    verificationCompleted:
+                                        (PhoneAuthCredential credential) async {
+                                      debug.log('PhoneAuthCredential...');
+                                      /*
                                     debug.log(
                                         '1. About To Signed In User From AlcoholicRegistrationScreen...');
                                     // ANDROID ONLY!
@@ -437,79 +405,84 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                                             '2. Successfully Saved User From AlcoholicRegistrationScreen...');
                                       }
                                     });
-                                  },
-                                  verificationFailed:
-                                      (FirebaseAuthException e) {
-                                    if (e.code == 'invalid-phone-number') {
-                                      debug.log(
-                                          '***The provided phone number is not valid***.');
-                                    }
+                                    */
+                                    },
+                                    verificationFailed:
+                                        (FirebaseAuthException e) {
+                                      if (e.code == 'invalid-phone-number') {
+                                        debug.log(
+                                            '***The provided phone number is not valid***.');
+                                      }
 
-                                    // Handle other errors
-                                  },
-                                  codeSent: (String verificationId,
-                                      int? resendToken) async {
-                                    shared.showProgressBar = false;
-                                    Get.to(() => VerificationScreen(
-                                          phoneNumber:
-                                              '$countryDialCode${phoneNumberEditingController.text}',
-                                          verificationId: verificationId,
-                                          forAdmin: false,
-                                          forLogin: false,
-                                        ));
-                                  },
-                                  codeAutoRetrievalTimeout:
-                                      (String verificationId) {},
-                                );
-                              }
-                            },
-                            child: const Center(
-                              child: Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
+                                      // Handle other errors
+                                    },
+                                    codeSent: (String verificationId,
+                                        int? resendToken) async {
+                                      alcoholicController
+                                          .setShowProgressIndicator(true);
+                                      debug.log(
+                                          '....About To VerificationScreen');
+                                      Get.to(() => VerificationScreen(
+                                            phoneNumber:
+                                                '$countryDialCode${phoneNumberEditingController.text}',
+                                            verificationId: verificationId,
+                                            forAdmin: false,
+                                            forLogin: false,
+                                          ));
+                                    },
+                                    codeAutoRetrievalTimeout:
+                                        (String verificationId) {},
+                                  );
+                                }
+                              },
+                              child: const Center(
+                                child: Text(
+                                  'Sign Up',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Already have an account?",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: MyApplication.logoColor1,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                // Send User To Login Screen.
-                                alcoholicController
-                                    .logoutAlcoholic(); // Logout currently logged in user.
-                                Get.to(() => LoginWidget(
-                                      forAdmin: false,
-                                    ));
-                              },
-                              child: Text(
-                                " Login",
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Already have an account?",
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: MyApplication.logoColor2,
-                                  fontWeight: FontWeight.bold,
+                                  color: MyApplication.logoColor1,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                              InkWell(
+                                onTap: () {
+                                  // Send User To Login Screen.
+                                  alcoholicController
+                                      .logoutAlcoholic(); // Logout currently logged in user.
+                                  Get.to(() => LoginWidget(
+                                        forAdmin: false,
+                                      ));
+                                },
+                                child: Text(
+                                  " Login",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: MyApplication.logoColor2,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+              }),
             ]),
           ),
         ),

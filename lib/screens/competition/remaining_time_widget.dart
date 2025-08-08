@@ -24,7 +24,8 @@ class RemainingTimeWidgetState extends State<RemainingTimeWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Remaining Time ',
+              //'Remaining Time ',
+              'Count Down',
               style: TextStyle(
                   fontSize: MyApplication.infoTextFontSize,
                   color: MyApplication.storesSpecialTextColor,
@@ -32,7 +33,8 @@ class RemainingTimeWidgetState extends State<RemainingTimeWidget> {
                   decoration: TextDecoration.none),
             ),
             Text(
-              '$minutes:$seconds',
+              // '$minutes:$seconds',
+              '${widget.remainingTime.inSeconds}',
               style: TextStyle(
                   fontSize: MyApplication.infoTextFontSize,
                   color: MyApplication.storesSpecialTextColor,

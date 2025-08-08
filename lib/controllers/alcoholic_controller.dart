@@ -85,6 +85,14 @@ class AlcoholicController extends GetxController {
       Rx<SectionName>(SectionName.dutDurbanKwaZuluNatalSouthAfrica);
   SectionName? get searchedSectionName => locateableSectionName.value;
 
+  Rx<bool> _showProgressBar = Rx(false);
+  bool get showProgressBar => _showProgressBar.value;
+
+  void setShowProgressIndicator(bool show) {
+    _showProgressBar = Rx(show);
+    update();
+  }
+
   void setNewAlcoholicPassword(String password) {
     _newAlcoholicPassword = Rx(password);
   }
@@ -143,7 +151,6 @@ class AlcoholicController extends GetxController {
         _newAlcoholicPhoneNumber = Rx<String?>(phoneNumber);
         _newAlcoholicUsername = Rx<String?>(username);
         debug.log('Image File Successfully Captured.');
-        Get.snackbar('Image Status', 'Image File Successfully Captured.');
         update();
       } else {
         Get.snackbar('Error', 'Image Wasn\'t Captured.');
@@ -186,7 +193,6 @@ class AlcoholicController extends GetxController {
         _newAlcoholicPhoneNumber = Rx<String?>(phoneNumber);
         _newAlcoholicUsername = Rx<String?>(username);
         debug.log('Image File Successfully Captured');
-        Get.snackbar('Image Status', 'Image File Successfully Captured.');
         update();
       } else {
         Get.snackbar('Error', 'Image Wasn\'t Captured.');
@@ -211,12 +217,19 @@ class AlcoholicController extends GetxController {
 
     if (!_newAlcoholicImageURL.value!.contains('/$host') ||
         !_newAlcoholicImageURL.value!.contains('?')) {
-      return _newAlcoholicImageURL.value!.replaceAll('%2F', '/');
+      return _newAlcoholicImageURL.value!
+          .substring(_newAlcoholicImageURL.value!.indexOf('/o/') + 2,
+              _newAlcoholicImageURL.value!.indexOf('?'))
+          .replaceAll('%2F', '/')
+          .replaceAll('%20', ' ')
+          .replaceAll('%2B', '+');
     }
     return _newAlcoholicImageURL.value!
         .substring(_newAlcoholicImageURL.value!.indexOf('/$host'),
             _newAlcoholicImageURL.value!.indexOf('?'))
-        .replaceAll('%2F', '/');
+        .replaceAll('%2F', '/')
+        .replaceAll('%20', ' ')
+        .replaceAll('%2B', '+');
   }
 
   Stream<List<Alcoholic>> readAlcoholics() {
@@ -272,12 +285,12 @@ class AlcoholicController extends GetxController {
             .doc(alcoholic.phoneNumber)
             .set(alcoholic.toJson());
         loginUserUsingObject(alcoholic);
-        showProgressBar = false;
+
         return AlcoholicSavingStatus.saved;
       } catch (error) {
         Get.snackbar("Saving Error", "Alcoholic Couldn'\t Be Created.");
         debug.log(error.toString());
-        showProgressBar = false;
+
         return AlcoholicSavingStatus.alcoholCreationError;
       }
     } else {

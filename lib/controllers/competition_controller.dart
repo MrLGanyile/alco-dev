@@ -1,14 +1,12 @@
-import 'package:alco_dev/models/locations/town_or_institution.dart';
+import '../../models/locations/town_or_institution.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
-import '../models/competitions/competition.dart';
 import '../models/competitions/won_price_summary.dart';
 import '../models/locations/converter.dart';
-import '../models/locations/supported_area.dart';
 import '../models/locations/supported_town_or_institution.dart';
 import '../models/users/admin.dart';
 import '../models/users/alcoholic.dart';

@@ -1,11 +1,9 @@
 import 'package:alco_dev/screens/utils/globals.dart';
 import 'package:alco_dev/screens/utils/start_screen.dart';
 
-import '../../controllers/admin_controller.dart';
 import '../../controllers/group_controller.dart';
 import '../../controllers/shared_dao_functions.dart';
 import '../../models/users/admin.dart';
-import '../store/date_picker.dart';
 import '../store/store_draw_registration_widget.dart';
 import 'admin_registration_widget.dart';
 import 'package:get/get.dart';

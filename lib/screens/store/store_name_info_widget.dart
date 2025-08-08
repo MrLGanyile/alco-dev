@@ -9,7 +9,6 @@ import '../utils/globals.dart';
 import '/controllers/competition_controller.dart';
 import '/screens/competition/competition_result_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
 import '../../controllers/store_controller.dart';

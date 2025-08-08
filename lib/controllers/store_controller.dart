@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:alco_dev/models/locations/town_or_institution.dart';
+import '../../models/locations/town_or_institution.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';

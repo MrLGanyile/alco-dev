@@ -1,4 +1,3 @@
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -8,8 +7,6 @@ import '../../main.dart';
 import '../../controllers/shared_dao_functions.dart' as shared;
 
 import 'package:flutter/material.dart';
-
-import 'dart:developer' as debug;
 
 import '../utils/globals.dart';
 
