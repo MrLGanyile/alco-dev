@@ -40,7 +40,9 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
    My Numbers Telkom -0754856234 Vodacom - 0796305714
    Siya Magwaza Polar Liquior 0847392686 [WHATSAPP]
    Mthiza's Wife 0832769334
-
+   Charlie's Pub 0834302744 
+   
+   Mashinga 0810639987
    Mlu NERD 0842457343
    Crouch 0762816517
    Njabulo 0835367834
@@ -50,6 +52,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
    Zee 0749650051
    Luke 0605246154
    Math tutor 0728044157
+   mabhakede/thobani 0663677021
    mayise 0725704960
    menzi lawyer to be 0729372478
    ***********Phone Numbers End***********
@@ -69,7 +72,7 @@ Future main() async {
     final functions = FirebaseFunctions.instance;
     final storage = FirebaseStorage
             // .instance.ref();
-            .instanceFor(bucket: "gs://alco-dev-3fd77.firebasestorage.app")
+            .instanceFor(bucket: "gs://alco-dev-15405.firebasestorage.app")
         // .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
         .ref();
 

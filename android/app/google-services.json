@@ -1,13 +1,32 @@
 {
   "project_info": {
-    "project_number": "85889747561",
-    "project_id": "alco-dev-3fd77",
-    "storage_bucket": "alco-dev-3fd77.firebasestorage.app"
+    "project_number": "1075508021690",
+    "project_id": "alco-dev-15405",
+    "storage_bucket": "alco-dev-15405.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:85889747561:android:feeb82f87865f9bc3770f8",
+        "mobilesdk_app_id": "1:1075508021690:android:09cbd64c65d42f6736b583",
+        "android_client_info": {
+          "package_name": "com.alcoholfavors.alco_dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB838qATRVbtBXW0nZaKvj8zoR8RkrjYA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1075508021690:android:af28b7c2fdc5862936b583",
         "android_client_info": {
           "package_name": "com.example.alco_dev"
         }
@@ -15,7 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBmtXj0Jgy_IwJrq7hnojm3WjR-Q9i7s9w"
+          "current_key": "AIzaSyB838qATRVbtBXW0nZaKvj8zoR8RkrjYA0"
         }
       ],
       "services": {

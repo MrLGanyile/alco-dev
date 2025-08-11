@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBmtXj0Jgy_IwJrq7hnojm3WjR-Q9i7s9w',
-    appId: '1:85889747561:android:feeb82f87865f9bc3770f8',
-    messagingSenderId: '85889747561',
-    projectId: 'alco-dev-3fd77',
-    storageBucket: 'alco-dev-3fd77.firebasestorage.app',
+    apiKey: 'AIzaSyB838qATRVbtBXW0nZaKvj8zoR8RkrjYA0',
+    appId: '1:1075508021690:android:af28b7c2fdc5862936b583',
+    messagingSenderId: '1075508021690',
+    projectId: 'alco-dev-15405',
+    storageBucket: 'alco-dev-15405.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyArxbDyf8oEnwhFakfzLVjFYyWPGD7G1eY',
-    appId: '1:85889747561:ios:8323aaf4834d57b63770f8',
-    messagingSenderId: '85889747561',
-    projectId: 'alco-dev-3fd77',
-    storageBucket: 'alco-dev-3fd77.firebasestorage.app',
+    apiKey: 'AIzaSyAPGLkALwTs0eJcSqSn5iO68BJdF9xG_Tc',
+    appId: '1:1075508021690:ios:f3b43f774309328336b583',
+    messagingSenderId: '1075508021690',
+    projectId: 'alco-dev-15405',
+    storageBucket: 'alco-dev-15405.firebasestorage.app',
     iosBundleId: 'com.example.alcoDev',
   );
 }

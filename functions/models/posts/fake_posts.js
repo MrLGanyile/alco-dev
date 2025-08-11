@@ -169,6 +169,8 @@ class FakePosts {
 
         await reference.set(post); */
 
+
+
         // Durban Central
         postCreator = {
             profileImageURL: "durban central/alcoholics/profile_images/+27767890123.jpg",
@@ -186,6 +188,7 @@ class FakePosts {
         postId = reference.id;
 
         whatHappenedVideoURL = '';
+        whoWereYouWithImageURL = '';
 
         whereWereYouImageURL = `durban central/past_posts/where_were_you/images/${postId}.jpg`
         whoWereYouWithVideoURL = `durban central/past_posts/who_were_you_with/videos/${postId}.mp4`;

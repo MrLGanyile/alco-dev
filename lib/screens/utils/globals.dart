@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../../main.dart';
 
 Reference storageReference = FirebaseStorage.instanceFor(
-        bucket: "gs://alco-dev-3fd77.firebasestorage.app")
+        bucket: "gs://alco-dev-15405.firebasestorage.app")
     .ref();
 /*
         .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
