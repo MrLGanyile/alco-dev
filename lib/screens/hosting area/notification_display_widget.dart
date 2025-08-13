@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
-import '../../models/stores/notification.dart' as not;
+import '../../models/hosting areas/notification.dart' as not;
 
 class NotificationDisplayWidget extends StatelessWidget {
   not.Notification notification;

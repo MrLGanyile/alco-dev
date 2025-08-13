@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/admin_controller.dart';
 import '../../controllers/shared_dao_functions.dart';
-import '../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import '../../main.dart';
 import '../utils/globals.dart';
 import '../utils/login_widget.dart';
@@ -11,7 +11,8 @@ import 'admin_screens_widget.dart';
 
 class AdminEntranceWidget extends StatelessWidget {
   TextEditingController adminCodeEditingController = TextEditingController();
-  StoreController storeController = StoreController.storeController;
+  HostingAreaController hostingAreaController =
+      HostingAreaController.hostingAreaController;
   AdminController adminController = AdminController.adminController;
 
   AdminEntranceWidget({Key? key}) : super(key: key);

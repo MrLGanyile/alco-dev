@@ -4,7 +4,7 @@ import 'package:alco_dev/screens/utils/start_screen.dart';
 import '../../controllers/group_controller.dart';
 import '../../controllers/shared_dao_functions.dart';
 import '../../models/users/admin.dart';
-import '../store/store_draw_registration_widget.dart';
+import '../hosting area/hosted_draw_registration_widget.dart';
 import 'admin_registration_widget.dart';
 import 'package:get/get.dart';
 
@@ -174,7 +174,7 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-              const StoreDrawRegistrationWidget(),
+              const HostedDrawRegistrationWidget(),
               NotificationCreationWidget(),
               RecruitmentWidget(),
             ]),

@@ -413,7 +413,8 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
               ),
             );
           } else if (snapshot.hasError) {
-            debug.log("Error Fetching Data - ${snapshot.error}");
+            debug.log(
+                "Error Fetching Group Participants Data - ${snapshot.error}");
             return getCircularProgressBar();
           } else {
             return getCircularProgressBar();

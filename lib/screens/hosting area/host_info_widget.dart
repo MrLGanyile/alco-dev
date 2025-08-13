@@ -11,11 +11,11 @@ import '/screens/competition/competition_result_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 
-import '../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import '../../models/competitions/competition.dart';
 import '../../models/competitions/count_down_clock.dart';
 import '../../models/users/group.dart';
-import '../../models/stores/store_draw.dart';
+import '../../models/hosting areas/hosted_draw.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
@@ -23,34 +23,35 @@ import '../../models/locations/converter.dart';
 
 import 'dart:developer' as debug;
 
-import '../../models/stores/store_draw_state.dart';
-import '../../models/stores/store_name_info.dart';
+import '../../models/hosting areas/hosted_draw_state.dart';
+import '../../models/hosting areas/host_info.dart';
 import '../competition/group_competitor_widget.dart';
 import '../competition/no_competition_widget.dart';
 import '../competition/wait_widget.dart';
 import 'notification_display_widget.dart';
 
 // Branch : store_resources_crud ->  view_stores_front_end
-class StoreNameInfoWidget extends StatefulWidget {
-  StoreNameInfo storeNameInfo;
+class HostInfoWidget extends StatefulWidget {
+  HostInfo hostInfo;
 
   int wonPriceIndex = -1; // For Testing Purposes Only.
   String wonGroupLeaderPhoneNumber = "-"; // For Testing Purposes Only.
 
-  StoreNameInfoWidget({
+  HostInfoWidget({
     super.key,
-    required this.storeNameInfo,
+    required this.hostInfo,
   });
 
   @override
-  State<StatefulWidget> createState() => StoreNameInfoWidgetState();
+  State<StatefulWidget> createState() => HostInfoWidgetState();
 }
 
-class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
-  StoreController storeController = StoreController.storeController;
+class HostInfoWidgetState extends State<HostInfoWidget> {
+  HostingAreaController hostingAreaController =
+      HostingAreaController.hostingAreaController;
   GroupController groupController = GroupController.instance;
   late CompetitionController competitionController;
-  late Stream<DocumentSnapshot> storeNameInfoSteam;
+  late Stream<DocumentSnapshot> hostInfoSteam;
 
   late CountDownClock countDownClock;
   late DocumentReference competitionReference;
@@ -82,15 +83,15 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
   void initState() {
     super.initState();
     competitionController = CompetitionController.competitionController;
-    storeNameInfoSteam = storeController
-        .retrieveStoreNameInfo(widget.storeNameInfo.storeNameInfoId);
-    groupTownOrInstitution = Converter.toSupportedTownOrInstitution(
-        widget.storeNameInfo.sectionName);
+    hostInfoSteam =
+        hostingAreaController.retrieveHostInfo(widget.hostInfo.hostInfoId);
+    groupTownOrInstitution =
+        Converter.toSupportedTownOrInstitution(widget.hostInfo.sectionName);
   }
 
   void updateIsCurrentlyViewed(bool isCurrentlyViewed) {
     setState(() {
-      widget.storeNameInfo.setIsCurrentlyViewed(isCurrentlyViewed);
+      widget.hostInfo.setIsCurrentlyViewed(isCurrentlyViewed);
     });
   }
 
@@ -121,7 +122,7 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
             Expanded(
               flex: 3,
               child: Text(
-                widget.storeNameInfo.storeName,
+                widget.hostInfo.hostingAreaName,
                 style: TextStyle(
                   fontSize: MyApplication.infoTextFontSize,
                   fontWeight: FontWeight.bold,
@@ -151,7 +152,7 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
             Expanded(
               flex: 3,
               child: Text(
-                widget.storeNameInfo.storeArea,
+                widget.hostInfo.pickUpArea,
                 style: TextStyle(
                     fontSize: MyApplication.infoTextFontSize,
                     fontWeight: FontWeight.bold,
@@ -166,11 +167,12 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
     );
   }
 
-  Future<String> retrieveStoreImageURL(String storeImageURL) {
-    return storageReference.child(storeImageURL).getDownloadURL();
+  Future<String> retrieveHostingAreaImageURL(String hostingAreaImageURL) {
+    return storageReference.child(hostingAreaImageURL).getDownloadURL();
   }
 
-  AspectRatio retrieveStoreImage(BuildContext context, String storeImageURL) {
+  AspectRatio retrieveStoreImage(
+      BuildContext context, String hostingAreaImageURL) {
     // The Image Of A Store On Which The Winner Won From.
     return AspectRatio(
       aspectRatio: 5 / 2,
@@ -180,13 +182,13 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
           color: backgroundResourcesColor,
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
-              fit: BoxFit.cover, image: NetworkImage(storeImageURL)),
+              fit: BoxFit.cover, image: NetworkImage(hostingAreaImageURL)),
         ),
       ), */
       child: CachedNetworkImage(
         key: UniqueKey(),
         fit: BoxFit.cover,
-        imageUrl: storeImageURL,
+        imageUrl: hostingAreaImageURL,
         fadeOutCurve: Curves.easeOutExpo,
         imageBuilder: (c, provider) {
           return Container(
@@ -217,13 +219,14 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: FutureBuilder(
-                future:
-                    retrieveStoreImageURL(widget.storeNameInfo.storeImageURL),
+                future: retrieveHostingAreaImageURL(
+                    widget.hostInfo.hostingAreaImageURL),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return retrieveStoreImage(context, snapshot.data as String);
                   } else if (snapshot.hasError) {
-                    debug.log('Error Fetching Store Image - ${snapshot.error}');
+                    debug.log(
+                        'Error Fetching Hosting Area Image - ${snapshot.error}');
                     return getCircularProgressBar();
                   } else {
                     return getCircularProgressBar();
@@ -242,43 +245,43 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
     return Container(
       margin: const EdgeInsets.only(bottom: 5),
       child: StreamBuilder<DocumentSnapshot?>(
-        stream: storeController.retrieveStoreDraw(
-          widget.storeNameInfo.storeNameInfoId,
-          widget.storeNameInfo.getCommingDrawId(),
-          //widget.storeNameInfo.latestStoreDrawId,
+        stream: hostingAreaController.retrieveHostedDraw(
+          widget.hostInfo.hostInfoId,
+          widget.hostInfo.getCommingDrawId(),
+          //widget.hostInfo.latestHostedDrawId,
         ), // Use comming draw
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data!.exists) {
-            StoreDraw nextStoreDraw = StoreDraw.fromJson(snapshot.data);
+            HostedDraw nextHostedDraw = HostedDraw.fromJson(snapshot.data);
 
             DateTime latestPast =
                 DateTime.now().subtract(const Duration(days: 1));
 
-            if (nextStoreDraw.drawDateAndTime.isBefore(latestPast)) {
+            if (nextHostedDraw.drawDateAndTime.isBefore(latestPast)) {
               return NoCompetitionWidget(
-                  storeId: widget.storeNameInfo.storeNameInfoId,
-                  storeName: widget.storeNameInfo.storeName,
-                  storeImageURL: widget.storeNameInfo.storeImageURL,
-                  sectionName: widget.storeNameInfo.sectionName);
-            } else if (nextStoreDraw.storeDrawState ==
-                StoreDrawState.notConvertedToCompetition) {
+                  hostingAreaId: widget.hostInfo.hostInfoId,
+                  hostingAreaName: widget.hostInfo.hostingAreaName,
+                  hostingAreaImageURL: widget.hostInfo.hostingAreaImageURL,
+                  sectionName: widget.hostInfo.sectionName);
+            } else if (nextHostedDraw.hostedDrawState ==
+                HostedDrawState.notConvertedToCompetition) {
               hasUpdatedNextDraw = false;
               return WaitWidget(
-                storeDraw: nextStoreDraw,
+                hostedDraw: nextHostedDraw,
               );
             } else {
               return StreamBuilder<DocumentSnapshot>(
                   stream: competitionController
-                      .findCompetition(nextStoreDraw.storeDrawId!),
+                      .findCompetition(nextHostedDraw.hostedDrawId!),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       competition = Competition.fromJson(snapshot.data);
 
-                      int day = nextStoreDraw.drawDateAndTime.day;
-                      int month = nextStoreDraw.drawDateAndTime.month;
-                      int year = nextStoreDraw.drawDateAndTime.year;
-                      int hour = nextStoreDraw.drawDateAndTime.hour;
-                      int minute = nextStoreDraw.drawDateAndTime.minute;
+                      int day = nextHostedDraw.drawDateAndTime.day;
+                      int month = nextHostedDraw.drawDateAndTime.month;
+                      int year = nextHostedDraw.drawDateAndTime.year;
+                      int hour = nextHostedDraw.drawDateAndTime.hour;
+                      int minute = nextHostedDraw.drawDateAndTime.minute;
 
                       String collectionId = "$year-$month-$day@${hour}h$minute";
 
@@ -286,7 +289,7 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
 
                       return readFromcountDownClock(
                         collectionId,
-                        nextStoreDraw,
+                        nextHostedDraw,
                       );
                     } else if (snapshot.hasError) {
                       debug.log(
@@ -298,19 +301,19 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
                   });
             }
           } else if (snapshot.hasError) {
-            debug
-                .log("Error Fetching Last Store Draw Data - ${snapshot.error}");
+            debug.log(
+                "Error Fetching Last Hosted Draw Data - ${snapshot.error}");
             return NoCompetitionWidget(
-                storeId: widget.storeNameInfo.storeNameInfoId,
-                storeName: widget.storeNameInfo.storeName,
-                storeImageURL: widget.storeNameInfo.storeImageURL,
-                sectionName: widget.storeNameInfo.sectionName);
+                hostingAreaId: widget.hostInfo.hostInfoId,
+                hostingAreaName: widget.hostInfo.hostingAreaName,
+                hostingAreaImageURL: widget.hostInfo.hostingAreaImageURL,
+                sectionName: widget.hostInfo.sectionName);
           } else {
             return NoCompetitionWidget(
-                storeId: widget.storeNameInfo.storeNameInfoId,
-                storeName: widget.storeNameInfo.storeName,
-                storeImageURL: widget.storeNameInfo.storeImageURL,
-                sectionName: widget.storeNameInfo.sectionName);
+                hostingAreaId: widget.hostInfo.hostInfoId,
+                hostingAreaName: widget.hostInfo.hostingAreaName,
+                hostingAreaImageURL: widget.hostInfo.hostingAreaImageURL,
+                sectionName: widget.hostInfo.sectionName);
           }
         },
       ),
@@ -319,7 +322,7 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
 
   StreamBuilder<DocumentSnapshot> readFromcountDownClock(
     String coundDownClockId,
-    StoreDraw nextStoreDraw,
+    HostedDraw nextHostedDraw,
   ) {
     return StreamBuilder<DocumentSnapshot>(
         stream: competitionController.retrieveCountDownClock(coundDownClockId),
@@ -343,24 +346,25 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
             if (countDownClock.remainingTime < 0) {
               // Show remaining time before competition starts.
               return WaitWidget(
-                storeDraw: nextStoreDraw,
+                hostedDraw: nextHostedDraw,
                 remainingDuration:
                     Duration(seconds: countDownClock.remainingTime * -1),
                 pickWonPrice: false,
                 showPlayIcon: false,
                 showAlarm: false,
+                countDownMultiple: competition.pickingMultipleInSeconds,
                 showRemainingTime: true,
                 onCurrentlyViewedUpdate: updateIsCurrentlyViewed,
               );
             }
             // pickingMultipleInSeconds * x => Varies
             // Show grand prices with play icon.
-            else if (!widget.storeNameInfo.isCurrentlyViewed &&
+            else if (!widget.hostInfo.isCurrentlyViewed &&
                 countDownClock.remainingTime < competitionTotalDuration) {
               return WaitWidget(
                 remainingDuration:
                     Duration(seconds: countDownClock.remainingTime),
-                storeDraw: nextStoreDraw,
+                hostedDraw: nextHostedDraw,
                 pickWonPrice: false,
                 showPlayIcon: true,
                 showAlarm: false,
@@ -371,12 +375,12 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
             }
             // pickingMultipleInSeconds * 6 // Grand Price Picking
             // Show and pick grand prices.
-            else if (widget.storeNameInfo.isCurrentlyViewed &&
+            else if (widget.hostInfo.isCurrentlyViewed &&
                 countDownClock.remainingTime < grandPricePickingDuration) {
               return WaitWidget(
                   remainingDuration:
                       Duration(seconds: countDownClock.remainingTime),
-                  storeDraw: nextStoreDraw,
+                  hostedDraw: nextHostedDraw,
                   pickWonPrice: true,
                   showAlarm: false,
                   grandPricesOrder: competition.grandPricesOrder,
@@ -386,7 +390,7 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
 
             // pickingMultipleInSeconds * 1 // Won Price Display
             // Display won price.
-            else if (widget.storeNameInfo.isCurrentlyViewed &&
+            else if (widget.hostInfo.isCurrentlyViewed &&
                 countDownClock.remainingTime <
                     grandPricePickingDuration +
                         competition.timeBetweenPricePickingAndGroupPicking!) {
@@ -395,7 +399,7 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
             // pickingMultipleInSeconds * 200 // Group Picking Max Time or
             // pickingMultipleInSeconds * competitorsOrder.length // Group Picking Max Time
             // Show group picking
-            else if (widget.storeNameInfo.isCurrentlyViewed &&
+            else if (widget.hostInfo.isCurrentlyViewed &&
                 countDownClock.remainingTime <
                     grandPricePickingDuration +
                         competition.timeBetweenPricePickingAndGroupPicking! +
@@ -408,14 +412,13 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
               return displayGroupCompetitors();
             }
             //  pickingMultipleInSeconds * 2 // Notification Display
-            else if (widget.storeNameInfo.notification != null &&
-                widget.storeNameInfo.notification!.endDate
-                    .isAfter(DateTime.now()) &&
+            else if (widget.hostInfo.notification != null &&
+                widget.hostInfo.notification!.endDate.isAfter(DateTime.now()) &&
                 countDownClock.remainingTime <=
                     competitionTotalDuration +
                         competition.pickingMultipleInSeconds * 2) {
               return NotificationDisplayWidget(
-                  notification: widget.storeNameInfo.notification!);
+                  notification: widget.hostInfo.notification!);
             }
             //  pickingMultipleInSeconds * (28 or 30) // Competition Result Display
             // Show Won Price Summary For The Next Certain Amount Of Minute.
@@ -426,8 +429,8 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
                 competitionReference.update({"isOver": true});
               }
 
-              if (widget.storeNameInfo.isCurrentlyViewed) {
-                widget.storeNameInfo.setIsCurrentlyViewed(false);
+              if (widget.hostInfo.isCurrentlyViewed) {
+                widget.hostInfo.setIsCurrentlyViewed(false);
               }
 
               return CompetitionResultWidget(
@@ -437,16 +440,16 @@ class StoreNameInfoWidgetState extends State<StoreNameInfoWidget> {
               );
             }
             // Remove the last played draw.
-            else if (widget.storeNameInfo.drawsOrder != null &&
-                widget.storeNameInfo.drawsOrder!.isNotEmpty &&
+            else if (widget.hostInfo.drawsOrder != null &&
+                widget.hostInfo.drawsOrder!.isNotEmpty &&
                 countDownClock.remainingTime ==
                     competitionTotalDuration +
                         competition.displayPeriodAfterWinners! +
                         9 &&
                 !hasUpdatedNextDraw) {
               hasUpdatedNextDraw = true;
-              storeController
-                  .updateDrawsOrder(widget.storeNameInfo.storeNameInfoId);
+              hostingAreaController
+                  .updateDrawsOrder(widget.hostInfo.hostInfoId);
 
               return CompetitionFinishedWidget(endMoment: competitionEndTime);
             }

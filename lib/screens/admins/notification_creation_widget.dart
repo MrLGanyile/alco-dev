@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/shared_dao_functions.dart';
-import '../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import '../../main.dart';
 import '../../models/users/admin.dart';
 import '../../models/users/alcoholic.dart';
@@ -22,7 +22,8 @@ class NotificationCreationWidgetState
   TextEditingController messageTextEditingController = TextEditingController();
   TextEditingController audienceIdsTextEditingController =
       TextEditingController();
-  StoreController storeController = StoreController.storeController;
+  HostingAreaController hostingAreaController =
+      HostingAreaController.hostingAreaController;
 
   final List<String> stores = ["For All", "For Some"];
   int storesIndex = 1;
@@ -136,7 +137,7 @@ class NotificationCreationWidgetState
                   }
 
                   // Save notice
-                  Future<NoticeSavingStatus> status = storeController
+                  Future<NoticeSavingStatus> status = hostingAreaController
                       .saveNotice(messageTextEditingController.text, audience,
                           forAll: storesIndex == 0);
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/group_controller.dart';
-import '../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import '../../main.dart';
 
 import 'dart:developer' as debug;
@@ -28,7 +28,8 @@ class DrawGrandPriceCreationWidget extends StatefulWidget {
 class DrawGrandPriceCreationWidgetState
     extends State<DrawGrandPriceCreationWidget> {
   GroupController groupController = GroupController.instance;
-  StoreController storeController = StoreController.storeController;
+  HostingAreaController hostingAreaController =
+      HostingAreaController.hostingAreaController;
   DrawGrandPriceCreationWidgetState();
 
   @override
@@ -83,9 +84,9 @@ class DrawGrandPriceCreationWidgetState
   Widget showPickedPrice() {
     switch (widget.grandPriceIndex) {
       case 0:
-        return GetBuilder<StoreController>(builder: (_) {
-          return storeController.grandPrice1ImageURL!.isEmpty ||
-                  storeController.drawGrandPrice1ImageFile == null
+        return GetBuilder<HostingAreaController>(builder: (_) {
+          return hostingAreaController.grandPrice1ImageURL!.isEmpty ||
+                  hostingAreaController.drawGrandPrice1ImageFile == null
               ? const SizedBox.shrink()
               : Center(
                   /*child: Container(
@@ -96,7 +97,7 @@ class DrawGrandPriceCreationWidgetState
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                         image:
-                            NetworkImage(storeController.grandPrice1ImageURL!),
+                            NetworkImage(hostingAreaController.grandPrice1ImageURL!),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -104,7 +105,7 @@ class DrawGrandPriceCreationWidgetState
                   child: CachedNetworkImage(
                     key: UniqueKey(),
                     fit: BoxFit.cover,
-                    imageUrl: storeController.grandPrice1ImageURL!,
+                    imageUrl: hostingAreaController.grandPrice1ImageURL!,
                     fadeOutCurve: Curves.easeOutExpo,
                     imageBuilder: (c, provider) {
                       return Container(
@@ -130,9 +131,9 @@ class DrawGrandPriceCreationWidgetState
                 );
         });
       case 1:
-        return GetBuilder<StoreController>(builder: (_) {
-          return storeController.grandPrice2ImageURL!.isEmpty ||
-                  storeController.drawGrandPrice2ImageFile == null
+        return GetBuilder<HostingAreaController>(builder: (_) {
+          return hostingAreaController.grandPrice2ImageURL!.isEmpty ||
+                  hostingAreaController.drawGrandPrice2ImageFile == null
               ? const SizedBox.shrink()
               : Center(
                   /*child: Container(
@@ -143,7 +144,7 @@ class DrawGrandPriceCreationWidgetState
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                         image:
-                            NetworkImage(storeController.grandPrice2ImageURL!),
+                            NetworkImage(hostingAreaController.grandPrice2ImageURL!),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -151,7 +152,7 @@ class DrawGrandPriceCreationWidgetState
                   child: CachedNetworkImage(
                     key: UniqueKey(),
                     fit: BoxFit.cover,
-                    imageUrl: storeController.grandPrice2ImageURL!,
+                    imageUrl: hostingAreaController.grandPrice2ImageURL!,
                     fadeOutCurve: Curves.easeOutExpo,
                     imageBuilder: (c, provider) {
                       return Container(
@@ -177,9 +178,9 @@ class DrawGrandPriceCreationWidgetState
                 );
         });
       case 2:
-        return GetBuilder<StoreController>(builder: (_) {
-          return storeController.grandPrice3ImageURL!.isEmpty ||
-                  storeController.drawGrandPrice3ImageFile == null
+        return GetBuilder<HostingAreaController>(builder: (_) {
+          return hostingAreaController.grandPrice3ImageURL!.isEmpty ||
+                  hostingAreaController.drawGrandPrice3ImageFile == null
               ? const SizedBox.shrink()
               : Center(
                   /*child: Container(
@@ -190,7 +191,7 @@ class DrawGrandPriceCreationWidgetState
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                         image:
-                            NetworkImage(storeController.grandPrice3ImageURL!),
+                            NetworkImage(hostingAreaController.grandPrice3ImageURL!),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -198,7 +199,7 @@ class DrawGrandPriceCreationWidgetState
                   child: CachedNetworkImage(
                     key: UniqueKey(),
                     fit: BoxFit.cover,
-                    imageUrl: storeController.grandPrice3ImageURL!,
+                    imageUrl: hostingAreaController.grandPrice3ImageURL!,
                     fadeOutCurve: Curves.easeOutExpo,
                     imageBuilder: (c, provider) {
                       return Container(
@@ -224,9 +225,9 @@ class DrawGrandPriceCreationWidgetState
                 );
         });
       case 3:
-        return GetBuilder<StoreController>(builder: (_) {
-          return storeController.grandPrice4ImageURL!.isEmpty ||
-                  storeController.drawGrandPrice4ImageFile == null
+        return GetBuilder<HostingAreaController>(builder: (_) {
+          return hostingAreaController.grandPrice4ImageURL!.isEmpty ||
+                  hostingAreaController.drawGrandPrice4ImageFile == null
               ? const SizedBox.shrink()
               : Center(
                   /*child: Container(
@@ -237,7 +238,7 @@ class DrawGrandPriceCreationWidgetState
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                         image:
-                            NetworkImage(storeController.grandPrice4ImageURL!),
+                            NetworkImage(hostingAreaController.grandPrice4ImageURL!),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -245,7 +246,7 @@ class DrawGrandPriceCreationWidgetState
                   child: CachedNetworkImage(
                     key: UniqueKey(),
                     fit: BoxFit.cover,
-                    imageUrl: storeController.grandPrice4ImageURL!,
+                    imageUrl: hostingAreaController.grandPrice4ImageURL!,
                     fadeOutCurve: Curves.easeOutExpo,
                     imageBuilder: (c, provider) {
                       return Container(
@@ -271,9 +272,9 @@ class DrawGrandPriceCreationWidgetState
                 );
         });
       default:
-        return GetBuilder<StoreController>(builder: (_) {
-          return storeController.grandPrice5ImageURL!.isEmpty ||
-                  storeController.drawGrandPrice5ImageFile == null
+        return GetBuilder<HostingAreaController>(builder: (_) {
+          return hostingAreaController.grandPrice5ImageURL!.isEmpty ||
+                  hostingAreaController.drawGrandPrice5ImageFile == null
               ? const SizedBox.shrink()
               : Center(
                   /* child: Container(
@@ -284,7 +285,7 @@ class DrawGrandPriceCreationWidgetState
                       borderRadius: BorderRadius.circular(20),
                       image: DecorationImage(
                         image:
-                            NetworkImage(storeController.grandPrice5ImageURL!),
+                            NetworkImage(hostingAreaController.grandPrice5ImageURL!),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -292,7 +293,7 @@ class DrawGrandPriceCreationWidgetState
                   child: CachedNetworkImage(
                     key: UniqueKey(),
                     fit: BoxFit.cover,
-                    imageUrl: storeController.grandPrice5ImageURL!,
+                    imageUrl: hostingAreaController.grandPrice5ImageURL!,
                     fadeOutCurve: Curves.easeOutExpo,
                     imageBuilder: (c, provider) {
                       return Container(
@@ -342,7 +343,7 @@ class DrawGrandPriceCreationWidgetState
               iconSize: MediaQuery.of(context).size.width * 0.15,
               icon: Icon(Icons.camera_alt, color: MyApplication.logoColor2),
               onPressed: () async {
-                storeController.captureGrandPriceImageFromCamera(
+                hostingAreaController.captureGrandPriceImageFromCamera(
                   widget.grandPriceIndex,
                 );
               },
@@ -355,7 +356,7 @@ class DrawGrandPriceCreationWidgetState
                 iconSize: MediaQuery.of(context).size.width * 0.15,
                 icon: Icon(Icons.upload, color: MyApplication.logoColor1),
                 onPressed: () async {
-                  storeController.chooseGrandPriceImageFromGallery(
+                  hostingAreaController.chooseGrandPriceImageFromGallery(
                     widget.grandPriceIndex,
                   );
                 }),

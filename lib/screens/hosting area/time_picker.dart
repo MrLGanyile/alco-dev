@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import 'time_picker_helper.dart';
 
 class TimePicker extends StatefulWidget {
@@ -10,7 +10,8 @@ class TimePicker extends StatefulWidget {
 }
 
 class _TimePickerState extends State<TimePicker> {
-  StoreController storeController = StoreController.storeController;
+  HostingAreaController hostingAreaController =
+      HostingAreaController.hostingAreaController;
 
   @override
   Widget build(BuildContext context) =>
@@ -24,6 +25,6 @@ class _TimePickerState extends State<TimePicker> {
       return;
     }
 
-    storeController.setTime(drawTime.hour, drawTime.minute);
+    hostingAreaController.setTime(drawTime.hour, drawTime.minute);
   }
 }

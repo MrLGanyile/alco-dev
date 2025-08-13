@@ -2,22 +2,22 @@
 // Branch : competition_resources_crud ->  create_competition_resources_front_end
 
 import '../locations/supported_town_or_institution.dart';
-import '/models/stores/store_draw_state.dart';
+import 'hosted_draw_state.dart';
 
 import '../locations/converter.dart';
 
 // Only the latest store draw of a given store can be updated in a way that reflects in front end.
-class StoreDraw implements Comparable<StoreDraw> {
-  String? storeDrawId;
-  String storeFK;
+class HostedDraw implements Comparable<HostedDraw> {
+  String? hostedDrawId;
+  String hostingAreaFK;
   DateTime drawDateAndTime;
 
   bool isOpen;
   int numberOfGrandPrices;
-  String storeName;
-  String storeImageURL;
+  String hostingAreaName;
+  String hostingAreaImageURL;
   SupportedTownOrInstitution townOrInstitution;
-  StoreDrawState? storeDrawState;
+  HostedDrawState? hostedDrawState;
 
   int joiningFee;
   int grandPriceToWinIndex;
@@ -27,16 +27,16 @@ class StoreDraw implements Comparable<StoreDraw> {
   // Contains A Sub Collection Of Draw Competitors
   // 'timestamp': DateTime.now().millisecondsSinceEpoch,
 
-  StoreDraw({
-    this.storeDrawId = '',
-    required this.storeFK,
+  HostedDraw({
+    this.hostedDrawId = '',
+    required this.hostingAreaFK,
     required this.drawDateAndTime,
     this.isOpen = true,
     required this.numberOfGrandPrices,
-    required this.storeName,
-    required this.storeImageURL,
+    required this.hostingAreaName,
+    required this.hostingAreaImageURL,
     required this.townOrInstitution,
-    this.storeDrawState = StoreDrawState.notConvertedToCompetition,
+    this.hostedDrawState = HostedDrawState.notConvertedToCompetition,
     this.joiningFee = 0,
     required this.grandPriceToWinIndex,
     required this.groupToWinPhoneNumber,
@@ -45,8 +45,8 @@ class StoreDraw implements Comparable<StoreDraw> {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {};
     map.addAll({
-      'storeDrawId': storeDrawId,
-      'storeFK': storeFK,
+      'hostedDrawId': hostedDrawId,
+      'hostingAreaFK': hostingAreaFK,
       'drawDateAndTime': {
         'year': drawDateAndTime.year,
         'month': drawDateAndTime.month,
@@ -56,20 +56,21 @@ class StoreDraw implements Comparable<StoreDraw> {
       },
       'numberOfGrandPrices': numberOfGrandPrices,
       'isOpen': isOpen,
-      'storeName': storeName,
-      'storeImageURL': storeImageURL,
+      'hostingAreaName': hostingAreaName,
+      'hostingAreaImageURL': hostingAreaImageURL,
       'townOrInstitution': townOrInstitution.toJson(),
       'joiningFee': joiningFee,
-      'storeDrawState': Converter.fromStoreDrawStateToString(storeDrawState!),
+      'hostedDrawState':
+          Converter.fromHostedDrawStateToString(hostedDrawState!),
       'grandPriceToWinIndex': grandPriceToWinIndex,
       'groupToWinPhoneNumber': groupToWinPhoneNumber,
     });
     return map;
   }
 
-  factory StoreDraw.fromJson(dynamic json) => StoreDraw(
-      storeDrawId: json['storeDrawId'],
-      storeFK: json['storeFK'],
+  factory HostedDraw.fromJson(dynamic json) => HostedDraw(
+      hostedDrawId: json['hostedDrawId'],
+      hostingAreaFK: json['hostingAreaFK'],
       drawDateAndTime: DateTime(
         json['drawDateAndTime']['year'],
         json['drawDateAndTime']['month'],
@@ -79,16 +80,16 @@ class StoreDraw implements Comparable<StoreDraw> {
       ),
       numberOfGrandPrices: json['numberOfGrandPrices'],
       isOpen: json['isOpen'],
-      storeName: json['storeName'],
-      storeImageURL: json['storeImageURL'],
+      hostingAreaName: json['hostingAreaName'],
+      hostingAreaImageURL: json['hostingAreaImageURL'],
       grandPriceToWinIndex: json['grandPriceToWinIndex'],
       groupToWinPhoneNumber: json['groupToWinPhoneNumber'],
       townOrInstitution:
           SupportedTownOrInstitution.fromJson(json['townOrInstitution']),
-      storeDrawState: Converter.toStoreDrawState(json['storeDrawState']));
+      hostedDrawState: Converter.toHostedDrawState(json['hostedDrawState']));
 
   @override
-  int compareTo(StoreDraw other) {
+  int compareTo(HostedDraw other) {
     return other.drawDateAndTime.compareTo(drawDateAndTime);
   }
 

@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 import 'dart:developer' as debug;
 
-import '../store/store_info_widget.dart';
+import '../hosting area/hosting_area_widget.dart';
 
 // Branch : competition_resources_crud ->  view_competitions
-class NoCompetitionWidget extends StoreInfoWidget {
+class NoCompetitionWidget extends HostingAreaWidget {
   NoCompetitionWidget({
     super.key,
-    required storeId,
-    required storeName,
-    required storeImageURL,
+    required hostingAreaId,
+    required hostingAreaName,
+    required hostingAreaImageURL,
     required sectionName,
   }) : super(
-          storeId: storeId,
-          storeName: storeName,
-          storeImageURL: storeImageURL,
+          hostingAreaId: hostingAreaId,
+          hostingAreaName: hostingAreaName,
+          hostingAreaImageURL: hostingAreaImageURL,
           sectionName: sectionName,
         );
 

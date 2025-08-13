@@ -188,7 +188,7 @@ service cloud.firestore {
 
     // Branch : store_resources_crud ->  store_resources_crud_storage_security_rules
     // Note: Has Model Named {Store}
-    match /stores/{storeOwnerPhoneNumber}{
+    match /hosting_areas/{storeOwnerPhoneNumber}{
 
       allow write: if false;
       // Any logged in store owner can read store's info his/her store info.
@@ -196,7 +196,7 @@ service cloud.firestore {
 
       // Branch : store_resources_crud ->  store_resources_crud_storage_security_rules
       // Note: Has Model Named {StoreDraw}
-      match /store_draws/{storeDrawId}{
+      match /hosted_draws/{storeDrawId}{
 
         // Only a store owner can create a store draw.
         allow create; //: if isSuperiorAdmin();// &&
@@ -246,7 +246,7 @@ service cloud.firestore {
 
           allow update, delete: if 
           resource.data.storeDrawFK==storeDrawId &&
-          get(/databases/$(database)/documents/stores/$(storeOwnerPhoneNumber)/store_draws/$(storeDrawId)).isOpen;
+          get(/databases/$(database)/documents/hosting_areas/$(storeOwnerPhoneNumber)/hosted_draws/$(storeDrawId)).isOpen;
         }
           
       }
@@ -271,8 +271,8 @@ service cloud.firestore {
     }
 
     // Branch : store_resources_crud ->  store_resources_crud_storage_security_rules
-    // Note: Has Model Named {StoreNameInfo}
-    match /stores_names_info/{storeNameInfoId}{
+    // Note: Has Model Named {HostInfo}
+    match /hosts_info/{hostInfoId}{
       allow read, update: if true;
       allow create, delete: if false; // Called By A Cloud Function Only.
     

@@ -7,55 +7,55 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../models/stores/draw_grand_price.dart';
-import '../../models/stores/store_draw.dart';
-import '../../models/stores/store_name_info.dart';
+import '../../models/hosting areas/draw_grand_price.dart';
+import '../models/hosting areas/hosted_draw.dart';
+import '../models/hosting areas/host_info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../models/stores/store.dart';
+import '../models/hosting areas/hosting_area.dart';
 import 'dart:developer' as debug;
 
 import '../models/locations/converter.dart';
-import '../models/stores/notification.dart';
+import '../models/hosting areas/notification.dart';
 import '../models/users/admin.dart';
 import '../models/users/alcoholic.dart';
 import '../models/users/user.dart' as my;
 import '../screens/utils/globals.dart';
 import 'shared_dao_functions.dart';
 
-enum StoreDrawSavingStatus { loginRequired, incomplete, saved, notSaved }
+enum HostedDrawSavingStatus { loginRequired, incomplete, saved, notSaved }
 
 enum NoticeSavingStatus { adminLoginRequired, incomplete, saved }
 
 // Branch : store_resources_crud ->  store_resources_crud_data_access
-class StoreController extends GetxController {
+class HostingAreaController extends GetxController {
   FirebaseFirestore firestore;
   FirebaseFunctions functions;
   Reference storage;
   FirebaseAuth auth;
 
-  StoreController({
+  HostingAreaController({
     required this.firestore,
     required this.storage,
     required this.functions,
     required this.auth,
   });
 
-  static StoreController storeController = Get.find();
+  static HostingAreaController hostingAreaController = Get.find();
 
   // ignore: prefer_final_fields
   Rx<String?> _groupToWinPhoneNumber = Rx('N/A');
   String? get groupToWinPhoneNumber => _groupToWinPhoneNumber.value;
 
-  Rx<TownOrInstitution?> _currentStoreTownOrInstitution = Rx(null);
-  TownOrInstitution? get currentStoreTownOrInstitution =>
-      _currentStoreTownOrInstitution.value;
+  Rx<TownOrInstitution?> _currentHostTownOrInstitution = Rx(null);
+  TownOrInstitution? get currentHostTownOrInstitution =>
+      _currentHostTownOrInstitution.value;
 
-  late Rx<Store?> _hostingStore = Rx<Store?>(null);
-  Store? get hostingStore => _hostingStore.value;
+  late Rx<HostingArea?> _hostingArea = Rx<HostingArea?>(null);
+  HostingArea? get hostingArea => _hostingArea.value;
 
-  late Rx<File?> storePickedFile;
-  File? get storeImageFile => storePickedFile.value;
+  late Rx<File?> hostPickedFile;
+  File? get hostImageFile => hostPickedFile.value;
 
   late Rx<int?> _drawDateYear = Rx<int?>(-1);
   int? get drawDateYear => _drawDateYear.value;
@@ -114,7 +114,7 @@ class StoreController extends GetxController {
   String? get adminCode => _adminCode.value;
 
   void cleanForStoreDraw() {
-    _hostingStore = Rx<Store?>(null);
+    _hostingArea = Rx<HostingArea?>(null);
     _drawDateYear = Rx<int?>(-1);
     _drawDateMonth = Rx<int?>(-1);
     _drawDateDay = Rx<int?>(-1);
@@ -149,16 +149,16 @@ class StoreController extends GetxController {
 
   // Branch : store_resources_crud ->  store_resources_crud_data_access
   void chooseStoreImageFromGallery() async {
-    final storePickedImageFile =
+    final hostPickedImageFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    if (storePickedImageFile != null) {
+    if (hostPickedImageFile != null) {
       //getSnapbar('Image Status', 'Image File Successfully Picked.');
 
     }
 
     // Share the chosen image file on Getx State Management.
-    storePickedFile = Rx<File?>(File(storePickedImageFile!.path));
+    hostPickedFile = Rx<File?>(File(hostPickedImageFile!.path));
   }
 
   // Branch : store_resources_crud ->  store_resources_crud_data_access
@@ -171,69 +171,69 @@ class StoreController extends GetxController {
     }
 
     // Share the chosen image file on Getx State Management.
-    storePickedFile = Rx<File?>(File(storePickedImageFile!.path));
+    hostPickedFile = Rx<File?>(File(storePickedImageFile!.path));
   }
 
   /*===========================Stores [Start]============================= */
 
   // Branch : store_resources_crud ->  store_resources_crud_data_access
-  Future<Store?> findStore(String storeId) async {
-    DocumentReference reference =
-        FirebaseFirestore.instance.collection('stores').doc(storeId);
+  Future<HostingArea?> findHostingArea(String hostingAreaId) async {
+    DocumentReference reference = FirebaseFirestore.instance
+        .collection('hosting_areas')
+        .doc(hostingAreaId);
 
     DocumentSnapshot snapshot = await reference.get();
 
     if (snapshot.exists) {
-      return Store.fromJson(snapshot.data()!);
+      return HostingArea.fromJson(snapshot.data()!);
     }
 
     return null;
   }
 
-  Future<void> initiateHostingStore(String storeOwnerPhoneNumber) async {
-    DocumentReference storeReference =
-        firestore.collection('stores').doc(storeOwnerPhoneNumber);
+  Future<void> initiateHostingStore(String hostingAreaId) async {
+    DocumentReference hostingAreaReference =
+        firestore.collection('hosting_areas').doc(hostingAreaId);
 
-    DocumentSnapshot snapshot = await storeReference.get();
+    DocumentSnapshot snapshot = await hostingAreaReference.get();
 
     if (snapshot.exists) {
-      Store store = Store.fromJson(snapshot.data()!);
-      _hostingStore = Rx<Store?>(store);
+      HostingArea hostingArea = HostingArea.fromJson(snapshot.data()!);
+      _hostingArea = Rx<HostingArea?>(hostingArea);
     }
   }
 
 /*===========================Stores [End]============================= */
 
-/*======================Store Name Info [Start]======================== */
+/*======================Host Info [Start]======================== */
   // Branch : store_resources_crud ->  store_resources_crud_data_access
-  Stream<DocumentSnapshot> retrieveStoreNameInfo(String storeNameInfoId) {
+  Stream<DocumentSnapshot> retrieveHostInfo(String hostInfoId) {
     return FirebaseFirestore.instance
-        .collection("stores_names_info")
-        .doc(storeNameInfoId)
+        .collection("hosts_info")
+        .doc(hostInfoId)
         .snapshots();
   }
 
   // Branch : store_resources_crud ->  store_resources_crud_data_access
-  Future<StoreNameInfo?> findStoreNameInfo(String storeNameInfoId) async {
-    DocumentReference reference = FirebaseFirestore.instance
-        .collection("stores_names_info")
-        .doc(storeNameInfoId);
+  Future<HostInfo?> findHostInfo(String hostInfoId) async {
+    DocumentReference reference =
+        FirebaseFirestore.instance.collection("hosts_info").doc(hostInfoId);
 
     reference.snapshots().map((referenceDoc) {
-      return StoreNameInfo.fromJson(referenceDoc.data());
+      return HostInfo.fromJson(referenceDoc.data());
     });
 
     return null;
   }
 
   // Branch : store_resources_crud ->  store_resources_crud_data_access
-  Stream<List<StoreNameInfo>> readAllStoreNameInfo() {
-    Stream<List<StoreNameInfo>> stream = FirebaseFirestore.instance
-        .collection('stores_names_info')
+  Stream<List<HostInfo>> readAllHostInfo() {
+    Stream<List<HostInfo>> stream = FirebaseFirestore.instance
+        .collection('hosts_info')
         .snapshots()
         .map((snapshot) {
-      List<StoreNameInfo> list = snapshot.docs.map((doc) {
-        StoreNameInfo info = StoreNameInfo.fromJson(doc.data());
+      List<HostInfo> list = snapshot.docs.map((doc) {
+        HostInfo info = HostInfo.fromJson(doc.data());
         return info;
       }).toList();
       list.shuffle();
@@ -244,17 +244,17 @@ class StoreController extends GetxController {
   }
 
   // Branch : store_resources_crud ->  store_resources_crud_data_access
-  void updateDrawsOrder(String storeNameInfoId) async {
-    DocumentReference storeNameInfoReference =
-        firestore.collection("stores_names_info").doc(storeNameInfoId);
+  void updateDrawsOrder(String hostInfoId) async {
+    DocumentReference hostInfoReference =
+        firestore.collection("hosts_info").doc(hostInfoId);
 
-    storeNameInfoReference.get().then((storeNameInfoDoc) async {
-      StoreNameInfo info = StoreNameInfo.fromJson(storeNameInfoDoc.data());
+    hostInfoReference.get().then((hostInfoDoc) async {
+      HostInfo info = HostInfo.fromJson(hostInfoDoc.data());
 
       debug.log('Before Draw Order Update ${info.drawsOrder!}');
 
       if (info.drawsOrder!.isNotEmpty) {
-        await storeNameInfoReference.update({
+        await hostInfoReference.update({
           'drawsOrder': FieldValue.arrayRemove([info.drawsOrder![0]])
         });
       }
@@ -262,7 +262,7 @@ class StoreController extends GetxController {
     });
   }
 
-  /*======================Store Name Info [End]======================== */
+  /*======================Host Info [End]======================== */
 
   /*=========================Store Draws [Start]========================= */
 
@@ -324,11 +324,11 @@ class StoreController extends GetxController {
   }
 
   // Branch : competition_resources_crud ->  competitions_data_access
-  Stream<List<StoreDraw>> findStoreDraws(String storeFK) {
+  Stream<List<HostedDraw>> findHostedDraws(String hostingAreaFK) {
     return FirebaseFirestore.instance
-        .collection('stores')
-        .doc(storeFK)
-        .collection('store_draws')
+        .collection('hosting_areas')
+        .doc(hostingAreaFK)
+        .collection('hosted_draws')
         .orderBy('drawDateAndTime.year', descending: false)
         .orderBy('drawDateAndTime.month', descending: false)
         .orderBy('drawDateAndTime.day', descending: false)
@@ -336,55 +336,57 @@ class StoreController extends GetxController {
         .orderBy('drawDateAndTime.minute', descending: false)
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => StoreDraw.fromJson(doc.data()))
+            .map((doc) => HostedDraw.fromJson(doc.data()))
             .toList());
   }
 
   // Branch : competition_resources_crud ->  competitions_data_access
-  Stream<DocumentSnapshot<Object?>> retrieveStoreDraw(
-      String storeFK, String storeDrawId) {
+  Stream<DocumentSnapshot<Object?>> retrieveHostedDraw(
+      String hostingAreaFK, String hostedDrawId) {
     DocumentReference reference = FirebaseFirestore.instance
-        .collection('stores')
-        .doc(storeFK)
-        .collection('store_draws')
-        .doc(storeDrawId);
+        .collection('hosting_areas')
+        .doc(hostingAreaFK)
+        .collection('hosted_draws')
+        .doc(hostedDrawId);
 
     return reference.snapshots();
   }
 
-  Stream<List<StoreDraw>> retrieveStoreDraws(String storeFK) {
+  Stream<List<HostedDraw>> retrieveHostedDraws(String hostingAreaFK) {
     final query = firestore
-        .collectionGroup('store_draws')
-        .where('storeFK', isEqualTo: storeFK)
+        .collectionGroup('hosted_draws')
+        .where('hostingAreaFK', isEqualTo: hostingAreaFK)
         .snapshots();
 
-    return query.map(((storeDrawsSnapshot) {
-      List<StoreDraw> storeDraws = storeDrawsSnapshot.docs.map((storeDrawDoc) {
-        return StoreDraw.fromJson(storeDrawDoc.data());
+    return query.map(((hostedDrawsSnapshot) {
+      List<HostedDraw> hostedDraws =
+          hostedDrawsSnapshot.docs.map((storeDrawDoc) {
+        return HostedDraw.fromJson(storeDrawDoc.data());
       }).toList();
-      storeDraws.sort();
-      return storeDraws;
+      hostedDraws.sort();
+      return hostedDraws;
     }));
   }
 
   // Update - reference.update({'key': 'new value'} or {'param.key': 'new value'})
   // Remove A Field - update({'key': FieldValue.delete())
-  void updateIsOpen(String storeFK, String storeDrawId, bool isOpen) {
+  void updateIsOpen(String hostingAreaFK, String hostedDrawId, bool isOpen) {
     FirebaseFirestore.instance
-        .collection('stores')
-        .doc(storeFK)
-        .collection('store_draws')
-        .doc(storeDrawId)
+        .collection('hosting_areas')
+        .doc(hostingAreaFK)
+        .collection('hosted_draws')
+        .doc(hostedDrawId)
         .update({'Is Open': isOpen});
   }
 
-  void updateJoiningFee(String storeFK, String storeDrawId, double joiningFee) {
+  void updateJoiningFee(
+      String hostingAreaFK, String hostedDrawId, double joiningFee) {
     if (joiningFee > 0) {
       FirebaseFirestore.instance
-          .collection('stores')
-          .doc(storeFK)
-          .collection('store_draws')
-          .doc(storeDrawId)
+          .collection('hosting_areas')
+          .doc(hostingAreaFK)
+          .collection('hosted_draws')
+          .doc(hostedDrawId)
           .update({'Is Open': joiningFee});
     }
   }
@@ -409,7 +411,7 @@ class StoreController extends GetxController {
   }
 
   void chooseGrandPriceImageFromGallery(int grandPriceIndex) async {
-    if (_hostingStore.value == null) {
+    if (_hostingArea.value == null) {
       getSnapbar('Error', 'Host Not Chosen.');
       return;
     }
@@ -422,7 +424,7 @@ class StoreController extends GetxController {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImageFile != null) {
       String grandPriceId = '$day-$month-$year@$hour:$minute-$grandPriceIndex';
-      String host = _hostingStore.value!.storeName.toLowerCase();
+      String host = _hostingArea.value!.hostingAreaName.toLowerCase();
       switch (grandPriceIndex) {
         case 0:
           _drawGrandPrice1ImageFile = Rx<File?>(File(pickedImageFile.path));
@@ -463,7 +465,7 @@ class StoreController extends GetxController {
   void captureGrandPriceImageFromCamera(
     int grandPriceIndex,
   ) async {
-    if (_hostingStore.value == null) {
+    if (_hostingArea.value == null) {
       getSnapbar('Error', 'Host Not Chosen.');
       return;
     }
@@ -477,7 +479,7 @@ class StoreController extends GetxController {
         await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedImageFile != null) {
       String grandPriceId = '$day-$month-$year@$hour:$minute-$grandPriceIndex';
-      String host = _hostingStore.value!.storeName.toLowerCase();
+      String host = _hostingArea.value!.hostingAreaName.toLowerCase();
       switch (grandPriceIndex) {
         case 0:
           _drawGrandPrice1ImageFile = Rx<File?>(File(pickedImageFile.path));
@@ -515,39 +517,44 @@ class StoreController extends GetxController {
 
   bool hasAcceptableAdminCredentials() {
     return _adminCode.value != null &&
-        (_adminCode.value!.compareTo('QAZwsxedc321@DUT') == 0 ||
+        (_adminCode.value!.compareTo('QAZwsxedc321@NUZ') == 0 ||
+            _adminCode.value!.compareTo('QAZwsxedc321@MUT') == 0 ||
+            _adminCode.value!.compareTo('QAZwsxedc321@DUT') == 0 ||
             _adminCode.value!.compareTo('QAZwsxedc321@UKZN') == 0 ||
-            _adminCode.value!.compareTo('QAZwsxedc321@CC') == 0 ||
+            _adminCode.value!.compareTo('QAZwsxedc321@MAYV') == 0 ||
             _adminCode.value!.compareTo('QAZwsxedc321@SYD') == 0 ||
-            _adminCode.value!.compareTo('QAZwsxedc321@DBNG') == 0 ||
-            _adminCode.value!.compareTo('QAZwsxedc321@DBNB') == 0);
+            _adminCode.value!.compareTo('QAZwsxedc321@DBNC') == 0);
   }
 
   void setAdminCode(String adminCode) {
-    if (adminCode.contains('QAZwsxedc321@DUT') &&
+    if (adminCode.contains('QAZwsxedc321@NUZ') &&
+        'QAZwsxedc321@NUZ'.contains(adminCode)) {
+      _currentHostTownOrInstitution = Rx(TownOrInstitution.umlazi);
+      initiateHostingStore('a4drbsfkrnds48dnmd');
+    } else if (adminCode.contains('QAZwsxedc321@MUT') &&
+        'QAZwsxedc321@MUT'.contains(adminCode)) {
+      _currentHostTownOrInstitution = Rx(TownOrInstitution.mut);
+      initiateHostingStore('b4drbsfkrnds48dnmd');
+    } else if (adminCode.contains('QAZwsxedc321@DUT') &&
         'QAZwsxedc321@DUT'.contains(adminCode)) {
-      _currentStoreTownOrInstitution = Rx(TownOrInstitution.dut);
-      initiateHostingStore('+27744127814');
-    } else if (adminCode.contains('QAZwsxedc321@CC') &&
-        'QAZwsxedc321@CC'.contains(adminCode)) {
-      _currentStoreTownOrInstitution = Rx(TownOrInstitution.mayville);
-      initiateHostingStore('+27637339962');
+      _currentHostTownOrInstitution = Rx(TownOrInstitution.dut);
+      initiateHostingStore('c4drbsfkrnds48dnmd');
     } else if (adminCode.contains('QAZwsxedc321@UKZN') &&
         'QAZwsxedc321@UKZN'.contains(adminCode)) {
-      _currentStoreTownOrInstitution = Rx(TownOrInstitution.howardUKZN);
-      initiateHostingStore('+27766915230');
+      _currentHostTownOrInstitution = Rx(TownOrInstitution.howardUKZN);
+      initiateHostingStore('d4drbsfkrnds48dnmd');
+    } else if (adminCode.contains('QAZwsxedc321@MAYV') &&
+        'QAZwsxedc321@MAYV'.contains(adminCode)) {
+      _currentHostTownOrInstitution = Rx(TownOrInstitution.mayville);
+      initiateHostingStore('e4drbsfkrnds48dnmd');
     } else if (adminCode.contains('QAZwsxedc321@SYD') &&
         'QAZwsxedc321@SYD'.contains(adminCode)) {
-      _currentStoreTownOrInstitution = Rx(TownOrInstitution.sydenham);
-      initiateHostingStore('+27651482118');
-    } else if (adminCode.contains('QAZwsxedc321@DBNG') &&
-        'QAZwsxedc321@DBNG'.contains(adminCode)) {
-      _currentStoreTownOrInstitution = Rx(TownOrInstitution.durbanCentral);
-      initiateHostingStore('+27661813561');
-    } else if (adminCode.contains('QAZwsxedc321@DBNB') &&
-        'QAZwsxedc321@DBNB'.contains(adminCode)) {
-      _currentStoreTownOrInstitution = Rx(TownOrInstitution.durbanCentral);
-      initiateHostingStore('+27782578628');
+      _currentHostTownOrInstitution = Rx(TownOrInstitution.sydenham);
+      initiateHostingStore('f4drbsfkrnds48dnmd');
+    } else if (adminCode.contains('QAZwsxedc321@DBNC') &&
+        'QAZwsxedc321@DBNC'.contains(adminCode)) {
+      _currentHostTownOrInstitution = Rx(TownOrInstitution.durbanCentral);
+      initiateHostingStore('g4drbsfkrnds48dnmd');
     } else if (adminCode.isNotEmpty) {
       getSnapbar('Error', 'Incorrect Admin Code.');
     }
@@ -609,97 +616,99 @@ class StoreController extends GetxController {
     update();
   }
 
-  Future<StoreDrawSavingStatus> createStoreDraw(
+  Future<HostedDrawSavingStatus> createHostedDraw(
       String groupToWinPhoneNumber) async {
-    if (_adminCode.value!.compareTo('QAZwsxedc321@DUT') != 0 &&
-        _adminCode.value!.compareTo('QAZwsxedc321@CC') != 0 &&
+    if (_adminCode.value!.compareTo('QAZwsxedc321@NUZ') != 0 &&
+        _adminCode.value!.compareTo('QAZwsxedc321@MUT') != 0 &&
+        _adminCode.value!.compareTo('QAZwsxedc321@DUT') != 0 &&
+        _adminCode.value!.compareTo('QAZwsxedc321@MAYV') != 0 &&
         _adminCode.value!.compareTo('QAZwsxedc321@SYD') != 0 &&
         _adminCode.value!.compareTo('QAZwsxedc321@UKZN') != 0 &&
-        _adminCode.value!.compareTo('QAZwsxedc321@DBNG') != 0 &&
-        _adminCode.value!.compareTo('QAZwsxedc321@DBNB') != 0) {
-      return StoreDrawSavingStatus.loginRequired;
+        _adminCode.value!.compareTo('QAZwsxedc321@DBNC') != 0) {
+      return HostedDrawSavingStatus.loginRequired;
     } else if (!hasDate()) {
       getSnapbar('Error', 'Date Info Missing.');
-      return StoreDrawSavingStatus.incomplete;
+      return HostedDrawSavingStatus.incomplete;
     }
 
     if (!hasTime()) {
       getSnapbar('Error', 'Time Info Missing.');
-      return StoreDrawSavingStatus.incomplete;
+      return HostedDrawSavingStatus.incomplete;
     }
 
     if (!hasGrandPrice(1)) {
       getSnapbar('Error', 'First Price Info Missing.');
-      return StoreDrawSavingStatus.incomplete;
+      return HostedDrawSavingStatus.incomplete;
     }
 
     if (!hasGrandPrice(2)) {
       getSnapbar('Error', 'Second Price Info Missing.');
-      return StoreDrawSavingStatus.incomplete;
+      return HostedDrawSavingStatus.incomplete;
     }
 
     if (!hasGrandPrice(3)) {
       getSnapbar('Error', 'Third Price Info Missing.');
-      return StoreDrawSavingStatus.incomplete;
+      return HostedDrawSavingStatus.incomplete;
     }
 
     if (!hasGrandPrice(4)) {
       getSnapbar('Error', 'Forth Price Info Missing.');
-      return StoreDrawSavingStatus.incomplete;
+      return HostedDrawSavingStatus.incomplete;
     }
 
     if (!hasGrandPrice(5)) {
       getSnapbar('Error', 'Fifth Price Info Missing.');
-      return StoreDrawSavingStatus.incomplete;
+      return HostedDrawSavingStatus.incomplete;
     }
 
-    String storeDrawId =
-        '${_drawDateYear.value}-${_drawDateMonth.value}-${_drawDateDay.value}@${_drawDateHour.value}h${_drawDateMinute.value}@${hostingStore!.storeOwnerPhoneNumber}';
+    String hostedDrawId =
+        '${_drawDateYear.value}-${_drawDateMonth.value}-${_drawDateDay.value}@${_drawDateHour.value}h${_drawDateMinute.value}@${hostingArea!.hostingAreaId}';
     DocumentReference reference = firestore
-        .collection('stores')
-        .doc(hostingStore!.storeOwnerPhoneNumber)
-        .collection('store_draws')
-        .doc(storeDrawId);
+        .collection('hosting_areas')
+        .doc(hostingArea!.hostingAreaId)
+        .collection('hosted_draws')
+        .doc(hostedDrawId);
 
-    StoreDraw storeDraw = StoreDraw(
-        storeDrawId: reference.id,
-        storeFK: storeController.hostingStore!.storeOwnerPhoneNumber,
+    HostedDraw hostedDraw = HostedDraw(
+        hostedDrawId: reference.id,
+        hostingAreaFK: hostingAreaController.hostingArea!.hostingAreaId,
         groupToWinPhoneNumber: groupToWinPhoneNumber,
         drawDateAndTime: DateTime(
-            storeController.drawDateYear!,
-            storeController.drawDateMonth!,
-            storeController.drawDateDay!,
-            storeController.drawDateHour!,
-            storeController.drawDateMinute!),
+            hostingAreaController.drawDateYear!,
+            hostingAreaController.drawDateMonth!,
+            hostingAreaController.drawDateDay!,
+            hostingAreaController.drawDateHour!,
+            hostingAreaController.drawDateMinute!),
         numberOfGrandPrices: 5,
         grandPriceToWinIndex: _grandPriceToWinIndex.value!,
-        storeName: storeController.hostingStore!.storeName,
-        storeImageURL: storeController.hostingStore!.storeImageURL,
+        hostingAreaName: hostingAreaController.hostingArea!.hostingAreaName,
+        hostingAreaImageURL:
+            hostingAreaController.hostingArea!.hostingAreaImageURL,
         townOrInstitution: Converter.toSupportedTownOrInstitution(
-            storeController.hostingStore!.sectionName));
+            hostingAreaController.hostingArea!.sectionName));
 
-    await reference.set(storeDraw.toJson());
+    await reference.set(hostedDraw.toJson());
 
-    await _saveDrawGrandPrice(storeDraw.storeDrawId!, 0);
-    await _saveDrawGrandPrice(storeDraw.storeDrawId!, 1);
-    await _saveDrawGrandPrice(storeDraw.storeDrawId!, 2);
-    await _saveDrawGrandPrice(storeDraw.storeDrawId!, 3);
-    await _saveDrawGrandPrice(storeDraw.storeDrawId!, 4);
+    await _saveDrawGrandPrice(hostedDraw.hostedDrawId!, 0);
+    await _saveDrawGrandPrice(hostedDraw.hostedDrawId!, 1);
+    await _saveDrawGrandPrice(hostedDraw.hostedDrawId!, 2);
+    await _saveDrawGrandPrice(hostedDraw.hostedDrawId!, 3);
+    await _saveDrawGrandPrice(hostedDraw.hostedDrawId!, 4);
 
-    DocumentReference storeNameInfoReference =
-        firestore.collection("/stores_names_info/").doc(storeDraw.storeFK);
+    DocumentReference hostInfoReference =
+        firestore.collection("/hosts_info/").doc(hostedDraw.hostingAreaFK);
 
-    storeNameInfoReference.get().then((storeNameInfoDoc) async {
-      StoreNameInfo info = StoreNameInfo.fromJson(storeNameInfoDoc.data());
-      info.drawsOrder!.add(storeDrawId);
-      await storeNameInfoReference.update({'drawsOrder': info.drawsOrder!});
+    hostInfoReference.get().then((hostInfoDoc) async {
+      HostInfo info = HostInfo.fromJson(hostInfoDoc.data());
+      info.drawsOrder!.add(hostedDrawId);
+      await hostInfoReference.update({'drawsOrder': info.drawsOrder!});
       debug.log('added to draws order list...');
     });
 
-    await storeNameInfoReference
-        .update({'latestStoreDrawId': storeDraw.storeDrawId});
+    await hostInfoReference
+        .update({'latestHostedDrawId': hostedDraw.hostedDrawId});
 
-    return StoreDrawSavingStatus.saved;
+    return HostedDrawSavingStatus.saved;
   }
 
   /*===========================Store Draws [End]====================== */
@@ -707,7 +716,7 @@ class StoreController extends GetxController {
   /*======================Draw Grand Price[Start]===================== */
 
   Future<void> _saveDrawGrandPrice(
-      String storeDrawFK, int grandPriceIndex) async {
+      String hostedDrawFK, int grandPriceIndex) async {
     late String imageURL;
     late String description;
 
@@ -734,16 +743,16 @@ class StoreController extends GetxController {
     }
 
     DocumentReference reference = firestore
-        .collection('stores')
-        .doc(hostingStore!.storeOwnerPhoneNumber)
-        .collection('store_draws')
-        .doc(storeDrawFK)
+        .collection('hosting_areas')
+        .doc(hostingArea!.hostingAreaId)
+        .collection('hosted_draws')
+        .doc(hostedDrawFK)
         .collection('draw_grand_prices')
-        .doc('$storeDrawFK-$grandPriceIndex');
+        .doc('$hostedDrawFK-$grandPriceIndex');
 
     DrawGrandPrice drawGrandPrice = DrawGrandPrice(
         grandPriceId: reference.id,
-        storeDrawFK: storeDrawFK,
+        hostedDrawFK: hostedDrawFK,
         imageURL: imageURL,
         description: description,
         grandPriceIndex: grandPriceIndex);
@@ -753,12 +762,12 @@ class StoreController extends GetxController {
 
   // Branch : competition_resources_crud ->  competitions_data_access
   Stream<List<DrawGrandPrice>> findDrawGrandPrices(
-          String storeId, String storeDrawId) =>
+          String hostingAreaId, String hostedDrawId) =>
       FirebaseFirestore.instance
-          .collection('stores')
-          .doc(storeId)
-          .collection('store_draws')
-          .doc(storeDrawId)
+          .collection('hosting_areas')
+          .doc(hostingAreaId)
+          .collection('hosted_draws')
+          .doc(hostedDrawId)
           .collection('draw_grand_prices')
           .snapshots()
           .map((snapshot) => snapshot.docs

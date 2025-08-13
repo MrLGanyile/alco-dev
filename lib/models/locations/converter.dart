@@ -1,7 +1,7 @@
 import '/models/competitions/competition_state.dart';
 
 import 'section_name.dart';
-import '../stores/store_draw_state.dart';
+import '../hosting areas/hosted_draw_state.dart';
 import 'supported_area.dart';
 import 'supported_town_or_institution.dart';
 import 'town_or_institution.dart';
@@ -9,19 +9,19 @@ import 'town_or_institution.dart';
 // groups_crud -> group_resources_crud ->  create_group_resources_front_end
 class Converter {
   // Branch : competition_resources_crud ->  create_competition_resources_front_end
-  static StoreDrawState toStoreDrawState(String state) {
+  static HostedDrawState toHostedDrawState(String state) {
     switch (state) {
       case "converted-to-competition":
-        return StoreDrawState.convertedToCompetition;
+        return HostedDrawState.convertedToCompetition;
       default:
-        return StoreDrawState.notConvertedToCompetition;
+        return HostedDrawState.notConvertedToCompetition;
     }
   }
 
   // Branch : competition_resources_crud ->  create_competition_resources_front_end
-  static String fromStoreDrawStateToString(StoreDrawState storeDrawState) {
+  static String fromHostedDrawStateToString(HostedDrawState storeDrawState) {
     switch (storeDrawState) {
-      case StoreDrawState.convertedToCompetition:
+      case HostedDrawState.convertedToCompetition:
         return "converted-to-competition";
       default:
         return "not-converted-to-competition";

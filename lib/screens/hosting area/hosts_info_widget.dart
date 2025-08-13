@@ -1,35 +1,36 @@
 import 'dart:developer' as debug;
 
 import '../utils/globals.dart';
-import '/controllers/store_controller.dart';
-import '/screens/store/store_name_info_widget.dart';
+import '../../controllers/hosting_area_controller.dart';
+import 'host_info_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
 
-import '../../models/stores/store_name_info.dart';
+import '../../models/hosting areas/host_info.dart';
 
 // Branch : store_resources_crud ->  view_stores_front_end
-class StoresWidget extends StatefulWidget {
-  StoresWidget({
+class HostsInfoWidget extends StatefulWidget {
+  HostsInfoWidget({
     super.key,
   });
 
   @override
-  StoresWidgetState createState() => StoresWidgetState();
+  HostsInfoWidgetState createState() => HostsInfoWidgetState();
 }
 
 // Firstly start by reading the documents of StoreNameInfo Collection.
-class StoresWidgetState extends State<StoresWidget> {
-  StoreController storeController = StoreController.storeController;
-  late Stream<List<StoreNameInfo>> storeNamesInfoStream;
-  late List<StoreNameInfo> storeNamesInfo;
+class HostsInfoWidgetState extends State<HostsInfoWidget> {
+  HostingAreaController hostingAreaController =
+      HostingAreaController.hostingAreaController;
+  late Stream<List<HostInfo>> hostsInfoStream;
+  late List<HostInfo> hostsInfo;
 
   @override
   void initState() {
     super.initState();
 
-    storeNamesInfoStream = storeController.readAllStoreNameInfo();
+    hostsInfoStream = hostingAreaController.readAllHostInfo();
   }
 
   @override
@@ -43,22 +44,22 @@ class StoresWidgetState extends State<StoresWidget> {
         ),
         child: Padding(
           padding: MyApplication.storeDataPadding,
-          child: StreamBuilder<List<StoreNameInfo>>(
-            stream: storeNamesInfoStream,
+          child: StreamBuilder<List<HostInfo>>(
+            stream: hostsInfoStream,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                storeNamesInfo = snapshot.data!;
-                storeNamesInfo.sort();
+                hostsInfo = snapshot.data!;
+                hostsInfo.sort();
 
                 return ListView.builder(
-                    itemCount: storeNamesInfo.length,
+                    itemCount: hostsInfo.length,
                     itemBuilder: ((context, index) {
-                      StoreNameInfo storeNameInfo = storeNamesInfo[index];
-                      return StoreNameInfoWidget(storeNameInfo: storeNameInfo);
+                      HostInfo hostInfo = hostsInfo[index];
+                      return HostInfoWidget(hostInfo: hostInfo);
                     }));
               } else if (snapshot.hasError) {
                 debug.log(
-                    "Error Fetching All Store Names Info Data - ${snapshot.error}");
+                    "Error Fetching All Host Info Data - ${snapshot.error}");
                 return getCircularProgressBar();
               } else {
                 return getCircularProgressBar();

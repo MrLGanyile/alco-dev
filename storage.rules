@@ -120,27 +120,27 @@ service firebase.storage {
 
     // Branch : store_resources_crud ->  store_resources_crud_storage_security
     // Done Unit Testing, Except For The Update Operation.
-    match /store_owners/store_owners_ids/{storeOwnerIdentityDocument} {
+    match /hosting_areas/{locationImage} {
 
-      allow create: if request.auth != null && 
+      allow create; //: if request.auth != null && 
 
       // Make sure authenticated user's uid is the same as the document id of this image.
-      request.auth.uid == storeOwnerIdentityDocument &&
+      // request.auth.uid == storeOwnerIdentityDocument &&
 
       // Make sure the store already exist whereas the store owner with the same phone number isn't.
-      firestore.exists(/databases/(default)/documents/stores/
-      $(request.auth.uid)) &&
-      firestore.exists(/databases/(default)/documents/store_owners/
-      $(request.auth.uid))==false &&
+      // firestore.exists(/databases/(default)/documents/stores/
+      // $(request.auth.uid)) &&
+      // firestore.exists(/databases/(default)/documents/store_owners/
+      // $(request.auth.uid))==false &&
 
-      isValidFileSize(request.resource);// && 
+      // isValidFileSize(request.resource);// && 
       //isValidContentType(request.resource);
 
-      allow read: if request.auth.uid != null &&
-      (request.auth.uid==storeOwnerIdentityDocument ||
-      firestore.get(/databases/(default)/documents/store_owners/
-      $(request.auth.uid)).data.isAdmin
-      );
+      allow read;//: if request.auth.uid != null &&
+      //(request.auth.uid==storeOwnerIdentityDocument ||
+      //firestore.get(/databases/(default)/documents/store_owners/
+      //$(request.auth.uid)).data.isAdmin
+      //);
 
       // No one can delete any saved identity documents.
       allow update, delete: if false;

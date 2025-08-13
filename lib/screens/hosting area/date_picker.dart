@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import 'date_picker_helper.dart';
 import 'dart:developer' as debug;
 
@@ -14,7 +14,8 @@ class DatePicker extends StatefulWidget {
 }
 
 class _DatePickerState extends State<DatePicker> {
-  StoreController storeController = StoreController.storeController;
+  HostingAreaController hostingAreaControlle =
+      HostingAreaController.hostingAreaController;
 
   @override
   void initState() {
@@ -50,6 +51,6 @@ class _DatePickerState extends State<DatePicker> {
       return;
     }
 
-    storeController.setDate(newDate.year, newDate.month, newDate.day);
+    hostingAreaControlle.setDate(newDate.year, newDate.month, newDate.day);
   }
 }

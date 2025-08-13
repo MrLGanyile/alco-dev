@@ -29,7 +29,7 @@ const liveCometitionsRuntimeOpts = {
 };
 
 const pickingMultipleInSeconds = 3;
-const superiorAdminId = "5DRhqbH3NYtwpgMNnG4zTVhz7lpp";
+const maxNumberOfGroupCompetitors = 200;
 let currentUID = null;
 
 // initializeApp();
@@ -43,13 +43,13 @@ admin.initializeApp({
 
 initializeApp({
     credential: applicationDefault(),
-    databaseURL: 'https://alco-dev-3fd77.firebaseio.com'
+    databaseURL: 'https://alco-dev-15405.firebaseio.com'
 });
 
 /*
 initializeApp({
   credential: credential.cert(serviceAccount),
-  databaseURL: 'https://alco-dev-3fd77.firebaseio.com'
+  databaseURL: 'https://alco-dev-15405.firebaseio.com'
 }); */
 
 
@@ -59,34 +59,41 @@ import CitiesCreation from "./models/locations/cities-creation.js";
 import TownsOrInstitutionsCreation from "./models/locations/towns-or-institutions-creation.js";
 import AreasCreation from "./models/locations/areas-creation.js";
 
+
+import UmlaziFakeGroups from "./models/users/groups/umlazi_fake_groups.js";
+import MUTFakeGroups from "./models/users/groups/mut_fake_groups.js";
+import DUTFakeGroups from "./models/users/groups/dut_fake_groups.js";
+import HowardFakeGroups from "./models/users/groups/howard_fake_groups.js";
 import MayvilleFakeGroups from "./models/users/groups/mayville_fake_groups.js";
 import SydenhamFakeGroups from "./models/users/groups/sydenham_fake_groups.js";
-import HowardFakeGroups from "./models/users/groups/howard_fake_groups.js";
-import DUTFakeGroups from "./models/users/groups/dut_fake_groups.js";
 import DurbanCentralFakeGroups from "./models/users/groups/durban_central_fake_groups.js";
+
 import FakeAdmins from "./models/users/admins/fake_admins.js";
 import FakePosts from "./models/posts/fake_posts.js";
 
+const umlaziFakeGroups = new UmlaziFakeGroups();
+const mutFakeGroups = new MUTFakeGroups();
+const dutFakeGroups = new DUTFakeGroups();
+const howardFakeGroups = new HowardFakeGroups();
 const mayvilleFakeGroups = new MayvilleFakeGroups();
 const sydenhamFakeGroups = new SydenhamFakeGroups();
-const howardFakeGroups = new HowardFakeGroups();
-const dutFakeGroups = new DUTFakeGroups();
 const durbanCentralFakeGroups = new DurbanCentralFakeGroups();
+
 const fakeAdmins = new FakeAdmins();
 const fakePosts = new FakePosts();
 
 
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createSupportedLocations/
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeAlcoholics
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveStores
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveFakeAdmins
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeGroups?hostIndex=0
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeDraws?hostIndex=2
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createCompetitions
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveFakePosts
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createSupportedLocations/
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createFakeAlcoholics
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/saveHostingAreas
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/saveFakeAdmins
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createFakeGroups?hostIndex=2
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createFakeDraws?hostIndex=2
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createCompetitions
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/saveFakePosts
 
 // ###################Production Functions [Start]########################
-
+/*
 export const setCurrentUID = onCall(
     { region: "africa-south1" },
     async (request) => {
@@ -119,9 +126,9 @@ export const setCurrentUID = onCall(
             logger.log(`Token Wasn't Verified Successfully.`);
             return false;
         }
-    });
+    }); */
 
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createSupportedLocations/
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createSupportedLocations/
 export const createSupportedLocations = onRequest(
     { region: "africa-south1" },
     async (req, res) => {
@@ -139,112 +146,115 @@ export const createSupportedLocations = onRequest(
         res.json({ result: `Supported Areas Created Successfully.` });
     });
 
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveStores
-export const saveStores = onRequest(
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/saveHostingAreas
+export const saveHostingAreas = onRequest(
     { region: "africa-south1" },
     async (req, res) => {
 
-        let store;
-        let storeReference;
+        let hostingArea;
+        let hostingAreaReference;
 
-        /* store = {
-            storeOwnerPhoneNumber: "+27714294940",
-            storeName: "Umlazi",
-            storeImageURL: "store_owners/stores_images/+27714294940.jpeg",
+        // Town/Institution 1
+        hostingArea = {
+            hostingAreaId: "a4drbsfkrnds48dnmd",
+            hostingAreaName: "Umlazi",
+            hostingAreaImageURL: "hosting_areas/a4drbsfkrnds48dnmd.jpg",
             sectionName: "D Section-Umlazi-Durban-Kwa Zulu Natal-South Africa",
-            storeArea: "Kwa Mnyandu (Mobile)",
-          };
-      
-          storeReference = getFirestore().collection("stores")
-            .doc(store.storeOwnerPhoneNumber);
-      
-          await storeReference.set(store); */
+            pickUpArea: "Kwa Mnyandu (Mobile)",
+        };
 
-        /* store = {
-            storeOwnerPhoneNumber: "+27833201656",
-            storeName: "MUT",
-            storeImageURL: "store_owners/stores_images/+27833201656.jpg",// Majali
+        hostingAreaReference = getFirestore().collection("hosting_areas")
+            .doc(hostingArea.hostingAreaId);
+
+        await hostingAreaReference.set(hostingArea);
+
+        // Town/Institution 2
+        hostingArea = {
+            hostingAreaId: "b4drbsfkrnds48dnmd",
+            hostingAreaName: "MUT",
+            hostingAreaImageURL: "hosting_areas/b4drbsfkrnds48dnmd.jpg",
             sectionName: "Mangosuthu (MUT)-Durban-Kwa Zulu Natal-South Africa",
-            storeArea: "On Campus (Mobile)",
-          };
-      
-          storeReference = getFirestore().collection("stores")
-            .doc(store.storeOwnerPhoneNumber);
-      
-          await storeReference.set(store); */
+            pickUpArea: "On Campus (Mobile)",
+        };
 
-        store = {
-            storeOwnerPhoneNumber: "+27744127814", // Abo
-            storeOwnerFullName: "Abongile Ganyile",
-            storeName: "DUT",
-            storeImageURL: "store_owners/stores_images/+27744127814.jpg",
+        hostingAreaReference = getFirestore().collection("hosting_areas")
+            .doc(hostingArea.hostingAreaId);
+
+        await hostingAreaReference.set(hostingArea);
+
+        // Town/Institution 3
+        hostingArea = {
+            hostingAreaId: "c4drbsfkrnds48dnmd",
+            hostingAreaName: "DUT",
+            hostingAreaImageURL: "hosting_areas/c4drbsfkrnds48dnmd.jpg",
             sectionName: "DUT-Durban-Kwa Zulu Natal-South Africa",
-            storeArea: "Steve Biko (Mobile)",
+            pickUpArea: "Steve Biko (Mobile)",
         };
 
-        storeReference = getFirestore().collection("stores")
-            .doc(store.storeOwnerPhoneNumber);
 
-        await storeReference.set(store);
+        hostingAreaReference = getFirestore().collection("hosting_areas")
+            .doc(hostingArea.hostingAreaId);
 
-        store = {
-            storeOwnerPhoneNumber: "+27766915230", // Mafungwashe
-            storeOwnerFullName: "Mafungwashe Ganyile",
-            storeName: "UKZN",
-            storeImageURL: "store_owners/stores_images/+27766915230.jpg",
+        await hostingAreaReference.set(hostingArea);
+
+        // Town/Institution 4
+        hostingArea = {
+            hostingAreaId: "d4drbsfkrnds48dnmd",
+            hostingAreaName: "UKZN",
+            hostingAreaImageURL: "hosting_areas/d4drbsfkrnds48dnmd.jpg",
             sectionName: "Howard College (UKZN)-Durban-Kwa Zulu Natal-South Africa",
-            storeArea: "Howard College (Mobile)",
+            pickUpArea: "Howard College (Mobile)",
         };
 
-        storeReference = getFirestore().collection("stores")
-            .doc(store.storeOwnerPhoneNumber);
+        hostingAreaReference = getFirestore().collection("hosting_areas")
+            .doc(hostingArea.hostingAreaId);
 
-        await storeReference.set(store);
+        await hostingAreaReference.set(hostingArea);
 
-        store = {
-            storeOwnerPhoneNumber: "+27637339962", // Mfazi kamthiza
-            storeName: "Mayville",
-            storeOwnerFullName: "Mfazi Kamthiza",
-            storeImageURL: "store_owners/stores_images/+27637339962.jpg",
+        // Town/Institution 5
+        hostingArea = {
+            hostingAreaId: "e4drbsfkrnds48dnmd", // Mfazi kamthiza
+            hostingAreaName: "Mayville",
+            hostingAreaImageURL: "hosting_areas/e4drbsfkrnds48dnmd.jpg",
             sectionName: "Cato Crest-Mayville-Durban-Kwa Zulu Natal-South Africa",
-            storeArea: "Top City Tavern",
+            pickUpArea: "Top City Tavern",
         };
 
-        storeReference = getFirestore().collection("stores")
-            .doc(store.storeOwnerPhoneNumber);
+        hostingAreaReference = getFirestore().collection("hosting_areas")
+            .doc(hostingArea.hostingAreaId);
 
-        await storeReference.set(store);
+        await hostingAreaReference.set(hostingArea);
 
-        store = {
-            storeOwnerPhoneNumber: "+27651482118",
-            storeName: "Sydenham",
-            storeOwnerFullName: "Majali Ganyile",
-            storeImageURL: "store_owners/stores_images/+27651482118.jpg", // Majali
+        // Town/Institution 6
+        hostingArea = {
+            hostingAreaId: "f4drbsfkrnds48dnmd",
+            hostingAreaName: "Sydenham",
+            hostingAreaImageURL: "hosting_areas/f4drbsfkrnds48dnmd.jpg",
             sectionName: "Sydenham Height-Sydenham-Durban-Kwa Zulu Natal-South Africa",
-            storeArea: "Sparks (Mobile)",
+            pickUpArea: "Sparks (Mobile)",
         };
 
-        storeReference = getFirestore().collection("stores")
-            .doc(store.storeOwnerPhoneNumber);
+        hostingAreaReference = getFirestore().collection("hosting_areas")
+            .doc(hostingArea.hostingAreaId);
 
-        await storeReference.set(store);
+        await hostingAreaReference.set(hostingArea);
 
-        store = {
-            storeOwnerPhoneNumber: "+27782578628", // Magwaza
-            storeOwnerFullName: "Sya Magwaza",
-            storeName: "Durban Central",
-            storeImageURL: "store_owners/stores_images/+27782578628.jpg",
+        // Town/Institution 7
+        hostingArea = {
+            hostingAreaId: "g4drbsfkrnds48dnmd",
+            hostingAreaName: "Durban Central",
+            hostingAreaImageURL: "hosting_areas/g4drbsfkrnds48dnmd.jpg",
             sectionName: "Berea-Durban Central-Durban-Kwa Zulu Natal-South Africa",
-            storeArea: "Polar's Liquior",
+            pickUpArea: "Polar's Liquior",
         };
 
-        storeReference = getFirestore().collection("stores")
-            .doc(store.storeOwnerPhoneNumber);
+        hostingAreaReference = getFirestore().collection("hosting_areas")
+            .doc(hostingArea.hostingAreaId);
 
-        await storeReference.set(store);
+        await hostingAreaReference.set(hostingArea);
 
         // Send back a message that we"ve successfully written to the db.
-        res.json({ result: `All Stores Are Saved.` });
+        res.json({ result: `All Hosting Areas Are Saved.` });
     });
 
 // Branch : store_resources_crud -> create_resources_store_back_end
@@ -252,37 +262,37 @@ export const saveStores = onRequest(
 info document which is responsible for holding information that users
 will be seeing, like a store"s current state(hasNoCompetition,
 hasUpcommingCompetition, etc.) for example. */
-export const createStoreNameInfo = onDocumentCreated({
-    document: "/stores/" +
-        "{storeOwnerPhoneNumber}",
+export const createHostInfo = onDocumentCreated({
+    document: "/hosting_areas/" +
+        "{hostingAreaId}",
     region: "africa-south1"
 }, async (event) => {
     // Access the parameter `{storeId}` with `event.params`
-    logger.log("From Params Store ID", event.params.storeOwnerPhoneNumber,
-        "From Data Store ID", event.data.data().storeOwnerPhoneNumber);
+    logger.log("From Params Hosting Area ID", event.params.hostingAreaId,
+        "From Data Hosting Area ID", event.data.data().hostingAreaId);
 
     /* Create a document reference in order to associate it id with the
                                 stores"s id.*/
     const docReference = getFirestore()
-        .collection("stores_names_info").doc(event.params.storeOwnerPhoneNumber);
+        .collection("hosts_info").doc(event.params.hostingAreaId);
 
     // Grab the current values of what was written to the stores collection.
-    const storeNameInfo = {
-        storeNameInfoId: event.data.data().storeOwnerPhoneNumber,
-        storeName: event.data.data().storeName,
-        storeImageURL: event.data.data().storeImageURL,
+    const hostInfo = {
+        hostInfoId: event.data.data().hostingAreaId,
+        hostingAreaName: event.data.data().hostingAreaName,
+        hostingAreaImageURL: event.data.data().hostingAreaImageURL,
         sectionName: event.data.data().sectionName,
-        storeArea: event.data.data().storeArea,
-        canAddStoreDraw: true,
-        latestStoreDrawId: "-",
+        pickUpArea: event.data.data().pickUpArea,
+        canAddDraw: true,
+        latestHostedDrawId: "-",
         drawsOrder: [],
         notification: null,
     };
-    logger.log(`About To Add A Store Name Info Object With ID
-    ${storeNameInfo.storeNameInfoId} To The Database.`);
+    logger.log(`About To Add A Host Info Object With ID
+    ${hostInfo.hostInfoId} To The Database.`);
 
     // Push the new store into Firestore using the Firebase Admin SDK.
-    return await docReference.set(storeNameInfo);
+    return await docReference.set(hostInfo);
 });
 
 export const addNotification = onDocumentCreated(
@@ -306,21 +316,21 @@ export const addNotification = onDocumentCreated(
         }
 
         if (notification.forAll) {
-            getFirestore().collection("stores_names_info").onSnapshot((storeNamesInfoSnapshot) => {
+            getFirestore().collection("hosts_info").onSnapshot((hostInfoSnapshot) => {
                 // const batch = getFirestore().batch();
-                storeNamesInfoSnapshot.docs.map(async (storeNameInfoDoc) => {
-                    if (storeNameInfoDoc.exists) {
-                        await storeNameInfoDoc.ref.update({ notification: notification });
+                hostInfoSnapshot.docs.map(async (hostInfoDoc) => {
+                    if (hostInfoDoc.exists) {
+                        await hostInfoDoc.ref.update({ notification: notification });
                         // batch.update(storeNameInfoDoc.ref, { notification: notification })
                     }
                 })
                 // batch.commit()
             })
         } else {
-            getFirestore().collection("stores_names_info").onSnapshot((storeNamesInfoSnapshot) => {
-                storeNamesInfoSnapshot.docs.map(async (storeNameInfoDoc) => {
-                    if (storeNameInfoDoc.exists) {
-                        if (notification.audience.indexOf(storeNameInfoDoc.id) >= 0) {
+            getFirestore().collection("hosts_info").onSnapshot((hostInfoSnapshot) => {
+                hostInfoSnapshot.docs.map(async (hostInfoDoc) => {
+                    if (hostInfoDoc.exists) {
+                        if (notification.audience.indexOf(hostInfoDoc.id) >= 0) {
                             await storeNameInfoDoc.ref.update({ notification: notification });
                         }
                     }
@@ -344,7 +354,7 @@ const shuffle = (array) => {
 // Remember to create an index for the function's query.
 // onSchedule("*/5 * * * *", async (event) => { */
 // Works fine with generated competitions' id, whether or not it does with custom ids depends on the creation of indexes.
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createCompetitions
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createCompetitions
 export const createCompetitions =
     // onSchedule("4, 17, 30 , 43, 56 17 * FRI", async (event) => {
     onRequest(
@@ -360,7 +370,7 @@ export const createCompetitions =
                 // const justNow = new Date();// Retrieve Current Time.
 
                 // Use the get() method for a read and the onSnapshot() for real time read.
-                getFirestore().collectionGroup("store_draws").orderBy("storeName")
+                getFirestore().collectionGroup("hosted_draws").orderBy("hostingAreaName")
                     .where("drawDateAndTime.year",
                         "==", justNow.getFullYear(),
                     )
@@ -384,14 +394,14 @@ export const createCompetitions =
                     .where("drawDateAndTime.minute",
                         "<=", justNow.getMinutes() + 3,
                     )
-                    .onSnapshot(async (storeDrawsSnapshot) => {
+                    .onSnapshot(async (hostedDrawsSnapshot) => {
 
-                        if (storeDrawsSnapshot.size > 0) {
-                            log(`# No of draws ${storeDrawsSnapshot.size}`);
+                        if (hostedDrawsSnapshot.size > 0) {
+                            log(`# No of draws ${hostedDrawsSnapshot.size}`);
 
-                            storeDrawsSnapshot.docs.map(async (storeDrawDoc) => {
+                            hostedDrawsSnapshot.docs.map(async (hostedDrawDoc) => {
                                 const batch = getFirestore().batch();
-                                const townOrInstitution = storeDrawDoc.data()["townOrInstitution"];
+                                const townOrInstitution = hostedDrawDoc.data()["townOrInstitution"];
 
                                 /* Only initiate the conversion step if there are
                                 groups belonging in a section which is the same
@@ -402,32 +412,32 @@ export const createCompetitions =
                                         // log(`# No of groups ${groupsSnapshot.size}`);
                                         if (groupsSnapshot.size > 0) {
 
-                                            const storeDrawId = storeDrawDoc.data()["storeDrawId"];
+                                            const hostedDrawId = hostedDrawDoc.data()["hostedDrawId"];
 
-                                            const storeDraw = {
-                                                storeDrawId: storeDrawId,
-                                                storeFK: storeDrawDoc.data()["storeFK"],
+                                            const hostedDraw = {
+                                                hostedDrawId: hostedDrawId,
+                                                hostingAreaFK: hostedDrawDoc.data()["hostingAreaFK"],
                                                 drawDateAndTime:
-                                                    storeDrawDoc.data()["drawDateAndTime"],
-                                                joiningFee: storeDrawDoc.data()["joiningFee"],
+                                                    hostedDrawDoc.data()["drawDateAndTime"],
+                                                joiningFee: hostedDrawDoc.data()["joiningFee"],
                                                 numberOfGrandPrices:
-                                                    storeDrawDoc.data()["numberOfGrandPrices"],
+                                                    hostedDrawDoc.data()["numberOfGrandPrices"],
                                                 numberOfGroupCompetitorsSoFar:
-                                                    storeDrawDoc.data()["numberOfGroupCompetitorsSoFar"],
-                                                isOpen: storeDrawDoc.data()["isOpen"],
-                                                storeName: storeDrawDoc.data()["storeName"],
-                                                storeImageURL:
-                                                    storeDrawDoc.data()["storeImageURL"],
+                                                    hostedDrawDoc.data()["numberOfGroupCompetitorsSoFar"],
+                                                isOpen: hostedDrawDoc.data()["isOpen"],
+                                                hostingAreaName: hostedDrawDoc.data()["hostingAreaName"],
+                                                hostingAreaImageURL:
+                                                    hostedDrawDoc.data()["hostingAreaImageURL"],
                                                 grandPriceToWinIndex:
-                                                    storeDrawDoc.data()["grandPriceToWinIndex"],
+                                                    hostedDrawDoc.data()["grandPriceToWinIndex"],
                                                 townOrInstitution: townOrInstitution,
-                                                groupToWinPhoneNumber: storeDrawDoc.data()["groupToWinPhoneNumber"],
+                                                groupToWinPhoneNumber: hostedDrawDoc.data()["groupToWinPhoneNumber"],
                                             };
 
                                             const reference = getFirestore()
                                                 .collection("competitions")
                                                 // .doc();
-                                                .doc(storeDrawId);
+                                                .doc(hostedDrawId);
 
 
                                             const timeBetweenPricePickingAndGroupPicking = pickingMultipleInSeconds * 3;
@@ -447,12 +457,12 @@ export const createCompetitions =
 
                                             const competition = {
                                                 competitionId: reference.id,
-                                                storeFK: storeDraw.storeFK,
-                                                competitionTownOrInstitution: storeDraw.townOrInstitution,
+                                                hostingAreaFK: hostedDraw.hostingAreaFK,
+                                                competitionTownOrInstitution: hostedDraw.townOrInstitution,
                                                 isLive: true,
-                                                dateTime: storeDraw.drawDateAndTime,
-                                                joiningFee: storeDraw.joiningFee,
-                                                numberOfGrandPrices: storeDraw.numberOfGrandPrices,
+                                                dateTime: hostedDraw.drawDateAndTime,
+                                                joiningFee: hostedDraw.joiningFee,
+                                                numberOfGrandPrices: hostedDraw.numberOfGrandPrices,
                                                 isOver: false,
                                                 grandPricesGridId: "-",
                                                 competitorsGridId: "-",
@@ -468,14 +478,14 @@ export const createCompetitions =
                                                 competitionState: "on-count-down",
                                                 wonPrice: null,
                                                 wonGroup: null,
-                                                grandPriceToWinIndex: storeDraw.grandPriceToWinIndex,
-                                                groupToWinPhoneNumber: storeDraw.groupToWinPhoneNumber,
+                                                grandPriceToWinIndex: hostedDraw.grandPriceToWinIndex,
+                                                groupToWinPhoneNumber: hostedDraw.groupToWinPhoneNumber,
 
                                             };
 
                                             batch.create(reference, competition);
-                                            batch.update(storeDrawDoc.ref, { storeDrawState: "converted-to-competition" });
-                                            batch.update(storeDrawDoc.ref, { isOpen: false });
+                                            batch.update(hostedDrawDoc.ref, { hostedDrawState: "converted-to-competition" });
+                                            batch.update(hostedDrawDoc.ref, { isOpen: false });
                                             await batch.commit();
                                         }
                                     });
@@ -501,7 +511,7 @@ export const createGrandPricesGrid =
         }, async (event) => {
             const competitionId = event.data.data()["competitionId"];
             const numberOfGrandPrices = event.data.data()["numberOfGrandPrices"];
-            const storeFK = event.data.data()["storeFK"];
+            const hostingAreaFK = event.data.data()["hostingAreaFK"];
             const grandPriceToWinIndex = event.data.data()["grandPriceToWinIndex"];
 
             getFirestore()
@@ -549,7 +559,7 @@ export const createGrandPricesGrid =
                             grandPricesOrder: grandPricesOrder,
                             hasStarted: false,
                             hasStopped: false,
-                            storeFK: storeFK,
+                            hostingAreaFK: hostingAreaFK,
                         };
 
                         await reference.set(grandPricesGrid);
@@ -579,13 +589,13 @@ export const createGrandPricesTokens =
         }, async (event) => {
             const competitionFK = event.data.data()["competitionFK"];
             const grandPricesGridId = event.data.data()["grandPricesGridId"];
-            const storeFK = event.data.data()["storeFK"];
+            const hostingAreaFK = event.data.data()["hostingAreaFK"];
             const grandPricesOrder = event.data.data()["grandPricesOrder"];
 
             getFirestore()
-                .collection("stores")
-                .doc(storeFK)
-                .collection("store_draws")
+                .collection("hosting_areas")
+                .doc(hostingAreaFK)
+                .collection("hosted_draws")
                 .doc(competitionFK)
                 .collection("draw_grand_prices")
                 .onSnapshot(async (drawGrandPricesSnapshot) => {
@@ -641,7 +651,7 @@ export const createGroupCompetitiorsGrid =
             region: "africa-south1"
         }, async (event) => {
             const competitionId = event.data.data()["competitionId"];
-            const storeFK = event.data.data()["storeFK"];
+            const hostingAreaFK = event.data.data()["hostingAreaFK"];
             const townOrInstitution = event.data.data()["competitionTownOrInstitution"];
             const joiningFee = event.data.data()["joiningFee"];
             const groupToWinPhoneNumber = event.data.data()["groupToWinPhoneNumber"];
@@ -686,9 +696,9 @@ export const createGroupCompetitiorsGrid =
 
 
                                     // No Group Picking Strategy Applied.
-                                    if (groupsSnapshot.size > 200) {
+                                    if (groupsSnapshot.size > maxNumberOfGroupCompetitors) {
                                         let newCompetitorsList = [];
-                                        for (let i = 0; i < 199; i++) {
+                                        for (let i = 0; i < maxNumberOfGroupCompetitors - 1; i++) {
                                             newCompetitorsList.push(competitorsOrder[i]);
                                         }
                                         newCompetitorsList.push(groupToWinPhoneNumber);
@@ -712,7 +722,7 @@ export const createGroupCompetitiorsGrid =
                                             competitorsOrder,
                                         hasStarted: false,
                                         hasStopped: false,
-                                        storeFK: storeFK,
+                                        hostingAreaFK: hostingAreaFK,
                                         townOrInstitution: townOrInstitution,
                                     };
 
@@ -827,6 +837,7 @@ export const maintainCountDownClocks =
             const hour = event.data.data().dateTime["hour"];
             const minute = event.data.data().dateTime["minute"];
 
+
             const countDownId = `${year}-${month}-${day}@${hour}h${minute}`;
 
             const reference = getFirestore().collection("count_down_clocks")
@@ -834,8 +845,7 @@ export const maintainCountDownClocks =
 
             reference.onSnapshot(async (snapshot) => {
                 if (!snapshot.exists) {
-                    const joiningFee = event.data.data().dateTime["joiningFee"];
-                    const competitorsOrder = event.data.data().competitorsOrder;
+                    // const joiningFee = event.data.data().dateTime["joiningFee"];
                     /**
                      * Single Competition Time Interval [Based On 3 Seconds Multiple]
                      * First 1 minute - Remaining Time Count Down
@@ -849,26 +859,19 @@ export const maintainCountDownClocks =
                      * Gap Between Competitions - 1 minute
                      */
 
-                    // Remaining seconds should always start at -60 and stop at 654
-                    // Maximum = 664 or 
-                    let max;
+
+                    // Remaining seconds should always start at -60 and stop at 735
+
 
                     let second = -pickingMultipleInSeconds * 20; // -60
 
-                    if (joiningFee == 0) {
-                        max = pickingMultipleInSeconds * 6 + // Grand Price Picking
-                            pickingMultipleInSeconds * 1 + // Won Price Display
-                            pickingMultipleInSeconds * 200 + // Group Picking Max Time
-                            pickingMultipleInSeconds * 30 + // [Optional 6 Seconds For Notification Display] & Competition Result Display  
-                            pickingMultipleInSeconds * 12; // Game Over
-                    }
-                    else {
-                        pickingMultipleInSeconds * 6 + // Grand Price Picking
-                            pickingMultipleInSeconds * 1 + // Won Price Display
-                            pickingMultipleInSeconds * competitorsOrder.length + // Group Picking Max Time
-                            pickingMultipleInSeconds * 30 + // [Optional 6 Seconds For Notification Display] & Competition Result Display 
-                            pickingMultipleInSeconds * 12; // Game Over
-                    }
+                    // Maximum = 735
+                    const max = pickingMultipleInSeconds * 6 + // Grand Price Picking
+                        pickingMultipleInSeconds * 3 + // Won Price Display
+                        pickingMultipleInSeconds * maxNumberOfGroupCompetitors + // Group Picking Max Time
+                        pickingMultipleInSeconds * 2 + // Display Notification
+                        pickingMultipleInSeconds * 10 + // Competition Result Display 
+                        pickingMultipleInSeconds * 4; // Game Over
 
                     reference.set({
                         remainingTime: second,
@@ -962,8 +965,8 @@ export const createWonPriceSummary =
                         reference.update({ isLive: false });
                         const wonPriceSummaryId =
                             competitionSnapshot.data().competitionId;
-                        const storeFK =
-                            competitionSnapshot.data().storeFK;
+                        const hostingAreaFK =
+                            competitionSnapshot.data().hostingAreaFK;
 
                         const wonPrice = competitionSnapshot.data()["wonPrice"];
                         const wonGroup = competitionSnapshot.data()["wonGroup"];
@@ -975,15 +978,15 @@ export const createWonPriceSummary =
                         logger.log(`WonPriceSummary - ${wonGroup.groupCreatorPhoneNumber} ${competitorsOrder}`);
                         logger.log(`WonPriceSummary - ${wonPrice.grandPriceIndex} ${grandPricesOrder}`);
 
-                        const storeReference = getFirestore()
-                            .collection("stores")
-                            .doc(storeFK);
+                        const hostingAreaReference = getFirestore()
+                            .collection("hosting_areas")
+                            .doc(hostingAreaFK);
 
-                        storeReference.onSnapshot(async (snapshot) => {
-                            const storeName = snapshot.data().storeName;
-                            const storeImageURL = snapshot.data().storeImageURL;
-                            const storeSection = snapshot.data().sectionName;
-                            const storeArea = snapshot.data().storeArea;
+                        hostingAreaReference.onSnapshot(async (snapshot) => {
+                            const hostingAreaName = snapshot.data().hostingAreaName;
+                            const hostingAreaImageURL = snapshot.data().hostingAreaImageURL;
+                            const sectionName = snapshot.data().sectionName;
+                            const pickUpArea = snapshot.data().pickUpArea;
 
 
                             const wonPriceSummaryReference =
@@ -993,7 +996,7 @@ export const createWonPriceSummary =
                             const wonPriceSummary = {
                                 wonPriceSummaryId:
                                     wonPriceSummaryId,
-                                storeFK: storeFK,
+                                hostingAreaFK: hostingAreaFK,
                                 groupName: wonGroup.groupName,
                                 groupSpecificArea: wonGroup.groupSpecificArea,
                                 groupTownOrInstitution:
@@ -1004,10 +1007,10 @@ export const createWonPriceSummary =
                                 grandPriceDescription:
                                     wonPrice.description,
                                 wonGrandPriceImageURL: wonPrice.imageURL,
-                                storeImageURL: storeImageURL,
-                                hostName: storeName,
-                                storeSection: storeSection,
-                                pickUpSpot: storeArea,
+                                hostingAreaImageURL: hostingAreaImageURL,
+                                hostName: hostingAreaName,
+                                storeSection: sectionName,
+                                pickUpSpot: pickUpArea,
                                 wonDate: competitionSnapshot.data().dateTime,
                                 groupCreatorUsername: wonGroup.groupCreatorUsername,
                                 groupCreatorImageURL: wonGroup.groupCreatorImageURL,
@@ -1020,12 +1023,12 @@ export const createWonPriceSummary =
 
                             // Update corresponding store draw.
                             /* getFirestore()
-                            .collection("stores")
-                            .doc(storeFK)
-                            .collection("store_draws")
+                            .collection("hosting_areas")
+                            .doc(hostingAreaFK)
+                            .collection("hosted_draws")
                             .doc(wonPriceSummaryId)
                             .update({
-                            storeDrawState:"competition-finished"
+                            hostedDrawState:"competition-finished"
                             });; */
                         });
                     }
@@ -1119,7 +1122,7 @@ const listAllUsers = async (nextPageToken) => {
 // Marketing Strategy 1-1 : Use Specific Area Residence To Find Contributors.
 // Marketing Strategy 1-2 : Use Kids Gift To Find Contributors.
 // Marketing Strategy 1-2 : Approach Stores
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeGroups
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createFakeGroups
 export const createFakeGroups = onRequest(
     {
         region: "africa-south1"
@@ -1127,7 +1130,36 @@ export const createFakeGroups = onRequest(
     async (req, res) => {
 
         switch (parseInt(req.query.hostIndex)) {
-            case 0:// Mayville
+            case 1:// Umlazi
+
+                await umlaziFakeGroups.umlaziGroups(); // Marketing Strategy 1-1
+
+                // Send back a message that we"ve successfully written to the db.
+                res.json({ result: `All Umlazi Fake Groups Are Saved.` });
+                break;
+            case 2:// MUT
+
+                await mutFakeGroups.mutGroups(); // Marketing Strategy 1-1
+
+                // Send back a message that we"ve successfully written to the db.
+                res.json({ result: `All MUT Fake Groups Are Saved.` });
+                break;
+            case 3:// DUT
+
+                await dutFakeGroups.dutBereaGroups(); // Marketing Strategy 1-1
+                await dutFakeGroups.dutSydenhamGroups(); // Marketing Strategy 1-1
+                await dutFakeGroups.dutMixedGroups(); // Marketing Strategy 1-1
+
+                // Send back a message that we"ve successfully written to the db.
+                res.json({ result: `All DUT Fake Groups Are Saved.` });
+                break;
+            case 4:// UKZN
+                await howardFakeGroups.onCompusGroups();  // Marketing Strategy 1-1
+
+                // Send back a message that we"ve successfully written to the db.
+                res.json({ result: `All   Howard Fake Groups Are Saved.` });
+                break;
+            case 5:// Mayville
 
                 await mayvilleFakeGroups.catoCrestGroups();  // Marketing Strategy 1-2
                 await mayvilleFakeGroups.richviewKoPeachGroups(); // Marketing Strategy 1-1
@@ -1141,22 +1173,7 @@ export const createFakeGroups = onRequest(
                 // Send back a message that we"ve successfully written to the db.
                 res.json({ result: `All Mayville Fake Groups Are Saved.` });
                 break;
-            case 1:// DUT
-
-                await dutFakeGroups.dutBereaGroups(); // Marketing Strategy 1-1
-                await dutFakeGroups.dutSydenhamGroups(); // Marketing Strategy 1-1
-                await dutFakeGroups.dutMixedGroups(); // Marketing Strategy 1-1
-
-                // Send back a message that we"ve successfully written to the db.
-                res.json({ result: `All DUT Fake Groups Are Saved.` });
-                break;
-            case 2:// UKZN
-                await howardFakeGroups.onCompusGroups();  // Marketing Strategy 1-1
-
-                // Send back a message that we"ve successfully written to the db.
-                res.json({ result: `All   Howard Fake Groups Are Saved.` });
-                break;
-            case 3:// Sydenham
+            case 6:// Sydenham
 
                 await sydenhamFakeGroups.foreman1Groups(); // Marketing Strategy 1-1
                 await sydenhamFakeGroups.foreman2Groups(); // Marketing Strategy 1-1
@@ -1170,7 +1187,7 @@ export const createFakeGroups = onRequest(
                 // Send back a message that we"ve successfully written to the db.
                 res.json({ result: `All Sydenham Fake Groups Are Saved.` });
                 break;
-            default:
+            case 7: // Durban Central
                 await durbanCentralFakeGroups.durbanCentralGroups();  // Marketing Strategy 2
 
                 // Send back a message that we"ve successfully written to the db.
@@ -1178,7 +1195,7 @@ export const createFakeGroups = onRequest(
         }
     });
 
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeDraws
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createFakeDraws
 export const createFakeDraws = onRequest(
     {
         region: "africa-south1"
@@ -1186,7 +1203,7 @@ export const createFakeDraws = onRequest(
     async (req, res) => {
         const drawDateAndTime = new Date();
         const year = drawDateAndTime.getFullYear();
-        const month = drawDateAndTime.getMonth() + 1;
+        const month = drawDateAndTime.getMonth() + 2;
         const date = drawDateAndTime.getDate();
         const hour = drawDateAndTime.getHours() + 2;
 
@@ -1195,43 +1212,38 @@ export const createFakeDraws = onRequest(
 
         let reference;
 
-        let storeFK;
-        let storeName;
+        let hostingAreaFK;
+        let hostingAreaName;
         let townOrInstitution;
         let groupToWinPhoneNumber;
-        let groupCreators;
 
         // Start listing users from the beginning, 1000 at a time.
         // listAllUsers();
 
         switch (parseInt(req.query.hostIndex)) {
-            case 0:
-                groupCreators = ["+27601111111", "+27602222222", "+27603333333", "+27604444444",
-                    "+27648395837", "+27638395837", "+27628395837", "+27618395837",
-                    "+27624738493", "+27634738493", "+27644738493", "+27654738493",
-                    "+27724738493", "+27734738493", "+27744738493", "+27714738493",
-                    "+27764738493", "+27834857938", "+27844857938", "+27824857938",
-                    "+27814857938", "+27864857938", "+27867826632", "+27847826632",
-                    "+27837826632", "+27827826632", "+27877826632",
-                ];
-                storeFK = "+27637339962";
-                storeName = "Mayville";
+            case 1: // Umlazi
+                hostingAreaFK = "a4drbsfkrnds48dnmd";
+                hostingAreaName = "Umlazi";
                 townOrInstitution = {
                     cityFK: "1",
-                    townOrInstitutionName: "Mayville",
-                    townOrInstitutionNo: "5",
+                    townOrInstitutionName: "Umlazi",
+                    townOrInstitutionNo: "1",
                 };
-                groupToWinPhoneNumber = "+27603333333";
+                groupToWinPhoneNumber = "+27656565656";
                 break;
-            case 1:
-                groupCreators = ["+27837766452", "+27847766452", "+27867766452",
-                    "+27897766452", "+27817766452", "+27701111110",
-                    "+27702222220", "+27703333330", "+27704444440",
-                    "+27701111111", "+27702222222", "+27703333333",
-                    "+27704444444",
-                ];
-                storeFK = "+27744127814";
-                storeName = "DUT";
+            case 2: // MUT
+                hostingAreaFK = "b4drbsfkrnds48dnmd";
+                hostingAreaName = "Mangosuthu (MUT)";
+                townOrInstitution = {
+                    cityFK: "1",
+                    townOrInstitutionName: "Mangosuthu (MUT)",
+                    townOrInstitutionNo: "2",
+                };
+                groupToWinPhoneNumber = "+27819720000";
+                break;
+            case 3: // DUT
+                hostingAreaFK = "c4drbsfkrnds48dnmd";
+                hostingAreaName = "DUT";
                 townOrInstitution = {
                     cityFK: "1",
                     townOrInstitutionName: "DUT",
@@ -1239,12 +1251,9 @@ export const createFakeDraws = onRequest(
                 };
                 groupToWinPhoneNumber = "+27703333330";
                 break;
-            case 2:
-                groupCreators = ["+27801111111", "+27802222222", "+27803333333", "+27804444444",
-                    "+27805555555", "+27806666666",
-                ];
-                storeFK = "+27766915230";
-                storeName = "UKZN";
+            case 4: // UKZN
+                hostingAreaFK = "d4drbsfkrnds48dnmd";
+                hostingAreaName = "UKZN";
                 townOrInstitution = {
                     cityFK: "1",
                     townOrInstitutionName: "Howard College UKZN",
@@ -1252,17 +1261,19 @@ export const createFakeDraws = onRequest(
                 };
                 groupToWinPhoneNumber = "+27803333333";
                 break;
-            case 3:
-                groupCreators = ["+27651111111", "+27652222222", "+27653333333", "+27654444444",
-                    "+27655555555", "+27676666666", "+27677777777", "+27688888888", "+27602746533",
-                    "+27612746533", "+27622746533", "+27632746533", "+27632746533", "+27755555550",
-                    "+27776666660", "+27777777770", "+27788888880", "+27634883320", "+27644883320",
-                    "+27654883320", "+27664883320", "+27629483938", "+27639483938", "+27649483938",
-                    "+27659483938", "+27669483938", "+27634883325", "+27644883325", "+27654883325",
-                    "+27664883325", "+27674883325",
-                ];
-                storeFK = "+27651482118";
-                storeName = "Sydenham";
+            case 5: // Mayville
+                hostingAreaFK = "e4drbsfkrnds48dnmd";
+                hostingAreaName = "Mayville";
+                townOrInstitution = {
+                    cityFK: "1",
+                    townOrInstitutionName: "Mayville",
+                    townOrInstitutionNo: "5",
+                };
+                groupToWinPhoneNumber = "+27603333333";
+                break;
+            case 6: // Sydenham
+                hostingAreaFK = "f4drbsfkrnds48dnmd";
+                hostingAreaName = "Sydenham";
                 townOrInstitution = {
                     cityFK: "1",
                     townOrInstitutionName: "Sydenham",
@@ -1270,10 +1281,9 @@ export const createFakeDraws = onRequest(
                 };
                 groupToWinPhoneNumber = "+27629483938";
                 break;
-            default:
-                groupCreators = ["+27600000000", "+27610000000", "+27620000000", "+27630000000"];
-                storeFK = "+27782578628";
-                storeName = "Durban Central";
+            case 7: // Durban Central
+                hostingAreaFK = "g4drbsfkrnds48dnmd";
+                hostingAreaName = "Durban Central";
                 townOrInstitution = {
                     cityFK: "1",
                     townOrInstitutionName: "Durban Central",
@@ -1283,12 +1293,12 @@ export const createFakeDraws = onRequest(
         }
 
 
-        const storeDrawId =
-            `${year}-${month}-${date}@${hour}h${minute}@${storeFK}`;
+        const hostedDrawId =
+            `${year}-${month}-${date}@${hour}h${minute}@${hostingAreaFK}`;
 
         const draw = {
-            "storeDrawId": storeDrawId,
-            "storeFK": storeFK,
+            "hostedDrawId": hostedDrawId,
+            "hostingAreaFK": hostingAreaFK,
             "groupToWinPhoneNumber": groupToWinPhoneNumber,
             "drawDateAndTime": {
                 "year": year,
@@ -1299,37 +1309,37 @@ export const createFakeDraws = onRequest(
             },
             "numberOfGrandPrices": 5,
             "isOpen": true,
-            "storeName": storeName,
-            "storeImageURL": `store_owners/stores_images/${storeFK}.jpg`,
+            "hostingAreaName": hostingAreaName,
+            "hostingAreaImageURL": `${hostingAreaName.toLowerCase()}/hosting_areas/${hostingAreaFK}.jpg`,
             "townOrInstitution": townOrInstitution,
             "joiningFee": 0,
-            "storeDrawState": "not-converted-to-competition",
+            "hostedDrawState": "not-converted-to-competition",
 
             "grandPriceToWinIndex": -1,
         };
 
-        reference = getFirestore().collection("stores")
-            .doc(storeFK).collection("store_draws")
-            .doc(storeDrawId);
+        reference = getFirestore().collection("hosting_areas")
+            .doc(hostingAreaFK).collection("hosted_draws")
+            .doc(hostedDrawId);
         await reference.set(draw);
 
 
         let grandPrice;
         let extension = '.jpeg';
         for (let priceIndex = 0; priceIndex < draw.numberOfGrandPrices; priceIndex++) {
-            reference = getFirestore().collection("stores")
-                .doc(storeFK).collection("store_draws")
-                .doc(storeDrawId).collection("draw_grand_prices")
-                // .doc(`${storeDrawId}-${priceIndex}`);
+            reference = getFirestore().collection("hosting_areas")
+                .doc(hostingAreaFK).collection("hosted_draws")
+                .doc(hostedDrawId).collection("draw_grand_prices")
+                // .doc(`${hostedDrawId}-${priceIndex}`);
                 .doc(`${priceIndex}`);
 
             let description;
 
-            // Mayville
-            if (parseInt(req.query.hostIndex) == 0) {
+            // Umlazi
+            if (parseInt(req.query.hostIndex) == 1) {
                 switch (priceIndex) {
                     case 0:
-                        description = "Carling Black Label 12x750ml";
+                        description = "Hunters Dry 24x330ml [Bottles]";
                         break;
                     case 1:
                         description = "Heineken 12x750ml";
@@ -1338,15 +1348,35 @@ export const createFakeDraws = onRequest(
                         description = "Corona 12x330ml [Bottles]";
                         break;
                     case 3:
-                        description = "Sminnorf 750ml";
+                        description = "Carling Black Label 24x330ml";
                         break;
                     default:
                         description = "Castle Lagar 24x500ml [Cans]";
                 }
             }
 
+            // MUT
+            else if (parseInt(req.query.hostIndex) == 2) {
+                switch (priceIndex) {
+                    case 0:
+                        description = "Savana Lemon 24x360ml";
+                        break;
+                    case 1:
+                        description = "Heineken 24x330ml [Bottles]";
+                        break;
+                    case 2:
+                        description = "Corona 12x500ml [Cans]";
+                        break;
+                    case 3:
+                        description = "Absolute 750ml";
+                        break;
+                    default:
+                        description = "Black Label Vodka 12x750ml [Box]";
+                }
+            }
+
             // DUT
-            else if (parseInt(req.query.hostIndex) == 1) {
+            else if (parseInt(req.query.hostIndex) == 3) {
                 switch (priceIndex) {
                     case 0:
                         description = "Hunters Dry 24x330ml [Bottles]";
@@ -1366,7 +1396,7 @@ export const createFakeDraws = onRequest(
             }
 
             // Howard
-            else if (parseInt(req.query.hostIndex) == 2) {
+            else if (parseInt(req.query.hostIndex) == 4) {
                 switch (priceIndex) {
                     case 0:
                         description = "Savana Lemon 24x360ml";
@@ -1385,8 +1415,28 @@ export const createFakeDraws = onRequest(
                 }
             }
 
+            // Mayville
+            else if (parseInt(req.query.hostIndex) == 5) {
+                switch (priceIndex) {
+                    case 0:
+                        description = "Carling Black Label 12x750ml";
+                        break;
+                    case 1:
+                        description = "Heineken 12x750ml [Bottles]";
+                        break;
+                    case 2:
+                        description = "Corona 12x360ml [Bottles]";
+                        break;
+                    case 3:
+                        description = "Sminnorf 750ml";
+                        break;
+                    default:
+                        description = "Castle Lagar 24x500ml";
+                }
+            }
+
             // Sydenham
-            else if (parseInt(req.query.hostIndex) == 3) {
+            else if (parseInt(req.query.hostIndex) == 6) {
 
                 switch (priceIndex) {
                     case 0:
@@ -1407,8 +1457,8 @@ export const createFakeDraws = onRequest(
                 }
             }
 
-            // Dubran Central [Glenwood]
-            else {
+            // Dubran Central
+            else if (parseInt(req.query.hostIndex) == 7) {
                 switch (priceIndex) {
                     case 0:
                         description = "Corona 24x500ml [Cans]";
@@ -1429,8 +1479,8 @@ export const createFakeDraws = onRequest(
 
             grandPrice = {
                 "grandPriceId": reference.id,
-                "storeDrawFK": storeDrawId,
-                "imageURL": `${storeName.toLowerCase()}/grand_prices_images/${reference.id}${extension}`,
+                "hostedDrawFK": hostedDrawId,
+                "imageURL": `${hostingAreaName.toLowerCase()}/grand_prices_images/${reference.id}${extension}`,
                 "description": description,
                 "grandPriceIndex": priceIndex,
 
@@ -1438,25 +1488,25 @@ export const createFakeDraws = onRequest(
 
             await reference.set(grandPrice);
         }
-        const storeNameInfoReference = getFirestore().collection("stores_names_info").doc(storeFK);
+        const hostInfoReference = getFirestore().collection("hosts_info").doc(hostingAreaFK);
 
 
-        storeNameInfoReference.get().then(async (doc) => {
+        hostInfoReference.get().then(async (doc) => {
             if (doc.exists) {
                 let drawsOrder = doc.data()['drawsOrder'];
 
-                drawsOrder.push(storeDrawId);
-                await storeNameInfoReference.update({ drawsOrder: drawsOrder });
+                drawsOrder.push(hostedDrawId);
+                await hostInfoReference.update({ drawsOrder: drawsOrder });
                 drawsOrder = doc.data()['drawsOrder'];
             }
         });
 
-        await storeNameInfoReference.update({ latestStoreDrawId: storeDrawId });
+        await hostInfoReference.update({ latestHostedDrawId: hostedDrawId });
         // Send back a message that we"ve successfully written to the db.
         res.json({ result: `Fake Draws Saved.` });
     });
 
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/createFakeAlcoholics
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createFakeAlcoholics
 export const createFakeAlcoholics = onRequest(
     {
         region: "africa-south1"
@@ -1583,7 +1633,7 @@ export const createFakeAlcoholics = onRequest(
         res.json({ result: `Fake Alcoholics Saved.` });
     });
 
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/updateFakeGroups
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/updateFakeGroups
 export const updateFakeGroups = onRequest(
     {
         region: "africa-south1"
@@ -1592,7 +1642,7 @@ export const updateFakeGroups = onRequest(
         res.json({ result: `group batch updated.` });
     });
 
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveFakeAdmins
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/saveFakeAdmins
 export const saveFakeAdmins = onRequest(
     {
         region: "africa-south1"
@@ -1602,7 +1652,7 @@ export const saveFakeAdmins = onRequest(
         res.json({ result: `Fake Admins Successfully Created.` });
     });
 
-// http://127.0.0.1:5001/alco-dev-3fd77/africa-south1/saveFakePosts
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/saveFakePosts
 export const saveFakePosts = onRequest(
     {
         region: "africa-south1"

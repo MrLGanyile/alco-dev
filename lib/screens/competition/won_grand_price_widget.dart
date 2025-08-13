@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '/models/stores/draw_grand_price.dart';
+import '/models/hosting areas/draw_grand_price.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';

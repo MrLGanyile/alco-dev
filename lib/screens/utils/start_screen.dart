@@ -9,7 +9,7 @@ import '../alcoholics/alcoholics_widgets.dart';
 import '../groups/group_registration_widget.dart';
 import 'package:get/get.dart';
 
-import '/screens/store/stores_widget.dart';
+import '../hosting area/hosts_info_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
@@ -294,7 +294,7 @@ class _StartScreenState extends State<StartScreen>
             ),
             child: TabBarView(controller: _tabController, children: [
               HomeWidget(),
-              StoresWidget(),
+              HostsInfoWidget(),
               const GroupsScreen(),
               ShowOffScreen()
             ]),

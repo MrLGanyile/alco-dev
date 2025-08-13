@@ -5,12 +5,14 @@ import 'package:get/get.dart';
 
 import '../../main.dart';
 
-Reference storageReference = FirebaseStorage.instanceFor(
+Reference storageReference = FirebaseStorage
+
+/*.instanceFor(
         bucket: "gs://alco-dev-15405.firebasestorage.app")
-    .ref();
-/*
-        .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
     .ref(); */
+
+        .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
+    .ref(); 
 // String storageURL = "gs://alcoholic-expressions.appspot.com/";
 
 Color backgroundResourcesColor = Colors.black;

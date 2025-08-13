@@ -1,6 +1,6 @@
 import '../locations/converter.dart';
 import '../locations/supported_town_or_institution.dart';
-import '/models/stores/draw_grand_price.dart';
+import '/models/hosting areas/draw_grand_price.dart';
 
 import '../users/group.dart';
 import 'competition_state.dart';
@@ -11,7 +11,7 @@ import 'dart:developer' as debug;
 // Branch : competition_resources_crud ->  create_competition_resources_front_end
 class Competition {
   String? competitionId;
-  String storeFK;
+  String hostingAreaFK;
 
   bool isLive;
   bool isOver;
@@ -43,7 +43,7 @@ class Competition {
 
   Competition({
     this.competitionId,
-    required this.storeFK,
+    required this.hostingAreaFK,
     required this.competitionTownOrInstitution,
     this.isLive = false,
     required this.dateTime,
@@ -86,7 +86,7 @@ class Competition {
         groupPickingStartTime: json['groupPickingStartTime'],
         displayPeriodAfterWinners: json['displayPeriodAfterWinners'],
         competitionId: json['competitionId'],
-        storeFK: json['storeFK'],
+        hostingAreaFK: json['hostingAreaFK'],
         competitionTownOrInstitution: SupportedTownOrInstitution.fromJson(
             json['competitionTownOrInstitution']),
         isLive: json['isLive'],

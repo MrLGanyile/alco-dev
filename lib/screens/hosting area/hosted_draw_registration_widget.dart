@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/group_controller.dart';
-import '../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import '../../main.dart';
 import '../../models/locations/converter.dart';
 import '../../models/users/user.dart';
@@ -15,16 +15,17 @@ import 'dart:developer' as debug;
 import 'draw_grand_price_creation_widget.dart';
 import 'time_picker.dart';
 
-class StoreDrawRegistrationWidget extends StatefulWidget {
-  const StoreDrawRegistrationWidget({Key? key}) : super(key: key);
+class HostedDrawRegistrationWidget extends StatefulWidget {
+  const HostedDrawRegistrationWidget({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => StoreDrawRegistrationWidgetState();
+  State<StatefulWidget> createState() => HostedDrawRegistrationWidgetState();
 }
 
-class StoreDrawRegistrationWidgetState
-    extends State<StoreDrawRegistrationWidget> {
-  StoreController storeController = StoreController.storeController;
+class HostedDrawRegistrationWidgetState
+    extends State<HostedDrawRegistrationWidget> {
+  HostingAreaController hostingAreaController =
+      HostingAreaController.hostingAreaController;
   GroupController groupController = GroupController.instance;
 
   TextEditingController adminCodeEditingController = TextEditingController();
@@ -46,9 +47,9 @@ class StoreDrawRegistrationWidgetState
   @override
   Widget build(BuildContext context) => Container(
         color: Colors.black,
-        child: GetBuilder<StoreController>(builder: (_) {
-          return storeController.hasAcceptableAdminCredentials()
-              ? buildStoreDraw()
+        child: GetBuilder<HostingAreaController>(builder: (_) {
+          return hostingAreaController.hasAcceptableAdminCredentials()
+              ? buildHostedDraw()
               : adminEntrance();
         }),
       );
@@ -118,27 +119,27 @@ class StoreDrawRegistrationWidgetState
       );
 
   String displayTime() {
-    if (storeController.drawDateHour! == -1 ||
-        storeController.drawDateMinute == -1) {
+    if (hostingAreaController.drawDateHour! == -1 ||
+        hostingAreaController.drawDateMinute == -1) {
       return 'HH:MM';
     } else {
       String time = '';
 
-      if (storeController.drawDateHour! < 10) {
-        time += '0${storeController.drawDateHour!}';
+      if (hostingAreaController.drawDateHour! < 10) {
+        time += '0${hostingAreaController.drawDateHour!}';
       } else {
-        time += '${storeController.drawDateHour!}';
+        time += '${hostingAreaController.drawDateHour!}';
       }
 
-      if (storeController.drawDateMinute! < 10) {
-        time += ':0${storeController.drawDateMinute!}';
+      if (hostingAreaController.drawDateMinute! < 10) {
+        time += ':0${hostingAreaController.drawDateMinute!}';
       } else {
-        time += ':${storeController.drawDateMinute!}';
+        time += ':${hostingAreaController.drawDateMinute!}';
       }
 
-      if ((storeController.drawDateHour! == 12 &&
-              storeController.drawDateMinute! > 0) ||
-          storeController.drawDateHour! > 12) {
+      if ((hostingAreaController.drawDateHour! == 12 &&
+              hostingAreaController.drawDateMinute! > 0) ||
+          hostingAreaController.drawDateHour! > 12) {
         time += ' PM';
       } else {
         time += ' AM';
@@ -149,30 +150,30 @@ class StoreDrawRegistrationWidgetState
   }
 
   String displayDate() {
-    if (storeController.drawDateYear! < 2025 ||
-        storeController.drawDateMonth == -1 ||
-        storeController.drawDateDay == -1) {
+    if (hostingAreaController.drawDateYear! < 2025 ||
+        hostingAreaController.drawDateMonth == -1 ||
+        hostingAreaController.drawDateDay == -1) {
       return 'YYY-MM-DD';
     } else {
-      String date = '${storeController.drawDateYear}';
+      String date = '${hostingAreaController.drawDateYear}';
 
-      if (storeController.drawDateMonth! < 10) {
-        date += '-0${storeController.drawDateMonth}';
+      if (hostingAreaController.drawDateMonth! < 10) {
+        date += '-0${hostingAreaController.drawDateMonth}';
       } else {
-        date += '-${storeController.drawDateMonth}';
+        date += '-${hostingAreaController.drawDateMonth}';
       }
 
-      if (storeController.drawDateDay! < 10) {
-        date += '-0${storeController.drawDateDay}';
+      if (hostingAreaController.drawDateDay! < 10) {
+        date += '-0${hostingAreaController.drawDateDay}';
       } else {
-        date += '-${storeController.drawDateDay}';
+        date += '-${hostingAreaController.drawDateDay}';
       }
 
       return date;
     }
   }
 
-  Widget buildStoreDraw() => Container(
+  Widget buildHostedDraw() => Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: Column(
@@ -180,7 +181,7 @@ class StoreDrawRegistrationWidgetState
               const SizedBox(
                 height: 10,
               ),
-              GetBuilder<StoreController>(builder: (_) {
+              GetBuilder<HostingAreaController>(builder: (_) {
                 return Row(
                   children: [
                     Expanded(
@@ -253,7 +254,7 @@ class StoreDrawRegistrationWidgetState
               StreamBuilder<List<String>>(
                 stream: groupController.readGroupsPhoneNumbers(
                     Converter.townOrInstitutionAsNumber(
-                        storeController.currentStoreTownOrInstitution!)),
+                        hostingAreaController.currentHostTownOrInstitution!)),
                 builder: ((c, snapshot) {
                   if (snapshot.hasData) {
                     debug.log('No of phone Numbers ${snapshot.data!.length}');
@@ -295,32 +296,32 @@ class StoreDrawRegistrationWidgetState
       return false;
     }
 
-    if (storeController.drawGrandPrice1ImageFile == null ||
-        storeController.drawGrandPrice2ImageFile == null ||
-        storeController.drawGrandPrice3ImageFile == null ||
-        storeController.drawGrandPrice4ImageFile == null ||
-        storeController.drawGrandPrice5ImageFile == null) {
+    if (hostingAreaController.drawGrandPrice1ImageFile == null ||
+        hostingAreaController.drawGrandPrice2ImageFile == null ||
+        hostingAreaController.drawGrandPrice3ImageFile == null ||
+        hostingAreaController.drawGrandPrice4ImageFile == null ||
+        hostingAreaController.drawGrandPrice5ImageFile == null) {
       return false;
     }
 
-    if (storeController.grandPrice1ImageURL!.isEmpty ||
-        storeController.grandPrice2ImageURL!.isEmpty ||
-        storeController.grandPrice3ImageURL!.isEmpty ||
-        storeController.grandPrice4ImageURL!.isEmpty ||
-        storeController.grandPrice5ImageURL!.isEmpty) {
+    if (hostingAreaController.grandPrice1ImageURL!.isEmpty ||
+        hostingAreaController.grandPrice2ImageURL!.isEmpty ||
+        hostingAreaController.grandPrice3ImageURL!.isEmpty ||
+        hostingAreaController.grandPrice4ImageURL!.isEmpty ||
+        hostingAreaController.grandPrice5ImageURL!.isEmpty) {
       return false;
     }
 
-    storeController.setDescription(0, description1EditingController.text);
-    storeController.setDescription(1, description2EditingController.text);
-    storeController.setDescription(2, description3EditingController.text);
-    storeController.setDescription(3, description4EditingController.text);
-    storeController.setDescription(4, description5EditingController.text);
+    hostingAreaController.setDescription(0, description1EditingController.text);
+    hostingAreaController.setDescription(1, description2EditingController.text);
+    hostingAreaController.setDescription(2, description3EditingController.text);
+    hostingAreaController.setDescription(3, description4EditingController.text);
+    hostingAreaController.setDescription(4, description5EditingController.text);
 
     return true;
   }
 
-  void cleanForStoreDraw() {
+  void cleanForHostedDraw() {
     description1EditingController.clear();
     description2EditingController.clear();
     description3EditingController.clear();
@@ -340,17 +341,17 @@ class StoreDrawRegistrationWidgetState
             )),
         child: InkWell(
           onTap: () async {
-            if (storeController.drawDateYear == -1 ||
-                storeController.drawDateMonth == -1 ||
-                storeController.drawDateDay == -1 ||
-                storeController.drawDateHour == -1 ||
-                storeController.drawDateMinute == -1) {
+            if (hostingAreaController.drawDateYear == -1 ||
+                hostingAreaController.drawDateMonth == -1 ||
+                hostingAreaController.drawDateDay == -1 ||
+                hostingAreaController.drawDateHour == -1 ||
+                hostingAreaController.drawDateMinute == -1) {
               getSnapbar('Incomplete Info', 'Specify Draw Date & Time.');
               return;
             }
             if (hasPickedAllPrices()) {
               //String adminCode = adminCodeEditingController.text;
-              //storeController.setAdminCode(adminCode);
+              //hostingAreaController.setAdminCode(adminCode);
 
               if (phoneNumbersDropDownButton.value == null ||
                   phoneNumbersDropDownButton.value == 'N/A') {
@@ -358,21 +359,21 @@ class StoreDrawRegistrationWidgetState
                 return;
               }
 
-              final result = await storeController
-                  .createStoreDraw(phoneNumbersDropDownButton.value!);
+              final result = await hostingAreaController
+                  .createHostedDraw(phoneNumbersDropDownButton.value!);
 
               // Does not go to the next screen.
-              if (result == StoreDrawSavingStatus.saved) {
-                storeController.cleanForStoreDraw();
-                cleanForStoreDraw();
-                storeController.setAdminCode('');
+              if (result == HostedDrawSavingStatus.saved) {
+                hostingAreaController.cleanForStoreDraw();
+                cleanForHostedDraw();
+                hostingAreaController.setAdminCode('');
 
                 Get.back();
                 return;
-              } else if (result == StoreDrawSavingStatus.incomplete) {
+              } else if (result == HostedDrawSavingStatus.incomplete) {
                 getSnapbar('Error', 'Incomplete Draw Info');
                 return;
-              } else if (result == StoreDrawSavingStatus.loginRequired) {
+              } else if (result == HostedDrawSavingStatus.loginRequired) {
                 getSnapbar('Error', 'Not Authorized To Create Draw.');
                 return;
               }
@@ -413,8 +414,8 @@ class StoreDrawRegistrationWidgetState
               return;
             }
 
-            storeController.setAdminCode(adminCodeEditingController.text);
-            if (!storeController.hasAcceptableAdminCredentials()) {
+            hostingAreaController.setAdminCode(adminCodeEditingController.text);
+            if (!hostingAreaController.hasAcceptableAdminCredentials()) {
               getSnapbar('Error', 'Not Authorized To Create Draw.');
             }
           },
@@ -470,9 +471,9 @@ class StoreDrawRegistrationWidgetState
                 ),
               ))
           .toList(),
-      value: storeController.grandPriceToWinIndex.toString(),
+      value: hostingAreaController.grandPriceToWinIndex.toString(),
       onChanged: (String? value) {
-        storeController.setGrandPriceToWinIndex(int.parse(value!));
+        hostingAreaController.setGrandPriceToWinIndex(int.parse(value!));
       },
       buttonStyleData: ButtonStyleData(
         height: 60,
@@ -557,9 +558,9 @@ class StoreDrawRegistrationWidgetState
                 ),
               ))
           .toList(),
-      value: storeController.groupToWinPhoneNumber,
+      value: hostingAreaController.groupToWinPhoneNumber,
       onChanged: (String? value) {
-        storeController.setGroupToWin(value!);
+        hostingAreaController.setGroupToWin(value!);
       },
       buttonStyleData: ButtonStyleData(
         height: 60,

@@ -11,7 +11,7 @@ import 'controllers/competition_controller.dart';
 import 'controllers/location_controller.dart';
 
 import 'controllers/post_controller.dart';
-import 'controllers/store_controller.dart';
+import 'controllers/hosting_area_controller.dart';
 import 'controllers/group_controller.dart';
 
 import 'firebase_options.dart';
@@ -41,6 +41,11 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
    Siya Magwaza Polar Liquior 0847392686 [WHATSAPP]
    Mthiza's Wife 0832769334
    Charlie's Pub 0834302744 
+
+   Alco - We send them into a legit place.
+   Alki - Insanely attractive girls deliver.
+   Alparty - We host a house party for them.
+   Alfood - Same as alco, instead of alcohol it food though.
    
    Mashinga 0810639987
    Mlu NERD 0842457343
@@ -52,7 +57,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
    Zee 0749650051
    Luke 0605246154
    Math tutor 0728044157
-   mabhakede/thobani 0663677021
    mayise 0725704960
    menzi lawyer to be 0729372478
    ***********Phone Numbers End***********
@@ -105,7 +109,7 @@ Future main() async {
         storage: storage,
         auth: auth));
 
-    Get.put(StoreController(
+    Get.put(HostingAreaController(
         firestore: firestore,
         functions: functions,
         storage: storage,
@@ -116,9 +120,9 @@ Future main() async {
         storage: storage,
         auth: auth));
   });
-  /*
+
   // Ideal time to initialize
-  await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
+  /*await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
   await FirebaseStorage //.instance
 
           .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")

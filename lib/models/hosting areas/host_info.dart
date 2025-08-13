@@ -4,39 +4,39 @@ import '../locations/section_name.dart';
 import 'notification.dart';
 
 // Branch : store_resources_crud ->  create_store_resources_store_front_end
-class StoreNameInfo implements Comparable<StoreNameInfo> {
-  String storeNameInfoId;
-  String storeName;
+class HostInfo implements Comparable<HostInfo> {
+  String hostInfoId;
+  String hostingAreaName;
   SectionName sectionName;
-  String storeArea;
-  String storeImageURL;
-  bool canAddStoreDraw;
-  late String latestStoreDrawId;
+  String pickUpArea;
+  String hostingAreaImageURL;
+  bool canAddDraw;
+  late String latestHostedDrawId;
   bool isCurrentlyViewed = false;
   List<String>? drawsOrder;
   Notification? notification;
 
-  StoreNameInfo({
-    required this.storeNameInfoId,
-    this.latestStoreDrawId = '-',
-    required this.storeName,
+  HostInfo({
+    required this.hostInfoId,
+    this.latestHostedDrawId = '-',
+    required this.hostingAreaName,
     required this.sectionName,
-    required this.storeArea,
-    required this.storeImageURL,
-    required this.canAddStoreDraw,
+    required this.pickUpArea,
+    required this.hostingAreaImageURL,
+    required this.canAddDraw,
     this.drawsOrder = const [],
     this.notification,
   });
 
-  factory StoreNameInfo.fromJson(dynamic json) => StoreNameInfo(
-        storeNameInfoId: json['storeNameInfoId'],
-        storeName: json['storeName'],
+  factory HostInfo.fromJson(dynamic json) => HostInfo(
+        hostInfoId: json['hostInfoId'],
+        hostingAreaName: json['hostingAreaName'],
         sectionName: Converter.toSectionName(json['sectionName']),
-        storeArea: json['storeArea'],
-        storeImageURL: json['storeImageURL'],
-        latestStoreDrawId: json['latestStoreDrawId'],
+        pickUpArea: json['pickUpArea'],
+        hostingAreaImageURL: json['hostingAreaImageURL'],
+        latestHostedDrawId: json['latestHostedDrawId'],
         drawsOrder: convert(json['drawsOrder']),
-        canAddStoreDraw: json['canAddStoreDraw'],
+        canAddDraw: json['canAddDraw'],
         notification: json["notification"] != null
             ? Notification.fromJson(json["notification"])
             : null,
@@ -47,8 +47,8 @@ class StoreNameInfo implements Comparable<StoreNameInfo> {
   }
 
   @override
-  int compareTo(StoreNameInfo other) {
-    return other.storeArea.compareTo(storeArea);
+  int compareTo(HostInfo other) {
+    return other.hostingAreaName.compareTo(hostingAreaName);
   }
 
   String getCommingDrawId() {

@@ -2,14 +2,14 @@
 // Branch : competition_resources_crud ->  create_competition_resources_front_end
 class DrawGrandPrice {
   String? grandPriceId;
-  String? storeDrawFK;
+  String? hostedDrawFK;
   String imageURL;
   String description;
   int grandPriceIndex;
 
   DrawGrandPrice({
     this.grandPriceId,
-    required this.storeDrawFK,
+    required this.hostedDrawFK,
     required this.imageURL,
     required this.description,
     required this.grandPriceIndex,
@@ -29,7 +29,7 @@ class DrawGrandPrice {
   factory DrawGrandPrice.fromJson(dynamic json) {
     return DrawGrandPrice(
       grandPriceId: json['grandPriceId'],
-      storeDrawFK: json['storeDrawFK'],
+      hostedDrawFK: json['hostedDrawFK'],
       description: json['description'],
       imageURL: json['imageURL'],
       grandPriceIndex: json['grandPriceIndex'],

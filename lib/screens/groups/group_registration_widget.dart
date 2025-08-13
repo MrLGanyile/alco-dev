@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import '../../controllers/location_controller.dart';
 import '../../controllers/group_controller.dart';
 import '../../controllers/shared_dao_functions.dart';
-import '../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import '../../main.dart';
 import '../../models/locations/converter.dart';
 import '../../models/locations/supported_area.dart';
@@ -42,7 +42,6 @@ class GroupRegistrationWidget extends StatelessWidget {
   TextEditingController phoneNumber4EditingController = TextEditingController();
 
   GroupController groupController = GroupController.instance;
-  StoreController storeController = StoreController.storeController;
 
   late Stream<List<SupportedArea>> supportedAreasStream =
       locationController.readAllSupportedAreas();

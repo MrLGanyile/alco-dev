@@ -6,7 +6,7 @@ import '/models/locations/converter.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-import '../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import '../../models/users/group.dart';
 import 'dart:developer' as debug;
 
@@ -16,7 +16,6 @@ import '../utils/globals.dart';
 class GroupCompetitorWidget extends StatelessWidget {
   Group group;
 
-  StoreController storeController = StoreController.storeController;
   late List<Reference> groupMembersImageReferences;
 
   GroupCompetitorWidget({

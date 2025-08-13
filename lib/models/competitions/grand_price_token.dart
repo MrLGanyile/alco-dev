@@ -3,7 +3,7 @@
 /grand_prices_tokens*/
 
 // Competition & CompetitorGrid Have Similar IDs
-import '../stores/draw_grand_price.dart';
+import '../hosting areas/draw_grand_price.dart';
 
 // Branch : competition_resources_crud ->  create_competition_resources_front_end
 class GrandPriceToken {
@@ -49,7 +49,7 @@ class GrandPriceToken {
   factory GrandPriceToken.fromDrawGrandPrice(DrawGrandPrice drawGrandPrice) {
     return GrandPriceToken(
         grandPriceTokenId: drawGrandPrice.grandPriceId!,
-        grandPricesGridFK: drawGrandPrice.storeDrawFK!,
+        grandPricesGridFK: drawGrandPrice.hostedDrawFK!,
         tokenIndex: drawGrandPrice.grandPriceIndex,
         //isPointed: false,
         imageURL: '',

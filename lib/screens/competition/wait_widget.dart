@@ -4,10 +4,10 @@ import '/screens/competition/group_competitor_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as debug;
 
-import '../../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import '../../../main.dart';
-import '../../../models/stores/store_draw.dart';
-import '../../models/stores/draw_grand_price.dart';
+import '../../models/hosting areas/hosted_draw.dart';
+import '../../models/hosting areas/draw_grand_price.dart';
 import 'grand_price_widget.dart';
 
 typedef OnCurrentlyViewedUpdate = Function(bool);
@@ -16,7 +16,7 @@ typedef OnCurrentGroupSet = Function(GroupCompetitorWidget);
 
 // Branch : competition_resources_crud ->  view_competitions
 class WaitWidget extends StatefulWidget {
-  StoreDraw storeDraw;
+  HostedDraw hostedDraw;
 
   bool? showPlayIcon;
   bool showRemainingTime;
@@ -29,6 +29,7 @@ class WaitWidget extends StatefulWidget {
   bool? pickWonPrice;
 
   int? pickingMultipleInSeconds;
+  int? countDownMultiple;
 
   // Not used yet, but will be later to avoid flickuring of group members images.
   OnCurrentGroupSet? onCurrentGroupSet;
@@ -38,7 +39,7 @@ class WaitWidget extends StatefulWidget {
   WaitWidget(
       {Key? key,
       this.groupPickingStartTime,
-      required this.storeDraw,
+      required this.hostedDraw,
       this.remainingDuration,
       this.onCurrentlyViewedUpdate,
       this.showPlayIcon = false,
@@ -47,6 +48,7 @@ class WaitWidget extends StatefulWidget {
       this.showAlarm = true,
       this.grandPricesOrder = const [],
       this.pickingMultipleInSeconds,
+      this.countDownMultiple,
       this.onCurrentGroupSet})
       : super(key: key);
 
@@ -55,7 +57,8 @@ class WaitWidget extends StatefulWidget {
 }
 
 class WaitWidgetState extends State<WaitWidget> {
-  StoreController storeController = StoreController.storeController;
+  HostingAreaController hostingAreaController =
+      HostingAreaController.hostingAreaController;
   CompetitionController competitionController =
       CompetitionController.competitionController;
 
@@ -67,8 +70,8 @@ class WaitWidgetState extends State<WaitWidget> {
   @override
   void initState() {
     super.initState();
-    drawGrandPricesStream = storeController.findDrawGrandPrices(
-        widget.storeDraw.storeFK, widget.storeDraw.storeDrawId!);
+    drawGrandPricesStream = hostingAreaController.findDrawGrandPrices(
+        widget.hostedDraw.hostingAreaFK, widget.hostedDraw.hostedDrawId!);
   }
 
   Widget competitionDayAndTime() {
@@ -86,7 +89,7 @@ class WaitWidgetState extends State<WaitWidget> {
                   decoration: TextDecoration.none),
             ),
             Text(
-              widget.storeDraw.startOnDay(),
+              widget.hostedDraw.startOnDay(),
               style: TextStyle(
                   fontSize: MyApplication.infoTextFontSize,
                   color: MyApplication.storesSpecialTextColor,
@@ -94,7 +97,7 @@ class WaitWidgetState extends State<WaitWidget> {
                   decoration: TextDecoration.none),
             ),
             Text(
-              widget.storeDraw.startOnTime(),
+              widget.hostedDraw.startOnTime(),
               style: TextStyle(
                   fontSize: MyApplication.infoTextFontSize,
                   color: MyApplication.storesSpecialTextColor,
@@ -112,7 +115,8 @@ class WaitWidgetState extends State<WaitWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Remaining Time ',
+              // 'Remaining Time ',
+              'Count Down ',
               style: TextStyle(
                   fontSize: MyApplication.infoTextFontSize,
                   color: MyApplication.storesSpecialTextColor,
@@ -120,7 +124,8 @@ class WaitWidgetState extends State<WaitWidget> {
                   decoration: TextDecoration.none),
             ),
             Text(
-              '$minutes:$seconds',
+              // '$minutes:$seconds',
+              '${(minutes * 60 + seconds) ~/ widget.countDownMultiple!}',
               style: TextStyle(
                   fontSize: MyApplication.infoTextFontSize,
                   color: MyApplication.storesSpecialTextColor,

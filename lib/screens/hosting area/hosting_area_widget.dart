@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import '../../models/locations/converter.dart';
-import '../../models/stores/store_draw.dart';
+import '../../models/hosting areas/hosted_draw.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
@@ -13,21 +13,21 @@ import 'dart:developer' as debug;
 import '../utils/globals.dart';
 
 // Branch : store_resources_crud ->  view_stores_front_end
-class StoreInfoWidget extends StatefulWidget {
-  String storeName;
-  String storeId;
-  String storeImageURL;
+class HostingAreaWidget extends StatefulWidget {
+  String hostingAreaName;
+  String hostingAreaId;
+  String hostingAreaImageURL;
   SectionName sectionName;
 
-  StoreInfoWidget({
+  HostingAreaWidget({
     super.key,
-    required this.storeId,
-    required this.storeName,
-    required this.storeImageURL,
+    required this.hostingAreaId,
+    required this.hostingAreaName,
+    required this.hostingAreaImageURL,
     required this.sectionName,
   });
 
-  Column retrieveStoreDetails(BuildContext context) {
+  Column retrieveHostingAreaDetails(BuildContext context) {
     // Information About The Hosting Store.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +38,7 @@ class StoreInfoWidget extends StatefulWidget {
           children: [
             Expanded(
               child: Text(
-                'Store Name',
+                'Host Area Name',
                 style: TextStyle(
                     fontSize: MyApplication.infoTextFontSize,
                     color: MyApplication.storeInfoTextColor,
@@ -50,7 +50,7 @@ class StoreInfoWidget extends StatefulWidget {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  storeName,
+                  hostingAreaName,
                   style: TextStyle(
                     fontSize: MyApplication.infoTextFontSize,
                     fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class StoreInfoWidget extends StatefulWidget {
           children: [
             Expanded(
               child: Text(
-                'Store Home',
+                'Host Home',
                 style: TextStyle(
                     fontSize: MyApplication.infoTextFontSize,
                     fontWeight: FontWeight.bold,
@@ -98,8 +98,9 @@ class StoreInfoWidget extends StatefulWidget {
     );
   }
 
-  AspectRatio retrieveStoreImage(BuildContext context, String storeImage) {
-    debug.log('store info widget retrieveStoreImage...');
+  AspectRatio retrieveHostingAreaImage(
+      BuildContext context, String storeImage) {
+    debug.log('host info widget retrieveHostingAreaImage...');
     // The Image Of A Store On Which The Winner Won From.
     return AspectRatio(
       aspectRatio: 5 / 2,
@@ -137,32 +138,33 @@ class StoreInfoWidget extends StatefulWidget {
     );
   }
 
-  Future<String> createStoreImageURL() {
-    return storageReference.child(storeImageURL).getDownloadURL();
+  Future<String> createHostingAreaImageURL() {
+    return storageReference.child(hostingAreaImageURL).getDownloadURL();
   }
 
   @override
-  State<StatefulWidget> createState() => StoreInfoWidgetState();
+  State<StatefulWidget> createState() => HostingAreaWidgetState();
 }
 
-class StoreInfoWidgetState extends State<StoreInfoWidget> {
-  StoreController storeController = StoreController.storeController;
-  late List<StoreDraw> storeDraws;
+class HostingAreaWidgetState extends State<HostingAreaWidget> {
+  HostingAreaController hostingAreaController =
+      HostingAreaController.hostingAreaController;
+  late List<HostedDraw> hostedDraws;
 
   @override
   void initState() {
     super.initState();
-    storeDraws =
-        storeController.findStoreDraws(widget.storeId) as List<StoreDraw>;
+    hostedDraws = hostingAreaController.findHostedDraws(widget.hostingAreaId)
+        as List<HostedDraw>;
   }
 
   int findSpecialDateIndex() {
     DateTime now = DateTime.now();
 
-    for (int i = 0; i < storeDraws.length; i++) {
-      if (storeDraws[i].drawDateAndTime.year == now.year &&
-          storeDraws[i].drawDateAndTime.month == now.month &&
-          storeDraws[i].drawDateAndTime.day == now.day) {
+    for (int i = 0; i < hostedDraws.length; i++) {
+      if (hostedDraws[i].drawDateAndTime.year == now.year &&
+          hostedDraws[i].drawDateAndTime.month == now.month &&
+          hostedDraws[i].drawDateAndTime.day == now.day) {
         return i;
       }
     }
@@ -172,23 +174,23 @@ class StoreInfoWidgetState extends State<StoreInfoWidget> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: widget.createStoreImageURL(),
+        future: widget.createHostingAreaImageURL(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Column(
               children: [
                 SizedBox(
                     height: 150,
-                    child: widget.retrieveStoreImage(
+                    child: widget.retrieveHostingAreaImage(
                         context, snapshot.data as String)),
                 SizedBox(
                   height: 50,
-                  child: widget.retrieveStoreDetails(context),
+                  child: widget.retrieveHostingAreaDetails(context),
                 ),
               ],
             );
           } else if (snapshot.hasError) {
-            debug.log('Error Fetching Store Image - ${snapshot.error}');
+            debug.log('Error Fetching Hosting Area Image - ${snapshot.error}');
             return getCircularProgressBar();
           } else {
             return getCircularProgressBar();

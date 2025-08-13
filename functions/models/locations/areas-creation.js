@@ -10,6 +10,7 @@ class AreasCreation extends LocationCreation {
         this.locationController = new LocationController();
     }
 
+    // Town/Institution 1
     async createUmlaziSupportedAreas() {
         const aSection = new SupportedArea("1",
             "A Section-Umlazi-Durban-Kwa Zulu Natal-South Africa", "1");
@@ -95,6 +96,7 @@ class AreasCreation extends LocationCreation {
 
     };
 
+    // Town/Institution 2
     async createMUTSupportedAreas() {
 
         const mut = new SupportedArea("2",
@@ -102,12 +104,14 @@ class AreasCreation extends LocationCreation {
         await this.locationController.createSupportedArea(mut.toJson());
     };
 
+    // Town/Institution 3
     async createDUTSupportedAreas() {
         const dut = new SupportedArea("3",
             "DUT-Durban-Kwa Zulu Natal-South Africa", "29");
         await this.locationController.createSupportedArea(dut.toJson());
     };
 
+    // Town/Institution 4
     async createHowardSupportedAreas() {
 
         const howard = new SupportedArea("4",
@@ -115,6 +119,7 @@ class AreasCreation extends LocationCreation {
         await this.locationController.createSupportedArea(howard.toJson())
     };
 
+    // Town/Institution 5
     async createMayvilleSupportedAreas() {
 
 
@@ -138,6 +143,7 @@ class AreasCreation extends LocationCreation {
         await this.locationController.createSupportedArea(nsimbini.toJson());
     };
 
+    // Town/Institution 6
     async createSydenhamSupportedAreas() {
         const foreman = new SupportedArea("6",
             "Foreman-Sydenham-Durban-Kwa Zulu Natal-South Africa", "37");
@@ -160,6 +166,7 @@ class AreasCreation extends LocationCreation {
 
     };
 
+    // Town/Institution 7
     async createDurbanCentralSupportedAreas() {
         const glenwood = new SupportedArea("7",
             "Glenwood-Durban Central-Durban-Kwa Zulu Natal-South Africa", "43");

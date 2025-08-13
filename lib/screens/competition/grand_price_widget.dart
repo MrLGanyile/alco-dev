@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
 
-import '../../../controllers/store_controller.dart';
+import '../../controllers/hosting_area_controller.dart';
 import "dart:developer" as debug;
 
 import '../utils/globals.dart';
@@ -27,7 +27,8 @@ class GrandPriceWidget extends StatefulWidget {
 }
 
 class GrandPriceWidgetState extends State<GrandPriceWidget> {
-  StoreController storeController = StoreController.storeController;
+  HostingAreaController hostingAreaController =
+      HostingAreaController.hostingAreaController;
 
   Future<String> retrieveGrandPriceImageURL() {
     return storageReference.child(widget.grandPriceImageURL).getDownloadURL();

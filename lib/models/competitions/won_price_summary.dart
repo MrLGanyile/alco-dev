@@ -8,8 +8,8 @@ import '../locations/supported_town_or_institution.dart';
 class WonPriceSummary implements Comparable<WonPriceSummary> {
   String wonPriceSummaryId; // Same as the storeDrawId & competitionId
 
-  String storeFK;
-  String storeImageURL;
+  String hostingAreaFK;
+  String hostingAreaImageURL;
   String hostName;
   SupportedTownOrInstitution townOrInstitution;
   SupportedArea groupArea;
@@ -29,8 +29,8 @@ class WonPriceSummary implements Comparable<WonPriceSummary> {
 
   WonPriceSummary(
       {required this.wonPriceSummaryId,
-      required this.storeFK,
-      required this.storeImageURL,
+      required this.hostingAreaFK,
+      required this.hostingAreaImageURL,
       required this.hostName,
       required this.groupArea,
       required this.townOrInstitution,
@@ -49,8 +49,8 @@ class WonPriceSummary implements Comparable<WonPriceSummary> {
     debug.log(json['wonDate'].toString());
     return WonPriceSummary(
         wonPriceSummaryId: json['wonPriceSummaryId'],
-        storeFK: json['storeFK'],
-        storeImageURL: json['storeImageURL'],
+        hostingAreaFK: json['hostingAreaFK'],
+        hostingAreaImageURL: json['hostingAreaImageURL'],
         hostName: json['hostName'],
         pickUpSpot: json['pickUpSpot'],
         groupCreatorPhoneNumber: json['groupCreatorPhoneNumber'],
