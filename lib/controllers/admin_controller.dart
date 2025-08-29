@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import '../models/locations/town_or_institution.dart';
 import '../models/users/admin.dart';
 import '../screens/utils/globals.dart';
-import 'shared_dao_functions.dart';
+import 'shared_resources_controller.dart';
 import 'dart:math';
 import 'dart:developer' as debug;
 
@@ -39,16 +39,22 @@ class AdminController extends GetxController {
   static AdminController adminController = Get.find();
 
   // ignore: prefer_final_fields
-  Rx<Admin?> _currentlyLoggedInAdmin = Rx(//null
-      Admin(
+  Rx<Admin?> _currentlyLoggedInAdmin = Rx(null
+      /*Admin(
+          userId: 's0s0I9Cfbxsy6XHOhEWYaIdw8Rcq',
           phoneNumber: '+27611111111',
           password: 'qwerty321',
           joinedOn: DateTime(2025, 2, 5),
           profileImageURL: 'admins/profile_images/+27611111111.png',
           isFemale: false,
           isSuperior: true,
-          key: "000"));
+          key: "000")*/
+      );
   Admin? get currentlyLoggedInAdmin => _currentlyLoggedInAdmin.value;
+
+  // ignore: prefer_final_fields
+  late Rx<String?> _newAdminUserId = Rx(null);
+  String? get newAdminUserId => _newAdminUserId.value;
 
   // ignore: prefer_final_fields
   late Rx<File?> _newAdminProfileImage = Rx(null);
@@ -80,8 +86,20 @@ class AdminController extends GetxController {
   late Rx<String?> _superiorAdminEntranceCode = Rx<String?>(null);
   String? get superiorAdminEntranceCode => _superiorAdminEntranceCode.value;
 
-  Future<Admin?> findAdmin(String phoneNumber) {
-    return firestore.collection('admins').doc(phoneNumber).get().then((value) {
+  // Clear for new admin registration.
+  void clear() {
+    _newAdminUserId = Rx<String?>(null);
+    _newAdminProfileImage = Rx(null);
+    _newAdminProfileImageURL = Rx('');
+    _newAdminPhoneNumber = Rx(null);
+    _newTownOrInstitutionName = Rx(TownOrInstitution.howardUKZN);
+    _newAdminIsFemale = Rx(true);
+    _newAdminPassword = Rx('');
+    update();
+  }
+
+  Future<Admin?> findAdmin(String userId) {
+    return firestore.collection('admins').doc(userId).get().then((value) {
       return value.exists ? Admin.fromJson(value.data()) : null;
     });
   }
@@ -91,9 +109,9 @@ class AdminController extends GetxController {
     auth.authStateChanges();
   }
 
-  void logoutAdmin() {
+  void logoutAdmin() async {
+    await auth.signOut();
     _currentlyLoggedInAdmin = Rx(null);
-    auth.signOut();
   }
 
   void chooseAdminProfileImageFromGallery(String phoneNumber) async {
@@ -194,8 +212,16 @@ class AdminController extends GetxController {
   }
 
   Future<AdminSavingStatus> saveAdmin(String phoneNumber) async {
+    if (currentlyLoggedInAdmin == null) {
+      return AdminSavingStatus.loginRequired;
+    }
+
+    if (_newAdminUserId.value == null) {
+      return AdminSavingStatus.incompleteData;
+    }
+
     DocumentReference adminReference =
-        firestore.collection('admins').doc(phoneNumber);
+        firestore.collection('admins').doc(_newAdminUserId.value);
 
     return adminReference
         .snapshots()
@@ -204,14 +230,14 @@ class AdminController extends GetxController {
             return AdminSavingStatus.loginRequired;
           }
 
+          if (!(currentlyLoggedInAdmin as Admin).isSuperior) {
+            return AdminSavingStatus.unathourized;
+          }
+
           if (_newAdminPhoneNumber.value != null &&
               (!isValidPhoneNumber(_newAdminPhoneNumber.value!) ||
                   newAdminPassword.isEmpty)) {
             return AdminSavingStatus.invalidInput;
-          }
-
-          if (!(currentlyLoggedInAdmin as Admin).isSuperior) {
-            return AdminSavingStatus.unathourized;
           }
 
           if (_newAdminProfileImage.value == null ||
@@ -232,6 +258,7 @@ class AdminController extends GetxController {
             key += characters[random.nextInt(characters.length)];
 
             Admin admin = Admin(
+              userId: adminReference.id,
               joinedOn: joinedOn,
               phoneNumber: _newAdminPhoneNumber.value,
               profileImageURL: _newAdminProfileImageURL.value,
@@ -243,6 +270,7 @@ class AdminController extends GetxController {
 
             await adminReference.set(admin.toJson());
             loginAdminUsingObject(admin);
+            clear();
             return AdminSavingStatus.saved;
           } else {
             return AdminSavingStatus.adminAlreadyExist;

@@ -309,7 +309,7 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
   }
 
   Future<String> findWonPriceImageURL() async {
-    return storageReference
+    return reference
         .child(widget.wonPriceSummary.wonGrandPriceImageURL)
         .getDownloadURL();
   }
@@ -358,7 +358,7 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
   }
 
   Future<String> findGroupCreatorImageURL() {
-    return storageReference
+    return reference
         .child(widget.wonPriceSummary.groupCreatorImageURL)
         .getDownloadURL();
   }
@@ -368,7 +368,11 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
   // ===================Group Members Display Start===================
   Future<ListResult> findGroupMembersImageURLs() async {
     String hostName = widget.wonPriceSummary.hostName.toLowerCase();
-    return storageReference
+
+    if (widget.wonPriceSummary.hostName.contains('mangosuthu (mut)')) {
+      hostName = 'mangosuthu (mut)';
+    }
+    return reference
         .child(
             '$hostName/group_members/${widget.wonPriceSummary.groupCreatorPhoneNumber}/profile_images')
         .listAll();

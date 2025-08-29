@@ -2,7 +2,7 @@ import '../../screens/admins/admin_screens_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/shared_dao_functions.dart';
+import '../../controllers/shared_resources_controller.dart';
 import '../../controllers/hosting_area_controller.dart';
 import '../../main.dart';
 import '../../models/users/admin.dart';

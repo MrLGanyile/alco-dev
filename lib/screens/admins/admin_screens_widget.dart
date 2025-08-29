@@ -2,7 +2,7 @@ import 'package:alco_dev/screens/utils/globals.dart';
 import 'package:alco_dev/screens/utils/start_screen.dart';
 
 import '../../controllers/group_controller.dart';
-import '../../controllers/shared_dao_functions.dart';
+import '../../controllers/shared_resources_controller.dart';
 import '../../models/users/admin.dart';
 import '../hosting area/hosted_draw_registration_widget.dart';
 import 'admin_registration_widget.dart';

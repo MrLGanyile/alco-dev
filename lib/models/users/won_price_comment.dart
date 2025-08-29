@@ -4,6 +4,7 @@ import '../locations/converter.dart';
 
 class WonPriceComment implements Comparable<WonPriceComment> {
   String? wonPriceCommentId;
+  String creatorPhoneNumber;
   String wonPriceSummaryFK;
   String message;
   DateTime? dateCreated;
@@ -13,6 +14,7 @@ class WonPriceComment implements Comparable<WonPriceComment> {
 
   WonPriceComment({
     this.wonPriceCommentId,
+    required this.creatorPhoneNumber,
     required this.forTownOrInstitution,
     required this.wonPriceSummaryFK,
     required this.message,
@@ -25,6 +27,7 @@ class WonPriceComment implements Comparable<WonPriceComment> {
     dateCreated = DateTime.now();
     final map = {
       'wonPriceCommentId': wonPriceCommentId,
+      'creatorPhoneNumber': creatorPhoneNumber,
       'wonPriceSummaryFK': wonPriceSummaryFK,
       'forTownOrInstitution':
           Converter.townOrInstitutionAsString(forTownOrInstitution),
@@ -44,6 +47,7 @@ class WonPriceComment implements Comparable<WonPriceComment> {
 
   factory WonPriceComment.fromJson(dynamic json) => WonPriceComment(
       wonPriceCommentId: json['wonPriceCommentId'],
+      creatorPhoneNumber: json['creatorPhoneNumber'],
       forTownOrInstitution:
           Converter.toTownOrInstitution(json['forTownOrInstitution']),
       wonPriceSummaryFK: json['wonPriceSummaryFK'],

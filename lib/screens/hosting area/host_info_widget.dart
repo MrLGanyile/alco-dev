@@ -168,7 +168,7 @@ class HostInfoWidgetState extends State<HostInfoWidget> {
   }
 
   Future<String> retrieveHostingAreaImageURL(String hostingAreaImageURL) {
-    return storageReference.child(hostingAreaImageURL).getDownloadURL();
+    return reference.child(hostingAreaImageURL).getDownloadURL();
   }
 
   AspectRatio retrieveStoreImage(

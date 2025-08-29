@@ -7,6 +7,7 @@ import '../../main.dart';
 import '../../models/locations/converter.dart';
 import '../../models/locations/supported_area.dart';
 import '../utils/globals.dart';
+import '../utils/home_widget.dart';
 import '/controllers/alcoholic_controller.dart';
 import '/models/users/alcoholic.dart';
 import 'package:flutter/material.dart';
@@ -16,16 +17,18 @@ class AlcoholicsWidget extends StatelessWidget {
   AlcoholicController alcoholicController =
       AlcoholicController.alcoholicController;
 
-  late Stream<List<SupportedArea>> supportedAreasStream =
-      locationController.readAllSupportedAreas();
-  late List<String> items;
   LocationController locationController = LocationController.locationController;
+
+  /*late Stream<List<SupportedArea>> supportedAreasStream =
+      locationController.readAllSupportedAreas(); */
+  late List<String> items;
+
   late DropdownButton2<String> dropDowButton;
 
   AlcoholicsWidget({Key? key}) : super(key: key);
 
   Future<String> findProfileImageURL(String imageURL) async {
-    return await storageReference.child(imageURL).getDownloadURL();
+    return await reference.child(imageURL).getDownloadURL();
   }
 
   @override
@@ -36,7 +39,9 @@ class AlcoholicsWidget extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           iconSize: 20,
           color: MyApplication.attractiveColor1,
-          onPressed: () => Get.back(),
+          onPressed: (() {
+            Get.back();
+          }),
         ),
         elevation: 0,
         title: const Text(
@@ -64,7 +69,8 @@ class AlcoholicsWidget extends StatelessWidget {
                   ),
                   // Search Area
                   StreamBuilder<List<SupportedArea>>(
-                    stream: supportedAreasStream,
+                    // stream: supportedAreasStream,
+                    stream: locationController.readAllSupportedAreas(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<String> dbItems = [];
@@ -287,7 +293,8 @@ class AlcoholicsWidget extends StatelessWidget {
                 ),
               );
             } else if (snapshot.hasError) {
-              getSnapbar('Error', snapshot.error.toString());
+              // getSnapbar('Error', snapshot.error.toString());
+
               debug
                   .log("Error Fetching Profile Image Data - ${snapshot.error}");
               return getCircularProgressBar();

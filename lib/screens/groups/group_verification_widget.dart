@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/group_controller.dart';
-import '../../controllers/shared_dao_functions.dart';
+import '../../controllers/shared_resources_controller.dart';
 import '../../main.dart';
-import '../../controllers/shared_dao_functions.dart' as shared;
+import '../../controllers/shared_resources_controller.dart' as shared;
 
 import 'package:flutter/material.dart';
 
@@ -27,6 +27,8 @@ class _GroupVerificationWidgetState extends State<GroupVerificationWidget> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController otpController = TextEditingController();
   GroupController groupController = GroupController.instance;
+  SharedResourcesController sharedResourcesController =
+      SharedResourcesController.sharedResourcesController;
 
   Color snackBarBackgroundColor = Colors.white;
   Duration snackBarDuration = const Duration(seconds: 5);
@@ -34,7 +36,8 @@ class _GroupVerificationWidgetState extends State<GroupVerificationWidget> {
   Color snackBarBorderColor = Colors.white;
 
   void verify() async {
-    shared.showProgressBar = true;
+    sharedResourcesController.setShowProgressBar(true);
+
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: widget.verificationId, smsCode: otpController.text);
@@ -42,8 +45,8 @@ class _GroupVerificationWidgetState extends State<GroupVerificationWidget> {
       await auth.signInWithCredential(credential);
 
       auth.currentUser!.getIdToken(true).then((token) async {
-        if (!isLeaderValidated) {
-          setIsLeaderValidated(true);
+        if (!sharedResourcesController.isLeaderValidated) {
+          sharedResourcesController.setIsLeaderValidated(true);
           Get.back();
         }
       }).catchError((onError) {});
@@ -56,7 +59,7 @@ class _GroupVerificationWidgetState extends State<GroupVerificationWidget> {
           'Error',
           'Wrong Verification Code.');
     } finally {
-      shared.showProgressBar = false;
+      sharedResourcesController.setShowProgressBar(false);
     }
   }
 
@@ -115,7 +118,7 @@ class _GroupVerificationWidgetState extends State<GroupVerificationWidget> {
                   obscureText: false,
                 ),
               ),
-              shared.showProgressBar
+              sharedResourcesController.showProgressBar
                   ? getCircularProgressBar()
                   : Container(
                       width: MediaQuery.of(context).size.width,

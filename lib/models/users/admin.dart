@@ -11,7 +11,8 @@ class Admin extends User {
   DateTime joinedOn;
 
   Admin(
-      {required phoneNumber,
+      {required userId,
+      required phoneNumber,
       required this.joinedOn,
       this.townOrInstitution = TownOrInstitution.umlazi,
       required profileImageURL,
@@ -21,6 +22,7 @@ class Admin extends User {
       this.isBlocked = false,
       required this.key})
       : super(
+            userId: userId,
             phoneNumber: phoneNumber,
             profileImageURL: profileImageURL,
             password: password);
@@ -47,6 +49,7 @@ class Admin extends User {
   }
 
   factory Admin.fromJson(dynamic json) => Admin(
+      userId: json['userId'],
       joinedOn: DateTime(
         json['joinedOn']['year'],
         json['joinedOn']['month'],

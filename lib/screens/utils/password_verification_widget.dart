@@ -1,25 +1,25 @@
-import 'package:alco_dev/screens/admins/admin_screens_widget.dart';
-import 'package:alco_dev/screens/admins/admins_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../../controllers/shared_dao_functions.dart';
+import '../../controllers/shared_resources_controller.dart';
 import '../../main.dart';
 
 import '../../models/users/admin.dart';
 import '../../models/users/alcoholic.dart';
+import '../admins/admin_screens_widget.dart';
 import 'globals.dart';
 import 'start_screen.dart';
 import '../../models/users/user.dart' as my;
 
 class PasswordVerificationWidget extends StatelessWidget {
   TextEditingController passwordEditingController = TextEditingController();
+  SharedResourcesController sharedResourcesController =
+      SharedResourcesController.sharedResourcesController;
   my.User user;
   PasswordVerificationWidget({required this.user});
   @override
   Widget build(BuildContext context) {
-    alcoholicController.setShowProgressIndicator(false);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -33,7 +33,7 @@ class PasswordVerificationWidget extends StatelessWidget {
             iconSize: 20,
             color: MyApplication.logoColor2,
             onPressed: (() {
-              Get.back();
+              Get.close(2);
             }),
           ),
           elevation: 0,
@@ -110,21 +110,40 @@ class PasswordVerificationWidget extends StatelessWidget {
             )),
         child: InkWell(
           onTap: () async {
-            alcoholicController.setShowProgressIndicator(true);
+            // Disable progress bar for the previous screen (verification screen).
+            if (sharedResourcesController.showPhoneVerificationProgressBar) {
+              sharedResourcesController
+                  .setShowPhoneVerificationProgressBar(false);
+            }
+
+            // Enable progress bar for current screen (password screen) if it not yet enabled.
+            if (!sharedResourcesController
+                .showPasswordVerificationProgressBar) {
+              sharedResourcesController
+                  .setShowPasswordVerificationProgressBar(true);
+            }
+
             if (user.password.compareTo(passwordEditingController.text) == 0) {
               if (user is Alcoholic) {
                 alcoholicController.loginUserUsingObject(user as Alcoholic);
                 getSnapbar('Welcome', 'You Are Currently Logged in.');
-                alcoholicController.setShowProgressIndicator(false);
+                sharedResourcesController
+                    .setShowPasswordVerificationProgressBar(false);
+
                 Get.to(() => StartScreen());
               } else {
                 adminController.loginAdminUsingObject(user as Admin);
-                alcoholicController.setShowProgressIndicator(false);
+                sharedResourcesController
+                    .setShowPasswordVerificationProgressBar(false);
                 Get.to(() => AdminScreensWidget());
               }
             } else {
-              alcoholicController.setShowProgressIndicator(false);
-              auth.currentUser!.delete();
+              if (sharedResourcesController
+                  .showPasswordVerificationProgressBar) {
+                sharedResourcesController
+                    .setShowPasswordVerificationProgressBar(false);
+              }
+
               getSnapbar('Login Failed', 'Wrong Password');
             }
           },

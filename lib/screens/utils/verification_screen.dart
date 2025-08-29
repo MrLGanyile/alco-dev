@@ -1,6 +1,6 @@
 import '/controllers/admin_controller.dart';
 import '/controllers/alcoholic_controller.dart';
-import '/controllers/shared_dao_functions.dart' as shared;
+import '../../controllers/shared_resources_controller.dart';
 import '/screens/alcoholics/alcoholic_registration_widget.dart';
 import '/screens/utils/login_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,6 +44,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
   AlcoholicController alcoholicController =
       AlcoholicController.alcoholicController;
 
+  SharedResourcesController sharedResourcesController =
+      SharedResourcesController.sharedResourcesController;
+
   Color snackBarBackgroundColor = Colors.white;
   Duration snackBarDuration = const Duration(seconds: 5);
   Color snackBarColorText = Colors.white;
@@ -51,6 +54,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   void verifySignin() async {
     try {
+      // Disable progress bar for the previous screen (Admin/Alco Reg screen) if needed.
+      if (sharedResourcesController.showSigninProgressBar) {
+        sharedResourcesController.setShowSigninProgressBar(false);
+      }
+
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: widget.verificationId, smsCode: otpController.text);
       final auth = FirebaseAuth.instance;
@@ -81,7 +89,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
           debug.log('forAdmin == true');
 
           adminSavingStatus.then((value) {
-            shared.showProgressBar = false;
             if (value == AdminSavingStatus.unathourized) {
               debug.log(
                   'AdminSavingStatus.unathourized From VerificationScreen...');
@@ -138,16 +145,20 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   // borderColor: snackBarBorderColor,
                   'Admin Saved',
                   'Registration Succeeded.');
+              // Disable progress bar for the current screen (verification screen) if needed.
+              if (sharedResourcesController.showPhoneVerificationProgressBar) {
+                sharedResourcesController
+                    .setShowPhoneVerificationProgressBar(false);
+              }
               Get.to(AdminScreensWidget());
             }
           });
         } else {
           Future<AlcoholicSavingStatus> alcoholSavingStatus =
-              alcoholicController.saveAlcoholic(auth.currentUser!.uid);
+              alcoholicController.saveAlcoholic(/*auth.currentUser!.uid*/);
           debug.log('forAdmin == false');
 
           alcoholSavingStatus.then((value) {
-            shared.showProgressBar = false;
             if (value == AlcoholicSavingStatus.unathourized) {
               debug.log(
                   'AlcoholicSavingStatus.unathourized From VerificationScreen...');
@@ -213,10 +224,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
           'Error',
           'Wrong Verification Code.');
       debug.log('Wrong Verification Code');
-    } finally {
-      setState(() {
-        shared.showProgressBar = false;
-      });
     }
   }
 
@@ -227,19 +234,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
       final auth = FirebaseAuth.instance;
       await auth.signInWithCredential(credential);
 
-      debug.log('verifyLogin passed...');
-
       auth.currentUser!.getIdToken(true).then((token) async {
         if (widget.forAdmin) {
-          await adminController
-              .findAdmin(auth.currentUser!.phoneNumber!)
-              .then((admin) {
+          await adminController.findAdmin(auth.currentUser!.uid).then((admin) {
             if (admin == null) {
-              debug.log('admin doc do not exist...');
-              auth.currentUser!.delete();
               getSnapbar('Registration Required', 'User Do Not Exist.');
+
+              Get.close(2);
             } else {
-              debug.log('admin doc do exist...');
+              sharedResourcesController
+                  .setShowPhoneVerificationProgressBar(false);
               Get.to(() => PasswordVerificationWidget(
                     user: admin,
                   ));
@@ -247,15 +251,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
           });
         } else {
           await alcoholicController
-              .findAlcoholic(auth.currentUser!.phoneNumber!)
+              .findAlcoholic(auth.currentUser!.uid)
               .then((alcoholic) {
             if (alcoholic == null) {
-              debug.log('alcoholic doc do not exist...');
-              auth.currentUser!.delete();
               getSnapbar('Registration Required', 'User Do Not Exist.');
               Get.to(() => AlcoholicRegistrationWidget());
             } else {
-              debug.log('alcoholic doc do exist...');
+              sharedResourcesController
+                  .setShowPhoneVerificationProgressBar(false);
               Get.to(() => PasswordVerificationWidget(
                     user: alcoholic,
                   ));
@@ -272,8 +275,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
           'Error',
           'Wrong Verification Code.');
       debug.log('Wrong Verification Code');
-    } finally {
-      shared.showProgressBar = false;
     }
   }
 
@@ -300,6 +301,20 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   _numberText()
                 ],
               ),
+              GetBuilder<SharedResourcesController>(builder: (_) {
+                return sharedResourcesController
+                        .showPhoneVerificationProgressBar
+                    ? IconButton(
+                        icon: const Icon(Icons.refresh),
+                        iconSize: blueIconsSize,
+                        color: MyApplication.backArrowColor,
+                        onPressed: (() {
+                          sharedResourcesController
+                              .setShowPhoneVerificationProgressBar(false);
+                        }),
+                      )
+                    : const SizedBox.shrink();
+              }),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
@@ -332,39 +347,55 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   obscureText: false,
                 ),
               ),
-              !alcoholicController.showProgressBar
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        color: MyApplication.logoColor2,
-                      ),
-                    )
-                  : Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: MyApplication.logoColor1,
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
+              GetBuilder<SharedResourcesController>(builder: (_) {
+                return sharedResourcesController
+                        .showPhoneVerificationProgressBar
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: MyApplication.logoColor2,
                         ),
-                      ),
-                      child: InkWell(
-                        onTap: () async {
-                          alcoholicController.setShowProgressIndicator(false);
-                          widget.forLogin ? verifyLogin() : verifySignin();
-                        },
-                        child: const Center(
-                          child: Text(
-                            'Verify',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
+                      )
+                    : Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 60,
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: MyApplication.logoColor1,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                        child: InkWell(
+                          onTap: () async {
+                            // Disable progress bar for the previous screen (login screen) if needed.
+                            if (sharedResourcesController
+                                .showLoginProgressBar) {
+                              sharedResourcesController
+                                  .setShowLoginProgressBar(false);
+                            }
+
+                            // Enable progress bar for the current scree (verification screen) if needed.
+                            if (!sharedResourcesController
+                                .showPhoneVerificationProgressBar) {
+                              sharedResourcesController
+                                  .setShowPhoneVerificationProgressBar(true);
+                            }
+
+                            widget.forLogin ? verifyLogin() : verifySignin();
+                          },
+                          child: const Center(
+                            child: Text(
+                              'Verify',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    )
+                      );
+              }),
             ],
           ),
         ),

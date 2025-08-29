@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/alcoholic_controller.dart';
-import '../../controllers/shared_dao_functions.dart' as shared;
+import '../../controllers/shared_resources_controller.dart' as shared;
 import '../../models/locations/converter.dart';
 import '../utils/globals.dart';
 import '../utils/start_screen.dart';
@@ -30,6 +30,8 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
   LocationController locationController = LocationController.locationController;
   AlcoholicController alcoholicController =
       AlcoholicController.alcoholicController;
+  shared.SharedResourcesController sharedResourcesController =
+      shared.SharedResourcesController.sharedResourcesController;
 
   late List<String> items;
 
@@ -227,7 +229,7 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                                   color: MyApplication.logoColor2),
                               onPressed: () {
                                 // Every once in a white dirty profile images should be deleted from storage.
-                                if (shared.isValidPhoneNumber(
+                                if (isValidPhoneNumber(
                                     '$countryDialCode${phoneNumberEditingController.text}')) {
                                   alcoholicController
                                       .captureAlcoholicProfileImageWithCamera(
@@ -250,7 +252,7 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                                   color: MyApplication.logoColor2),
                               onPressed: () {
                                 // Every once in a white dirty profile images should be deleted from storage.
-                                if (shared.isValidPhoneNumber(
+                                if (isValidPhoneNumber(
                                     '$countryDialCode${phoneNumberEditingController.text}')) {
                                   alcoholicController
                                       .chooseAlcoholicProfileImageFromGallery(
@@ -313,8 +315,8 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                 height: 5,
               ),
 
-              GetBuilder<AlcoholicController>(builder: (_) {
-                return alcoholicController.showProgressBar
+              GetBuilder<shared.SharedResourcesController>(builder: (_) {
+                return sharedResourcesController.showSigninProgressBar
                     ? Center(
                         child: CircularProgressIndicator(
                           color: MyApplication.logoColor2,
@@ -335,7 +337,7 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                             child: InkWell(
                               onTap: () async {
                                 debug.log('clicked...');
-                                if (shared.getCurrentlyLoggenInUser() != null) {
+                                if (getCurrentlyLoggenInUser() != null) {
                                   Get.snackbar("Signing Error",
                                       "Logout Before Registering New Users.");
                                   return;
@@ -357,11 +359,9 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                                     alcoholicController
                                             .newAlcoholicProfileImageFile !=
                                         null) {
-                                  final auth = FirebaseAuth.instance;
                                   debug.log(
                                       'Alcoholic Validated From AlcoholicRegistrationScreen 2');
-                                  alcoholicController
-                                      .setShowProgressIndicator(true);
+
                                   await auth.verifyPhoneNumber(
                                     phoneNumber:
                                         '+27${phoneNumberEditingController.text}',
@@ -418,8 +418,8 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                                     },
                                     codeSent: (String verificationId,
                                         int? resendToken) async {
-                                      alcoholicController
-                                          .setShowProgressIndicator(true);
+                                      sharedResourcesController
+                                          .setShowSigninProgressBar(true);
                                       debug.log(
                                           '....About To VerificationScreen');
                                       Get.to(() => VerificationScreen(

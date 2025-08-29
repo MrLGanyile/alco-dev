@@ -14,6 +14,7 @@ import 'controllers/post_controller.dart';
 import 'controllers/hosting_area_controller.dart';
 import 'controllers/group_controller.dart';
 
+import 'controllers/shared_resources_controller.dart';
 import 'firebase_options.dart';
 import 'screens/utils/start_screen.dart';
 
@@ -26,6 +27,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 /* 
   9687856170 4214
   FNB ACC No 63117824359
+  My WhatsApp 0725918032
   ***********Currently Start***********
   Qonsi
   Mahlabekufeni (both)
@@ -37,10 +39,12 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
   ***********To Find End***********
 
   ***********Phone Numbers Start***********
-   My Numbers Telkom -0754856234 Vodacom - 0796305714
+   My Numbers Telkom -0754856234 Vodacom - 0725918032
    Siya Magwaza Polar Liquior 0847392686 [WHATSAPP]
-   Mthiza's Wife 0832769334
-   Charlie's Pub 0834302744 
+   Charlie's Pub Warner Beach 0834302744 [They want to buy, Bram is the owner.]
+   Hooter's Florida Capser 0727974874 ?
+   Cappello Gatsheni Florida 0676659066 ?
+   Dropkick Gofrey 0731463230 ?
 
    Alco - We send them into a legit place.
    Alki - Insanely attractive girls deliver.
@@ -59,25 +63,25 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
    Math tutor 0728044157
    mayise 0725704960
    menzi lawyer to be 0729372478
+   wits boi sanele 0768019418
    ***********Phone Numbers End***********
 */
 
 // Testing framework(mocha) not yet intalled.
 Future main() async {
   // WidgetsFlutterBinding.ensureInitialized();
-
+  // 0698224312 dantee
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) {
     final firestore = FirebaseFirestore.instance;
-    debug.log(firestore.app.name);
     final functions = FirebaseFunctions.instance;
     final storage = FirebaseStorage
             // .instance.ref();
-            .instanceFor(bucket: "gs://alco-dev-15405.firebasestorage.app")
-        // .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
+            // .instanceFor(bucket: "gs://alco-dev-15405.firebasestorage.app")
+            .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
         .ref();
 
     final auth = FirebaseAuth.instance;
@@ -120,15 +124,16 @@ Future main() async {
         storage: storage,
         auth: auth));
   });
+  Get.put(SharedResourcesController());
 
   // Ideal time to initialize
-  /*await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
+  await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
   await FirebaseStorage //.instance
 
           .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
       .useStorageEmulator('127.0.0.1', 9199);
   FirebaseFunctions.instance.useFunctionsEmulator('127.0.0.1', 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080); */
+  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
 
   runApp(MyApplication());
 }

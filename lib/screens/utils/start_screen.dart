@@ -1,6 +1,7 @@
+import '../../controllers/alcoholic_controller.dart';
 import '../../screens/utils/login_widget.dart';
 
-import '../../controllers/shared_dao_functions.dart';
+import '../../controllers/shared_resources_controller.dart';
 import '../admins/admin_entrance_widget.dart';
 import '../posts/past_post_creation_widget.dart';
 import '../posts/showoff_screen.dart';
@@ -39,6 +40,9 @@ class _StartScreenState extends State<StartScreen>
     // 'Administration'
     'Posts'
   ];
+
+  SharedResourcesController sharedResourcesController =
+      SharedResourcesController.sharedResourcesController;
 
   void updateCurrentIndex(int index) {
     setState(() => currentIndex = index);
@@ -164,32 +168,34 @@ class _StartScreenState extends State<StartScreen>
               const Divider(
                 height: 5,
               ),
-              ListTile(
-                  leading: Icon(
-                      getCurrentlyLoggenInUser() != null
-                          ? Icons.logout
-                          : Icons.login,
-                      size: listTilesIconSize),
-                  iconColor: MyApplication.logoColor1,
-                  textColor: MyApplication.logoColor2,
-                  title: Text(
-                    getCurrentlyLoggenInUser() != null ? 'Logout' : 'Login',
-                    style: TextStyle(
-                      fontSize: listTilesFontSize,
+              GetBuilder<AlcoholicController>(builder: (_) {
+                return ListTile(
+                    leading: Icon(
+                        getCurrentlyLoggenInUser() != null
+                            ? Icons.logout
+                            : Icons.login,
+                        size: listTilesIconSize),
+                    iconColor: MyApplication.logoColor1,
+                    textColor: MyApplication.logoColor2,
+                    title: Text(
+                      getCurrentlyLoggenInUser() != null ? 'Logout' : 'Login',
+                      style: TextStyle(
+                        fontSize: listTilesFontSize,
+                      ),
                     ),
-                  ),
-                  onTap: () {
-                    if (getCurrentlyLoggenInUser() != null) {
-                      logoutUser();
-                      getSnapbar(
-                          'Notification', 'You Have Logged Out Successfully.');
-                      Get.close(1);
-                    } else {
-                      Get.to(() => LoginWidget(
-                            forAdmin: false,
-                          ));
-                    }
-                  }),
+                    onTap: () {
+                      if (getCurrentlyLoggenInUser() != null) {
+                        logoutUser();
+                        getSnapbar('Notification',
+                            'You Have Logged Out Successfully.');
+                        Get.close(1);
+                      } else {
+                        Get.to(() => LoginWidget(
+                              forAdmin: false,
+                            ));
+                      }
+                    });
+              }),
             ],
           ),
         ),

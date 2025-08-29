@@ -21,7 +21,7 @@ import '../models/users/user.dart' as my;
 import '../screens/utils/globals.dart';
 import 'admin_controller.dart';
 import 'alcoholic_controller.dart';
-import 'shared_dao_functions.dart';
+import 'shared_resources_controller.dart';
 
 enum PastPostStatus { loginRequired, answerAtleastOneQuestion, postSaved }
 
@@ -579,9 +579,6 @@ class PostController extends GetxController {
       if (host!.contains('howard college ukzn') &&
           'howard college ukzn'.contains(host!)) {
         host = 'ukzn'; // Supposed to be ukzn-howard
-      } else if (host!.contains('mangosuthu (mut)') &&
-          'mangosuthu (mut)'.contains(host!)) {
-        host = 'mut';
       }
 
       String videoContentType = "video/mp4";
@@ -612,6 +609,7 @@ class PostController extends GetxController {
       PastPost pastPost = PastPost(
         postId: _postReference.value!.id,
         postCreator: user as Alcoholic,
+        forTownOrInstitutionNo: user.area.townOrInstitutionFK,
         whereWereYouText: whereWereYouText,
         whereWereYouImageURL: trimmedURL(whereWereYouImageURL),
         whereWereYouVoiceRecordURL: trimmedURL(whereWereYouVoiceRecordURL),

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/group_controller.dart';
 import '../../controllers/post_controller.dart';
-import '../../controllers/shared_dao_functions.dart';
+import '../../controllers/shared_resources_controller.dart';
 import '../../controllers/alcoholic_controller.dart';
 import '../../main.dart';
 import '../../models/posts/post_comment.dart';

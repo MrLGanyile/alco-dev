@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../controllers/admin_controller.dart';
-import '../../controllers/shared_dao_functions.dart';
+import '../../controllers/shared_resources_controller.dart';
 import '../../main.dart';
 import '../../models/locations/converter.dart';
 import '../../models/users/admin.dart';

@@ -31,7 +31,7 @@ class GrandPriceWidgetState extends State<GrandPriceWidget> {
       HostingAreaController.hostingAreaController;
 
   Future<String> retrieveGrandPriceImageURL() {
-    return storageReference.child(widget.grandPriceImageURL).getDownloadURL();
+    return reference.child(widget.grandPriceImageURL).getDownloadURL();
   }
 
   @override

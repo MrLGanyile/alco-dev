@@ -4,6 +4,7 @@ class PastPost implements Comparable<PastPost> {
   String postId;
   Alcoholic postCreator;
   DateTime? dateCreated;
+  late String? forTownOrInstitutionNo;
 
   String whereWereYouText;
   String whereWereYouImageURL;
@@ -23,6 +24,7 @@ class PastPost implements Comparable<PastPost> {
       {required this.postId,
       required this.postCreator,
       this.dateCreated,
+      this.forTownOrInstitutionNo,
       this.whereWereYouImageURL = '',
       this.whereWereYouText = '',
       this.whereWereYouVoiceRecordURL = '',
@@ -38,6 +40,7 @@ class PastPost implements Comparable<PastPost> {
   Map<String, dynamic> toJson() => {
         'postId': postId,
         'postCreator': postCreator.toJson(),
+        'forTownOrInstitutionNo': forTownOrInstitutionNo,
         'dateCreated': {
           'year': dateCreated!.year,
           'month': dateCreated!.month,
@@ -79,6 +82,7 @@ class PastPost implements Comparable<PastPost> {
         whatHappenedText: json['whatHappenedText'],
         whatHappenedVoiceRecordURL: json['whatHappenedVoiceRecordURL'],
         whatHappenedVideoURL: json['whatHappenedVideoURL'],
+        forTownOrInstitutionNo: json['forTownOrInstitutionNo'],
       );
 
   bool hasWhereWereYouText() {

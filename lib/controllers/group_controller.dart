@@ -16,7 +16,7 @@ import '../models/users/admin.dart';
 import '../models/users/group.dart';
 import '../models/users/recruitment_history.dart';
 import '../screens/utils/globals.dart';
-import 'shared_dao_functions.dart';
+import 'shared_resources_controller.dart';
 import '../models/users/user.dart' as my;
 
 enum GroupSavingStatus {

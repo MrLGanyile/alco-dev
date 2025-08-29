@@ -139,7 +139,7 @@ class HostingAreaWidget extends StatefulWidget {
   }
 
   Future<String> createHostingAreaImageURL() {
-    return storageReference.child(hostingAreaImageURL).getDownloadURL();
+    return reference.child(hostingAreaImageURL).getDownloadURL();
   }
 
   @override

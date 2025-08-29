@@ -137,7 +137,7 @@ class WaitWidgetState extends State<WaitWidget> {
   }
 
   Future<String> retrieveGrandPriceImageURL(String grandPriceImageURL) {
-    return storageReference.child(grandPriceImageURL).getDownloadURL();
+    return reference.child(grandPriceImageURL).getDownloadURL();
   }
 
   @override

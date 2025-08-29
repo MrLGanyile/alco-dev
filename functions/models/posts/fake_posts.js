@@ -50,7 +50,7 @@ class FakePosts {
         post = {
             postId: postId,
             postCreator: postCreator,
-            forTownOrInstitution: "Mayville",
+            forTownOrInstitutionNo: "5",
             dateCreated: {
                 year: 2025,
                 month: 7,
@@ -96,7 +96,7 @@ class FakePosts {
 
         post = {
             postId: postId,
-            forTownOrInstitution: "Howard College UKZN",
+            forTownOrInstitution: "4",
             postCreator: postCreator,
             dateCreated: {
                 year: 2025,
@@ -123,7 +123,7 @@ class FakePosts {
         await reference.set(post);
 
         // Sydenham Posts
-        /* postCreator = {
+        postCreator = {
             profileImageURL: "sydenham/alcoholics/profile_images/+27634567890.jpg",
             phoneNumber: "+27634567890",
             area: {
@@ -143,7 +143,7 @@ class FakePosts {
 
         post = {
             postId: postId,
-            forTownOrInstitution: "Sydenham",
+            forTownOrInstitutionNo: "6",
             postCreator: postCreator,
             dateCreated: {
                 year: 2025,
@@ -165,9 +165,9 @@ class FakePosts {
             whatHappenedText: whatHappenedText,
             whatHappenedVoiceRecordURL: whatHappenedVoiceRecordURL,
             whatHappenedVideoURL: whatHappenedVideoURL,
-        } 
+        }
 
-        await reference.set(post); */
+        await reference.set(post);
 
 
 
@@ -196,7 +196,7 @@ class FakePosts {
 
         post = {
             postId: postId,
-            forTownOrInstitution: "Durban Central",
+            forTownOrInstitutionNo: "7",
             postCreator: postCreator,
             dateCreated: {
                 year: 2025,

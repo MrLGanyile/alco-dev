@@ -5,7 +5,7 @@ import '/models/users/won_price_comment.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/shared_dao_functions.dart';
+import '../../controllers/shared_resources_controller.dart';
 
 import 'dart:developer' as debug;
 

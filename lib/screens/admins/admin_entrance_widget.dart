@@ -1,8 +1,9 @@
+import 'package:alco_dev/models/users/alcoholic.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/admin_controller.dart';
-import '../../controllers/shared_dao_functions.dart';
+import '../../controllers/shared_resources_controller.dart';
 import '../../controllers/hosting_area_controller.dart';
 import '../../main.dart';
 import '../utils/globals.dart';
@@ -121,6 +122,11 @@ class AdminEntranceWidget extends StatelessWidget {
               )),
           child: InkWell(
             onTap: () async {
+              if (getCurrentlyLoggenInUser() is Alcoholic) {
+                getSnapbar(
+                    'Unauthorized', 'Signed In Non Admin Users Not Allowed.');
+                return;
+              }
               adminController.setSuperiorAdminEntranceCode(
                   adminCodeEditingController.text);
               if (!adminController.isCorrectSuperiorAdminEntrancePassword()) {

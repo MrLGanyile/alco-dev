@@ -19,7 +19,7 @@ import '../screens/utils/globals.dart';
 import 'admin_controller.dart';
 import 'alcoholic_controller.dart';
 import 'group_controller.dart';
-import 'shared_dao_functions.dart';
+import 'shared_resources_controller.dart';
 
 // Branch : competition_resources_crud ->  competitions_data_access
 class CompetitionController extends GetxController {
@@ -122,6 +122,7 @@ class CompetitionController extends GetxController {
             debug.log('about to add comments...');
             comments = [
               WonPriceComment(
+                  creatorPhoneNumber: '+27601234567',
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
                   forTownOrInstitution:
                       supportedTownOrInstitution.townOrInstitutionName,
@@ -130,6 +131,7 @@ class CompetitionController extends GetxController {
                   username: 'Mountain Mkhize Mhlongo',
                   message: 'Nhlobo, Ayikhathali Nhlobo, Inhliziyo'),
               WonPriceComment(
+                  creatorPhoneNumber: '+27612345678',
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
                   forTownOrInstitution:
                       supportedTownOrInstitution.townOrInstitutionName,
@@ -139,6 +141,7 @@ class CompetitionController extends GetxController {
                   message:
                       'Igijima Emaweni, Ayilali Nhlobo, Ayilambi Nhlobo, Ayikhathali Nhlobo, Inhliziyo Inhlabelela Ubusuku Nemini'),
               WonPriceComment(
+                  creatorPhoneNumber: '+27623456789',
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
                   forTownOrInstitution:
                       supportedTownOrInstitution.townOrInstitutionName,
@@ -148,6 +151,7 @@ class CompetitionController extends GetxController {
                   message:
                       'Nomangabe Kuyashisa Iyahlanelela, Nomangabe Kuyabanga Iyahlabelela, Nomangabe Liyaduma Lishaya Umbani Oshayisa Ngovalo Yona Ayimi Nhlobo Iyahlabelela. '),
               WonPriceComment(
+                  creatorPhoneNumber: '+27634567890',
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
                   forTownOrInstitution:
                       supportedTownOrInstitution.townOrInstitutionName,
@@ -156,6 +160,7 @@ class CompetitionController extends GetxController {
                   dateCreated: DateTime(2025, 2, 13, 23, 35),
                   message: 'Iyazi Ibhekephi Futhi Ngeke Ivinjwe Lutho'),
               WonPriceComment(
+                  creatorPhoneNumber: '+27645678901',
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
                   forTownOrInstitution:
                       supportedTownOrInstitution.townOrInstitutionName,
@@ -164,6 +169,7 @@ class CompetitionController extends GetxController {
                   username: 'Yebo',
                   message: 'Uloyo'),
               WonPriceComment(
+                  creatorPhoneNumber: '+27656789012',
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
                   forTownOrInstitution:
                       supportedTownOrInstitution.townOrInstitutionName,
@@ -172,6 +178,7 @@ class CompetitionController extends GetxController {
                   username: 'Zwe Captain',
                   message: 'Naloyo Ophuma Umphefumulo Into Yokuqala Ayisho '),
               WonPriceComment(
+                  creatorPhoneNumber: '+27667890123',
                   wonPriceSummaryFK: wonPriceSummaryDoc.id,
                   forTownOrInstitution:
                       supportedTownOrInstitution.townOrInstitutionName,
@@ -239,6 +246,8 @@ class CompetitionController extends GetxController {
           WonPriceComment? comment;
           if (alcoholicController.currentlyLoggedInAlcoholic != null) {
             comment = WonPriceComment(
+                creatorPhoneNumber:
+                    alcoholicController.currentlyLoggedInAlcoholic!.phoneNumber,
                 wonPriceCommentId: commentReference.id,
                 forTownOrInstitution: townOrInstitution,
                 wonPriceSummaryFK: wonPriceSummaryFK,
@@ -249,6 +258,8 @@ class CompetitionController extends GetxController {
                     alcoholicController.currentlyLoggedInAlcoholic!.username);
           } else if (adminController.currentlyLoggedInAdmin != null) {
             comment = WonPriceComment(
+                creatorPhoneNumber:
+                    alcoholicController.currentlyLoggedInAlcoholic!.phoneNumber,
                 wonPriceCommentId: commentReference.id,
                 forTownOrInstitution: townOrInstitution,
                 wonPriceSummaryFK: wonPriceSummaryFK,

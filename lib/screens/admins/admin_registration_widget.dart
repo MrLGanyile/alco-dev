@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../../controllers/shared_dao_functions.dart' as shared;
+import '../../controllers/shared_resources_controller.dart' as shared;
 import '../../models/locations/supported_town_or_institution.dart';
 import '../../models/users/admin.dart';
 import '../../models/users/alcoholic.dart';
@@ -44,6 +44,8 @@ class AdminRegistrationWidget extends StatelessWidget {
 
   TextEditingController phoneNumberEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
+  shared.SharedResourcesController sharedResourcesController =
+      shared.SharedResourcesController.sharedResourcesController;
 
   // Include radio buttons for isFemale
   @override
@@ -239,7 +241,7 @@ class AdminRegistrationWidget extends StatelessWidget {
                               icon: Icon(Icons.camera_alt,
                                   color: MyApplication.logoColor2),
                               onPressed: () {
-                                if (shared.isValidPhoneNumber(
+                                if (isValidPhoneNumber(
                                     '+27${phoneNumberEditingController.text}')) {
                                   adminController
                                       .captureAdminProfileImageWithCamera(
@@ -258,7 +260,7 @@ class AdminRegistrationWidget extends StatelessWidget {
                               icon: Icon(Icons.upload,
                                   color: MyApplication.logoColor2),
                               onPressed: () {
-                                if (shared.isValidPhoneNumber(
+                                if (isValidPhoneNumber(
                                     '+27${phoneNumberEditingController.text}')) {
                                   adminController
                                       .chooseAdminProfileImageFromGallery(
@@ -315,7 +317,7 @@ class AdminRegistrationWidget extends StatelessWidget {
                 height: 5,
               ),
 
-              shared.showProgressBar
+              sharedResourcesController.showSigninProgressBar
                   ? const SizedBox(
                       child: SimpleCircularProgressBar(
                         animationDuration: 3,
@@ -323,134 +325,139 @@ class AdminRegistrationWidget extends StatelessWidget {
                         progressColors: [Colors.lightBlue],
                       ),
                     )
-                  : Column(
-                      children: [
-                        // Sign Up Admin
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 60,
-                          margin: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                              color: MyApplication.logoColor1,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
-                              )),
-                          child: InkWell(
-                            onTap: () async {
-                              my.User? user = shared.getCurrentlyLoggenInUser();
-                              if (user == null) {
-                                getSnapbar('Unauthorized', 'Login Required');
-                                return;
-                              } else if (user is Alcoholic) {
-                                getSnapbar('Unauthorized',
-                                    'Only Admins May Register Other Admins');
-                                return;
-                              } else if (user is Admin && !user.isSuperior) {
-                                getSnapbar('Unauthorized',
-                                    'Only Superior Admins May Register Other Admins');
-                                return;
-                              }
+                  : GetBuilder<shared.SharedResourcesController>(builder: (_) {
+                      return Column(
+                        children: [
+                          // Sign Up Admin
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 60,
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            decoration: BoxDecoration(
+                                color: MyApplication.logoColor1,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                )),
+                            child: InkWell(
+                              onTap: () async {
+                                my.User? user = getCurrentlyLoggenInUser();
+                                if (user == null) {
+                                  getSnapbar('Unauthorized', 'Login Required');
+                                  return;
+                                } else if (user is Alcoholic) {
+                                  getSnapbar('Unauthorized',
+                                      'Only Admins May Register Other Admins');
+                                  return;
+                                } else if (user is Admin && !user.isSuperior) {
+                                  getSnapbar('Unauthorized',
+                                      'Only Superior Admins May Register Other Admins');
+                                  return;
+                                }
 
-                              shared.showProgressBar = true;
+                                adminController.setAdminPassword(
+                                    passwordEditingController.text);
+                                // Create Admin Now
+                                if (adminController
+                                        .newAdminPhoneNumber!.isNotEmpty &&
+                                    adminController
+                                        .newAdminPassword.isNotEmpty &&
+                                    adminController
+                                        .newAdminProfileImageURL.isNotEmpty &&
+                                    adminController.newAdminProfileImage !=
+                                        null) {
+                                  debug.log(
+                                      'Admin Validated From AdmiRegistrationScreen');
 
-                              adminController.setAdminPassword(
-                                  passwordEditingController.text);
-                              // Create Admin Now
-                              if (adminController
-                                      .newAdminPhoneNumber!.isNotEmpty &&
-                                  adminController.newAdminPassword.isNotEmpty &&
-                                  adminController
-                                      .newAdminProfileImageURL.isNotEmpty &&
-                                  adminController.newAdminProfileImage !=
-                                      null) {
-                                debug.log(
-                                    'Admin Validated From AdmiRegistrationScreen');
-                                final auth = FirebaseAuth.instance;
-
-                                await auth.verifyPhoneNumber(
-                                  phoneNumber:
-                                      '+27${phoneNumberEditingController.text}',
-                                  verificationCompleted:
-                                      (PhoneAuthCredential credential) async {
-                                    debug.log(
-                                        '1. About To Signed In User From AdminRegistrationScreen...');
-                                    // ANDROID ONLY!
-                                    // Sign the user in (or link) with the auto-generated credential
-                                    await auth.signInWithCredential(credential);
-
-                                    debug.log(
-                                        '1. Successfully Signed In User From AdminRegistrationScreen...');
-                                    Future<AdminSavingStatus>
-                                        adminSavingStatus =
-                                        adminController.saveAdmin(
-                                            auth.currentUser!.phoneNumber!);
-
-                                    adminSavingStatus.then((value) {
-                                      if (value ==
-                                          AdminSavingStatus.unathourized) {
-                                        debug.log(
-                                            'AdminSavingStatus.unathourized From AdminRegistrationScreen...');
-                                      } else if (value ==
-                                          AdminSavingStatus.adminAlreadyExist) {
-                                        debug.log(
-                                            'AdminSavingStatus.adminAlreadyExist From AdminRegistrationScreen...');
-                                      } else if (value ==
-                                          AdminSavingStatus.loginRequired) {
-                                        debug.log(
-                                            'AdminSavingStatus.loginRequired From AdminRegistrationScreen...');
-                                      } else if (value ==
-                                          AdminSavingStatus.incompleteData) {
-                                        debug.log(
-                                            'AdminSavingStatus.incompleteData From AdminRegistrationScreen...');
-                                      } else {
-                                        debug.log(
-                                            '2. Successfully Saved User From AdminRegistrationScreen...');
-                                      }
-                                    });
-                                  },
-                                  verificationFailed:
-                                      (FirebaseAuthException e) {
-                                    if (e.code == 'invalid-phone-number') {
+                                  await auth.verifyPhoneNumber(
+                                    phoneNumber:
+                                        '+27${phoneNumberEditingController.text}',
+                                    verificationCompleted:
+                                        (PhoneAuthCredential credential) async {
                                       debug.log(
-                                          'The provided phone number is not valid.');
-                                    }
+                                          '1. About To Signed In User From AdminRegistrationScreen...');
+                                      // ANDROID ONLY!
+                                      // Sign the user in (or link) with the auto-generated credential
+                                      await auth
+                                          .signInWithCredential(credential);
 
-                                    // Handle other errors
-                                  },
-                                  codeSent: (String verificationId,
-                                      int? resendToken) async {
-                                    Get.to(() => VerificationScreen(
-                                          phoneNumber:
-                                              '+27${phoneNumberEditingController.text}',
-                                          verificationId: verificationId,
-                                          forAdmin: true,
-                                          forLogin: false,
-                                        ));
-                                  },
-                                  codeAutoRetrievalTimeout:
-                                      (String verificationId) {},
-                                );
+                                      debug.log(
+                                          '1. Successfully Signed In User From AdminRegistrationScreen...');
+                                      Future<AdminSavingStatus>
+                                          adminSavingStatus =
+                                          adminController.saveAdmin(
+                                              auth.currentUser!.phoneNumber!);
 
-                                shared.showProgressBar = false;
-                              }
-                            },
-                            child: const Center(
-                              child: Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
+                                      adminSavingStatus.then((value) {
+                                        if (value ==
+                                            AdminSavingStatus.unathourized) {
+                                          debug.log(
+                                              'AdminSavingStatus.unathourized From AdminRegistrationScreen...');
+                                        } else if (value ==
+                                            AdminSavingStatus
+                                                .adminAlreadyExist) {
+                                          debug.log(
+                                              'AdminSavingStatus.adminAlreadyExist From AdminRegistrationScreen...');
+                                        } else if (value ==
+                                            AdminSavingStatus.loginRequired) {
+                                          debug.log(
+                                              'AdminSavingStatus.loginRequired From AdminRegistrationScreen...');
+                                        } else if (value ==
+                                            AdminSavingStatus.incompleteData) {
+                                          debug.log(
+                                              'AdminSavingStatus.incompleteData From AdminRegistrationScreen...');
+                                        } else {
+                                          debug.log(
+                                              '2. Successfully Saved User From AdminRegistrationScreen...');
+                                        }
+                                      });
+                                    },
+                                    verificationFailed:
+                                        (FirebaseAuthException e) {
+                                      if (e.code == 'invalid-phone-number') {
+                                        debug.log(
+                                            'The provided phone number is not valid.');
+                                      }
+
+                                      // Handle other errors
+                                    },
+                                    codeSent: (String verificationId,
+                                        int? resendToken) async {
+                                      if (!sharedResourcesController
+                                          .showSigninProgressBar) {
+                                        sharedResourcesController
+                                            .setShowSigninProgressBar(true);
+                                      }
+                                      Get.to(() => VerificationScreen(
+                                            phoneNumber:
+                                                '+27${phoneNumberEditingController.text}',
+                                            verificationId: verificationId,
+                                            forAdmin: true,
+                                            forLogin: false,
+                                          ));
+                                    },
+                                    codeAutoRetrievalTimeout:
+                                        (String verificationId) {},
+                                  );
+                                }
+                              },
+                              child: const Center(
+                                child: Text(
+                                  'Sign Up',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      );
+                    }),
             ]),
           ),
         ),

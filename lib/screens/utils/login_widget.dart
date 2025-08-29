@@ -1,3 +1,6 @@
+import 'package:alco_dev/controllers/admin_controller.dart';
+import 'package:alco_dev/controllers/alcoholic_controller.dart';
+import 'package:alco_dev/controllers/shared_resources_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -6,12 +9,20 @@ import 'package:get/get.dart';
 import '../../main.dart';
 import 'dart:developer' as debug;
 
+import 'globals.dart';
 import 'verification_screen.dart';
 
 class LoginWidget extends StatelessWidget {
   TextEditingController phoneNumberEditingController = TextEditingController();
   TextEditingController passwordEditingController = TextEditingController();
   bool forAdmin;
+
+  AlcoholicController alcoholicController =
+      AlcoholicController.alcoholicController;
+
+  SharedResourcesController sharedResourcesController =
+      SharedResourcesController.sharedResourcesController;
+
   LoginWidget({required this.forAdmin});
   @override
   Widget build(BuildContext context) {
@@ -90,7 +101,15 @@ class LoginWidget extends StatelessWidget {
                   Padding(
                     padding:
                         const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                    child: proceedButton(context),
+                    child: GetBuilder<SharedResourcesController>(builder: (_) {
+                      return !sharedResourcesController.showLoginProgressBar
+                          ? proceedButton(context)
+                          : Center(
+                              child: CircularProgressIndicator(
+                                color: MyApplication.logoColor2,
+                              ),
+                            );
+                    }),
                   ),
                 ],
               ),
@@ -112,8 +131,11 @@ class LoginWidget extends StatelessWidget {
             String phoneNumber =
                 '+27${phoneNumberEditingController.text.substring(1)}';
 
-            final auth = FirebaseAuth.instance;
-
+            // Enable progress bar for the current screen (login screen) if needed.
+            if (!sharedResourcesController.showLoginProgressBar) {
+              debug.log('The provided phone number is $phoneNumber.');
+              sharedResourcesController.setShowLoginProgressBar(true);
+            }
             await auth.verifyPhoneNumber(
               phoneNumber: phoneNumber,
               verificationCompleted: (PhoneAuthCredential credential) async {
@@ -130,6 +152,14 @@ class LoginWidget extends StatelessWidget {
                 // Handle other errors
               },
               codeSent: (String verificationId, int? resendToken) async {
+                //  Disable progress bar for the next screen (verification screen) if needed.
+                if (sharedResourcesController
+                    .showPhoneVerificationProgressBar) {
+                  sharedResourcesController
+                      .setShowPhoneVerificationProgressBar(false);
+                }
+                debug.log('The provided phone number is $phoneNumber.');
+
                 Get.to(() => VerificationScreen(
                       phoneNumber: phoneNumber,
                       verificationId: verificationId,

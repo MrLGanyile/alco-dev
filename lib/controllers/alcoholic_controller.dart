@@ -13,7 +13,8 @@ import '../models/locations/section_name.dart';
 import '../models/locations/supported_area.dart';
 import '../models/users/alcoholic.dart';
 import '../models/users/user.dart' as my;
-import 'shared_dao_functions.dart';
+import '../screens/utils/globals.dart';
+import 'shared_resources_controller.dart';
 
 enum AlcoholicSavingStatus {
   incompleteData,
@@ -42,6 +43,7 @@ class AlcoholicController extends GetxController {
   // ignore: prefer_final_fields
   Rx<Alcoholic?> _currentlyLoggedInAlcoholic = Rx(null
       /*Alcoholic(
+          userId: "abcdef0",
           phoneNumber: '+27612345678',
           profileImageURL:
               'mayville/alcoholics/profile_images/+27612345678.jpg',
@@ -85,24 +87,12 @@ class AlcoholicController extends GetxController {
       Rx<SectionName>(SectionName.dutDurbanKwaZuluNatalSouthAfrica);
   SectionName? get searchedSectionName => locateableSectionName.value;
 
-  Rx<bool> _showProgressBar = Rx(false);
-  bool get showProgressBar => _showProgressBar.value;
-
-  void setShowProgressIndicator(bool show) {
-    _showProgressBar = Rx(show);
-    update();
-  }
-
   void setNewAlcoholicPassword(String password) {
     _newAlcoholicPassword = Rx(password);
   }
 
-  Future<Alcoholic?> findAlcoholic(String phoneNumber) {
-    return firestore
-        .collection('alcoholics')
-        .doc(phoneNumber)
-        .get()
-        .then((value) {
+  Future<Alcoholic?> findAlcoholic(String userId) {
+    return firestore.collection('alcoholics').doc(userId).get().then((value) {
       return value.exists ? Alcoholic.fromJson(value.data()) : null;
     });
   }
@@ -112,9 +102,9 @@ class AlcoholicController extends GetxController {
     auth.authStateChanges();
   }
 
-  void logoutAlcoholic() {
+  void logoutAlcoholic() async {
+    await auth.signOut();
     _currentlyLoggedInAlcoholic = Rx(null);
-    auth.signOut();
   }
 
   void captureAlcoholicProfileImageWithCamera(
@@ -257,7 +247,7 @@ class AlcoholicController extends GetxController {
     update();
   }
 
-  Future<AlcoholicSavingStatus> saveAlcoholic(String uid) async {
+  Future<AlcoholicSavingStatus> saveAlcoholic() async {
     my.User? user = getCurrentlyLoggenInUser();
 
     if (user != null) {
@@ -270,10 +260,8 @@ class AlcoholicController extends GetxController {
         _newAlcoholicPhoneNumber.value != null &&
         _newAlcoholicUsername.value != null) {
       try {
-        DocumentReference reference =
-            firestore.collection('alcoholics').doc(uid);
-
         Alcoholic alcoholic = Alcoholic(
+            userId: auth.currentUser!,
             password: _newAlcoholicPassword.value,
             phoneNumber: _newAlcoholicPhoneNumber.value,
             profileImageURL: trimmedImageURL(),
@@ -282,7 +270,7 @@ class AlcoholicController extends GetxController {
 
         await firestore
             .collection('alcoholics')
-            .doc(alcoholic.phoneNumber)
+            .doc(alcoholic.userId)
             .set(alcoholic.toJson());
         loginUserUsingObject(alcoholic);
 

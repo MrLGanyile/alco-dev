@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/location_controller.dart';
 import '../../controllers/group_controller.dart';
-import '../../controllers/shared_dao_functions.dart';
+import '../../controllers/shared_resources_controller.dart';
 import '../../controllers/hosting_area_controller.dart';
 import '../../main.dart';
 import '../../models/locations/converter.dart';

@@ -11,13 +11,14 @@ class Alcoholic extends User {
   String username;
 
   Alcoholic(
-      {userId,
+      {required userId,
       required phoneNumber,
       required profileImageURL,
       required this.area,
       required this.username,
       required password})
       : super(
+            userId: userId,
             phoneNumber: phoneNumber,
             profileImageURL: profileImageURL,
             password: password);
@@ -39,6 +40,7 @@ class Alcoholic extends User {
   }
 
   factory Alcoholic.fromJson(dynamic json) => Alcoholic(
+      userId: json['userId'],
       profileImageURL: json['profileImageURL'],
       phoneNumber: json['phoneNumber'],
       area: SupportedArea.fromJson(json['area']),

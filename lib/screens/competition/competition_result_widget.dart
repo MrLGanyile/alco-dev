@@ -277,7 +277,7 @@ class CompetitionResultWidget extends StatelessWidget {
   }
 
   Future<String> findWonPriceImageURL() async {
-    return storageReference.child(wonPrice.imageURL).getDownloadURL();
+    return reference.child(wonPrice.imageURL).getDownloadURL();
   }
 
   AspectRatio retrieveWonPriceImage(
@@ -322,9 +322,7 @@ class CompetitionResultWidget extends StatelessWidget {
   }
 
   Future<String> findGroupCreatorImageURL() {
-    return storageReference
-        .child(wonGroup.groupCreatorImageURL)
-        .getDownloadURL();
+    return reference.child(wonGroup.groupCreatorImageURL).getDownloadURL();
   }
 
   Future<ListResult> findGroupMembersImageURLs() async {
@@ -342,7 +340,7 @@ class CompetitionResultWidget extends StatelessWidget {
     debug.log(
         '$hostName/group_members/${wonGroup.groupCreatorPhoneNumber}/profile_images');
 
-    return storageReference
+    return reference
         .child(
             '$hostName/group_members/${wonGroup.groupCreatorPhoneNumber}/profile_images')
         .listAll();

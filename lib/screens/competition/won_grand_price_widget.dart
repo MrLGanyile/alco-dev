@@ -17,7 +17,7 @@ class WonGrandPriceWidget extends StatelessWidget {
   });
 
   Future<String> findWonPriceImageURL() async {
-    return storageReference.child(wonPrice.imageURL).getDownloadURL();
+    return reference.child(wonPrice.imageURL).getDownloadURL();
   }
 
   String trimImageURL(String imageURL) {

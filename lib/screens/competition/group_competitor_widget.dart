@@ -23,7 +23,7 @@ class GroupCompetitorWidget extends StatelessWidget {
   });
 
   Future<String> retrieveGroupImageURL() {
-    return storageReference.child(group.groupImageURL).getDownloadURL();
+    return reference.child(group.groupImageURL).getDownloadURL();
   }
 
   AspectRatio retrieveGroupImage(String groupImageURL) {
@@ -75,7 +75,7 @@ class GroupCompetitorWidget extends StatelessWidget {
         'mangosuthu (mut)'.contains(hostName)) {
       hostName = 'mut';
     }
-    return storageReference
+    return reference
         .child(
             '$hostName/group_members/${group.groupCreatorPhoneNumber}/profile_images')
         .listAll();

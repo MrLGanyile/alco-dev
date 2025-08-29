@@ -93,30 +93,7 @@ service firebase.storage {
 
       isValidFileSize(request.resource);// && 
     }
-    // Branch : group_resources_crud ->  group_resources_crud_storage_security
-    // Done Unit Testing, Except For The Update Operation.
-    match /{host}/alcoholics/profile_images/{profileImage} {
-
-      allow create;//: if request.auth != null;// && 
-
-      // Make sure authenticated user's uid is the same as the document id of this image.
-      //request.auth.uid == profileImage &&
-
-      // Make sure there is no user already using the new user's phone number.
-      //firestore.exists(/databases/(default)/documents/alcoholics/
-      //$(request.auth.uid))==false &&
-      //firestore.exists(/databases/(default)/documents/store_owners/
-      //$(request.auth.uid))==false &&
-      
-      //isValidFileSize(request.resource) && 
-      //isValidContentType(request.resource); */
-
-      allow read; // Anybody can view  store owners images.
-
-      // No one can delete a store owner image.
-      allow update, delete: if false;
-      
-    }
+    
 
     // Branch : store_resources_crud ->  store_resources_crud_storage_security
     // Done Unit Testing, Except For The Update Operation.
@@ -144,6 +121,31 @@ service firebase.storage {
 
       // No one can delete any saved identity documents.
       allow update, delete: if false;
+    }
+
+    // Branch : group_resources_crud ->  group_resources_crud_storage_security
+    // Done Unit Testing, Except For The Update Operation.
+    match /{host}/alcoholics/profile_images/{profileImage} {
+
+      allow create;//: if request.auth != null;// && 
+
+      // Make sure authenticated user's uid is the same as the document id of this image.
+      //request.auth.uid == profileImage &&
+
+      // Make sure there is no user already using the new user's phone number.
+      //firestore.exists(/databases/(default)/documents/alcoholics/
+      //$(request.auth.uid))==false &&
+      //firestore.exists(/databases/(default)/documents/store_owners/
+      //$(request.auth.uid))==false &&
+      
+      //isValidFileSize(request.resource) && 
+      //isValidContentType(request.resource); */
+
+      allow read; // Anybody can view  store owners images.
+
+      // No one can delete a store owner image.
+      allow update, delete: if false;
+      
     }
 
     // Branch : group_resources_crud ->  group_resources_crud_storage_security

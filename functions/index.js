@@ -69,6 +69,7 @@ import SydenhamFakeGroups from "./models/users/groups/sydenham_fake_groups.js";
 import DurbanCentralFakeGroups from "./models/users/groups/durban_central_fake_groups.js";
 
 import FakeAdmins from "./models/users/admins/fake_admins.js";
+import FakeAlcoholics from "./models/users/alcoholics/fake_alcoholics.js";
 import FakePosts from "./models/posts/fake_posts.js";
 
 const umlaziFakeGroups = new UmlaziFakeGroups();
@@ -80,6 +81,7 @@ const sydenhamFakeGroups = new SydenhamFakeGroups();
 const durbanCentralFakeGroups = new DurbanCentralFakeGroups();
 
 const fakeAdmins = new FakeAdmins();
+const fakeAlcoholics = new FakeAlcoholics();
 const fakePosts = new FakePosts();
 
 
@@ -1022,14 +1024,14 @@ export const createWonPriceSummary =
                                 .set(wonPriceSummary);
 
                             // Update corresponding store draw.
-                            /* getFirestore()
-                            .collection("hosting_areas")
-                            .doc(hostingAreaFK)
-                            .collection("hosted_draws")
-                            .doc(wonPriceSummaryId)
-                            .update({
-                            hostedDrawState:"competition-finished"
-                            });; */
+                            getFirestore()
+                                .collection("hosting_areas")
+                                .doc(hostingAreaFK)
+                                .collection("hosted_draws")
+                                .doc(wonPriceSummaryId)
+                                .update({
+                                    hostedDrawState: "competition-finished"
+                                });
                         });
                     }
                 }
@@ -1203,7 +1205,7 @@ export const createFakeDraws = onRequest(
     async (req, res) => {
         const drawDateAndTime = new Date();
         const year = drawDateAndTime.getFullYear();
-        const month = drawDateAndTime.getMonth() + 2;
+        const month = drawDateAndTime.getMonth() + 1;
         const date = drawDateAndTime.getDate();
         const hour = drawDateAndTime.getHours() + 2;
 
@@ -1511,124 +1513,9 @@ export const createFakeAlcoholics = onRequest(
     {
         region: "africa-south1"
     }, async (req, res) => {
-        let alcoholic;
-        let reference;
 
-        // Mayville
-        reference = getFirestore().collection("alcoholics").doc("+27612345678");
-        alcoholic = {
-            userId: reference.id,
-            profileImageURL: "mayville/alcoholics/profile_images/+27612345678.jpg",
-            phoneNumber: "+27612345678",
-            area: {
-                townOrInstitutionFK: "5",
-                areaName: "Cato Crest-Mayville-Durban-Kwa Zulu Natal-South ",
-                areaNo: "31",
-            },
-            username: "Sakhile",
-            password: "12abc12",
-        };
-        await reference.set(alcoholic);
-
-
-        // UKZN
-        reference = getFirestore().collection("alcoholics").doc("+27623456789");
-        alcoholic = {
-            userId: reference.id,
-            profileImageURL: "ukzn/alcoholics/profile_images/+27623456789.jpg",
-            phoneNumber: "+27623456789",
-            area: {
-                townOrInstitutionFK: "4",
-                areaName: "Howard College (UKZN)-Durban-Kwa Zulu Natal-South Africa",
-                areaNo: "30",
-            },
-            username: "Mbeje",
-            password: "kwl-guys",
-        };
-        await reference.set(alcoholic);
-
-        // Sydenham
-        reference = getFirestore().collection("alcoholics").doc("+27634567890");
-        alcoholic = {
-            userId: reference.id,
-            profileImageURL: "sydenham/alcoholics/profile_images/+27634567890.jpg",
-            phoneNumber: "+27634567890",
-            area: {
-                townOrInstitutionFK: "6",
-                areaName: "Foreman-Sydenham-Durban-Kwa Zulu Natal-South Africa",
-                areaNo: "37",
-            },
-            username: "Sizwe",
-            password: "czwe21",
-        };
-        await reference.set(alcoholic);
-
-        // Durban Central
-        reference = getFirestore().collection("alcoholics").doc("+27645678901");
-        alcoholic = {
-            userId: reference.id,
-            profileImageURL: "durban central/alcoholics/profile_images/+27645678901.jpg",
-            phoneNumber: "+27645678901",
-            area: {
-                townOrInstitutionFK: "7",
-                areaName: "Berea-Durban Central-Durban-Kwa Zulu Natal-South Africa",
-                areaNo: "44",
-            },
-            username: "Thando",
-            password: "cii0",
-        };
-        await reference.set(alcoholic);
-
-        // DUT
-        reference = getFirestore().collection("alcoholics").doc("+27656789012");
-        alcoholic = {
-            userId: reference.id,
-            profileImageURL: "dut/alcoholics/profile_images/+27656789012.jpg",
-            phoneNumber: "+27656789012",
-            area: {
-                townOrInstitutionFK: "3",
-                areaName: "DUT-Durban-Kwa Zulu Natal-South Africa",
-                areaNo: "29",
-            },
-            username: "Nelly",
-            password: "ytc",
-        };
-        await reference.set(alcoholic);
-
-        // DUT
-        reference = getFirestore().collection("alcoholics").doc("+27667890123");
-        alcoholic = {
-            userId: reference.id,
-            profileImageURL: "dut/alcoholics/profile_images/+27667890123.jpg",
-            phoneNumber: "+27667890123",
-            area: {
-                townOrInstitutionFK: "3",
-                areaName: "DUT-Durban-Kwa Zulu Natal-South Africa",
-                areaNo: "29",
-            },
-            username: "Jiyane",
-            password: "ytcc",
-        };
-        await reference.set(alcoholic);
-
-        // DUT
-
-        reference = getFirestore().collection("alcoholics").doc("+27601234567");
-        alcoholic = {
-            userId: reference.id,
-            profileImageURL: "dut/alcoholics/profile_images/+27601234567.jpg",
-            phoneNumber: "+27601234567",
-            area: {
-                townOrInstitutionFK: "3",
-                areaName: "DUT-Durban-Kwa Zulu Natal-South Africa",
-                areaNo: "29",
-            },
-            username: "Jiyane",
-            password: "ytcc",
-        };
-        await reference.set(alcoholic);
-
-
+        // True means use online auth users, otherwise use emulator's.
+        fakeAlcoholics.createFakeAlcoholics(false);
         // Send back a message that we"ve successfully written to the db.
         res.json({ result: `Fake Alcoholics Saved.` });
     });
@@ -1648,7 +1535,8 @@ export const saveFakeAdmins = onRequest(
         region: "africa-south1"
     },
     async (req, res) => {
-        fakeAdmins.createFakeAdmin();
+        // True means use online auth users, otherwise use emulator's.
+        fakeAdmins.createFakeAdmin(false);
         res.json({ result: `Fake Admins Successfully Created.` });
     });
 

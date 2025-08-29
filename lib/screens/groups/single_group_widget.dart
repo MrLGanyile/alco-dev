@@ -3,7 +3,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import '../../../main.dart';
 
-import '../../controllers/shared_dao_functions.dart';
+import '../../controllers/shared_resources_controller.dart';
 import '../../models/locations/converter.dart';
 import '../../models/users/admin.dart';
 import '../../models/users/group.dart';
@@ -327,14 +327,14 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
   }
 
   Future<String> findGroupImageURL() async {
-    String downloadURL = await storageReference
+    String downloadURL = await reference
         .child(widget.competitorsGroup.groupImageURL)
         .getDownloadURL();
     return downloadURL;
   }
 
   Future<String> findGroupCreatorImageURL() async {
-    return await storageReference
+    return await reference
         .child(widget.competitorsGroup.groupCreatorImageURL)
         .getDownloadURL();
   }
@@ -351,7 +351,7 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
         'mangosuthu (mut)'.contains(host)) {
       host = 'mut';
     }
-    return storageReference
+    return reference
         .child(
             '$host/group_members/${widget.competitorsGroup.groupCreatorPhoneNumber}/profile_images')
         .listAll();

@@ -24,8 +24,8 @@ class PostComment implements Comparable<PostComment> {
     dateCreated = DateTime.now();
     final map = {
       'postCommentId': postCommentId,
-      'forTownOrInstitution':
-          Converter.townOrInstitutionAsString(forTownOrInstitution),
+      'forTownOrInstitutionNo':
+          Converter.townOrInstitutionAsNumber(forTownOrInstitution) as String,
       'postFK': postFK,
       'message': message,
       'dateCreated': {

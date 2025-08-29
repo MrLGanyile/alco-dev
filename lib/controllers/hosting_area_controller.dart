@@ -21,7 +21,7 @@ import '../models/users/admin.dart';
 import '../models/users/alcoholic.dart';
 import '../models/users/user.dart' as my;
 import '../screens/utils/globals.dart';
-import 'shared_dao_functions.dart';
+import 'shared_resources_controller.dart';
 
 enum HostedDrawSavingStatus { loginRequired, incomplete, saved, notSaved }
 

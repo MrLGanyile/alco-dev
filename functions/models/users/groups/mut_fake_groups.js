@@ -28,7 +28,7 @@ class MUTFakeGroups {
             areaName: "Mangosuthu (MUT)-Durban-Kwa Zulu Natal-South Africa",
             areaNo: "28",
         };
-        const specificArea2 = 'Floradene';
+        const specificArea2 = 'The Glades On 131';
 
         const groupTownOrInstitution = {
             cityFK: "1",
