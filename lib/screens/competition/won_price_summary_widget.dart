@@ -369,9 +369,10 @@ class WonPriceSummaryWidgetState extends State<WonPriceSummaryWidget> {
   Future<ListResult> findGroupMembersImageURLs() async {
     String hostName = widget.wonPriceSummary.hostName.toLowerCase();
 
-    if (widget.wonPriceSummary.hostName.contains('mangosuthu (mut)')) {
+    if (hostName.contains('mut')) {
       hostName = 'mangosuthu (mut)';
     }
+
     return reference
         .child(
             '$hostName/group_members/${widget.wonPriceSummary.groupCreatorPhoneNumber}/profile_images')

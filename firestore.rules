@@ -53,7 +53,7 @@ service cloud.firestore {
 
     // Note: Has Model Named {Admin}
     // Unit Testing Applied
-    match /admins/{adminPhoneNumber}{
+    match /admins/{adminUserId}{
       
       allow create: if isSuperiorAdmin() && 
       request.resource.data.isSuperior == false;
@@ -79,29 +79,23 @@ service cloud.firestore {
 
     // Note: Has Model Named {Alcoholic}
     // Unit Testing Applied 
-    match /alcoholics/{alcoholicPhoneNumber}{
+    match /alcoholics/{alcoholicUserId}{
       allow create: if request.auth != null &&
 
       // Phone number is provided.
       request.resource.data.phoneNumber != null &&
       request.resource.data.phoneNumber != '' &&
 
-      // Phone number matches the document id provided.
-      request.resource.data.phoneNumber == alcoholicPhoneNumber &&
-
       request.resource.data.profileImageURL != null &&
       request.resource.data.profileImageURL != '' &&
 
-      request.resource.data.sectionName != null &&
-      request.resource.data.sectionName != '' &&
-
       // We need to compare a property(phoneNumber) of alcoholic docs instead of a uid.
       exists(/databases/$(database)/documents/alcoholics/
-      $(alcoholicPhoneNumber))==false &&
+      $(alcoholicUserId))==false &&
 
       // We need to compare a property(phoneNumber) of admin docs instead of a uid.
       exists(/databases/$(database)/documents/admins/
-      $(alcoholicPhoneNumber))==false;
+      $(alcoholicUserId))==false;
 
       allow read;
 
@@ -315,7 +309,14 @@ service cloud.firestore {
     match /hosts_info/{hostInfoId}{
       allow read;
       // Documents of this collection are created by a cloud function.
-      allow create, update, delete: if false; 
+      allow update: if 
+      request.resource.data.hostInfoId == resource.data.hostInfoId &&
+      request.resource.data.hostingAreaName == resource.data.hostingAreaName &&
+      request.resource.data.sectionName == resource.data.sectionName &&
+      request.resource.data.pickUpArea == resource.data.pickUpArea &&
+      request.resource.data.hostingAreaImageURL == resource.data.hostingAreaImageURL;
+
+      allow create, delete: if false; 
     
     }
 
@@ -338,7 +339,7 @@ service cloud.firestore {
         exists(/databases/$(database)/documents/won_prices_summaries/
         $(wonPriceSummaryId)) &&
         request.resource.data.forTownOrInstitution == get(/databases/$(database)/documents/won_prices_summaries/
-        $(wonPriceSummaryId)).data.groupTownOrInstitution;
+        $(wonPriceSummaryId)).data.groupTownOrInstitution.townOrInstitutionName;
 
         allow read;
 

@@ -37,7 +37,7 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
 
     if (townOrInstitution.contains('DUT') ||
         townOrInstitution.contains('UKZN') ||
-        townOrInstitution.contains('MUT')) {
+        townOrInstitution.contains('mangosuthu (mut)')) {
       townOrInstitutionLabel = 'Group Institution';
     } else {
       townOrInstitutionLabel = 'Group Town';
@@ -349,7 +349,7 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
       host = 'ukzn'; // Supposed to be ukzn-howard
     } else if (host.contains('mangosuthu (mut)') &&
         'mangosuthu (mut)'.contains(host)) {
-      host = 'mut';
+      host = 'mangosuthu (mut)';
     }
     return reference
         .child(

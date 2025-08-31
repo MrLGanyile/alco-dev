@@ -56,6 +56,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
    Crouch 0762816517
    Njabulo 0835367834
    Mafungwashe, 0766915230
+   Majali 0823201656
+   Tata 0714294940
    Msizi Dle 0782578628
    Cebo 0658040676
    Zee 0749650051
@@ -80,8 +82,8 @@ Future main() async {
     final functions = FirebaseFunctions.instance;
     final storage = FirebaseStorage
             // .instance.ref();
-            // .instanceFor(bucket: "gs://alco-dev-15405.firebasestorage.app")
-            .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
+            .instanceFor(bucket: "gs://alco-dev-15405.firebasestorage.app")
+        // .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
         .ref();
 
     final auth = FirebaseAuth.instance;
@@ -126,6 +128,7 @@ Future main() async {
   });
   Get.put(SharedResourcesController());
 
+/*
   // Ideal time to initialize
   await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
   await FirebaseStorage //.instance
@@ -133,7 +136,7 @@ Future main() async {
           .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
       .useStorageEmulator('127.0.0.1', 9199);
   FirebaseFunctions.instance.useFunctionsEmulator('127.0.0.1', 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
+  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);*/
 
   runApp(MyApplication());
 }
@@ -226,10 +229,6 @@ class _MyApplicationState extends State<MyApplication> {
 
   @override
   Widget build(BuildContext context) {
-    CompetitionController competitionController =
-        CompetitionController.competitionController;
-
-    competitionController.saveFakeWonPriceComments();
     return FirebasePhoneAuthProvider(
         child: GetMaterialApp(
       debugShowCheckedModeBanner: false,

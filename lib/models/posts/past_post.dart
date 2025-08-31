@@ -41,13 +41,6 @@ class PastPost implements Comparable<PastPost> {
         'postId': postId,
         'postCreator': postCreator.toJson(),
         'forTownOrInstitutionNo': forTownOrInstitutionNo,
-        'dateCreated': {
-          'year': dateCreated!.year,
-          'month': dateCreated!.month,
-          'date': dateCreated!.day,
-          'hour': dateCreated!.hour,
-          'minute': dateCreated!.minute
-        },
         'whereWereYouText': whereWereYouText,
         'whereWereYouImageURL': whereWereYouImageURL,
         'whereWereYouVoiceRecordURL': whereWereYouVoiceRecordURL,

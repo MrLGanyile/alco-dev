@@ -134,8 +134,9 @@ class PostController extends GetxController {
 
   // ======================What happended? [End]======================
 
-  String trimmedURL(untrimmedURL) {
-    if (!untrimmedURL.contains('/o/') && !untrimmedURL.contains('?')) {
+  String trimmedURL(String untrimmedURL) {
+    if (untrimmedURL.isEmpty ||
+        (!untrimmedURL.contains('/o/') && !untrimmedURL.contains('?'))) {
       debug.log('do not contain /o/ and ?');
       return "";
     }
@@ -607,7 +608,7 @@ class PostController extends GetxController {
       }
 
       PastPost pastPost = PastPost(
-        postId: _postReference.value!.id,
+        postId: '1' /*_postReference.value!.id*/,
         postCreator: user as Alcoholic,
         forTownOrInstitutionNo: user.area.townOrInstitutionFK,
         whereWereYouText: whereWereYouText,

@@ -94,6 +94,17 @@ const fakePosts = new FakePosts();
 // http://127.0.0.1:5001/alco-dev-15405/africa-south1/createCompetitions
 // http://127.0.0.1:5001/alco-dev-15405/africa-south1/saveFakePosts
 
+// https://createsupportedlocations-m657yrz3kq-bq.a.run.app
+// https://createfakealcoholics-m657yrz3kq-bq.a.run.app
+// https://savehostingareas-m657yrz3kq-bq.a.run.app
+// https://savefakeadmins-m657yrz3kq-bq.a.run.app
+// https://createfakegroups-m657yrz3kq-bq.a.run.app?hostIndex=2
+// https://createfakedraws-m657yrz3kq-bq.a.run.app?hostIndex=2
+// https://createcompetitions-m657yrz3kq-bq.a.run.app
+// https://savefakeposts-m657yrz3kq-bq.a.run.app
+
+
+
 // ###################Production Functions [Start]########################
 /*
 export const setCurrentUID = onCall(
@@ -219,7 +230,7 @@ export const saveHostingAreas = onRequest(
             hostingAreaName: "Mayville",
             hostingAreaImageURL: "hosting_areas/e4drbsfkrnds48dnmd.jpg",
             sectionName: "Cato Crest-Mayville-Durban-Kwa Zulu Natal-South Africa",
-            pickUpArea: "Top City Tavern",
+            pickUpArea: "Cato Crest Library",
         };
 
         hostingAreaReference = getFirestore().collection("hosting_areas")
@@ -247,7 +258,7 @@ export const saveHostingAreas = onRequest(
             hostingAreaName: "Durban Central",
             hostingAreaImageURL: "hosting_areas/g4drbsfkrnds48dnmd.jpg",
             sectionName: "Berea-Durban Central-Durban-Kwa Zulu Natal-South Africa",
-            pickUpArea: "Polar's Liquior",
+            pickUpArea: "Berea",
         };
 
         hostingAreaReference = getFirestore().collection("hosting_areas")

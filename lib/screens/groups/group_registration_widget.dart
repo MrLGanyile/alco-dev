@@ -311,6 +311,9 @@ class GroupRegistrationWidget extends StatelessWidget {
                   )
                 : createGroupButton(context);
           }),
+          const SizedBox(
+            height: 5,
+          ),
         ]),
       ),
     );

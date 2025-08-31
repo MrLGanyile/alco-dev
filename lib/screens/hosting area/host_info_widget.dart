@@ -333,8 +333,10 @@ class HostInfoWidgetState extends State<HostInfoWidget> {
             int grandPricePickingDuration =
                 competition.grandPricesOrder.length *
                     competition.pickingMultipleInSeconds;
+
             int groupPickingDuration = competition.competitorsOrder.length *
                 competition.pickingMultipleInSeconds;
+
             int competitionTotalDuration = grandPricePickingDuration +
                 competition.timeBetweenPricePickingAndGroupPicking! +
                 groupPickingDuration;
@@ -400,10 +402,7 @@ class HostInfoWidgetState extends State<HostInfoWidget> {
             // pickingMultipleInSeconds * competitorsOrder.length // Group Picking Max Time
             // Show group picking
             else if (widget.hostInfo.isCurrentlyViewed &&
-                countDownClock.remainingTime <
-                    grandPricePickingDuration +
-                        competition.timeBetweenPricePickingAndGroupPicking! +
-                        groupPickingDuration) {
+                countDownClock.remainingTime < competitionTotalDuration) {
               currentlyPointedGroupCompetitorIndex = (countDownClock
                           .remainingTime -
                       grandPricePickingDuration -
@@ -425,10 +424,6 @@ class HostInfoWidgetState extends State<HostInfoWidget> {
             else if (countDownClock.remainingTime <=
                 competitionTotalDuration +
                     competition.displayPeriodAfterWinners!) {
-              if (!competition.isOver) {
-                competitionReference.update({"isOver": true});
-              }
-
               if (widget.hostInfo.isCurrentlyViewed) {
                 widget.hostInfo.setIsCurrentlyViewed(false);
               }
@@ -442,7 +437,7 @@ class HostInfoWidgetState extends State<HostInfoWidget> {
             // Remove the last played draw.
             else if (widget.hostInfo.drawsOrder != null &&
                 widget.hostInfo.drawsOrder!.isNotEmpty &&
-                countDownClock.remainingTime ==
+                countDownClock.remainingTime >
                     competitionTotalDuration +
                         competition.displayPeriodAfterWinners! +
                         9 &&
@@ -450,12 +445,21 @@ class HostInfoWidgetState extends State<HostInfoWidget> {
               hasUpdatedNextDraw = true;
               hostingAreaController
                   .updateDrawsOrder(widget.hostInfo.hostInfoId);
+              debug.log('updateDrawsOrder');
 
               return CompetitionFinishedWidget(endMoment: competitionEndTime);
             }
 
             // pickingMultipleInSeconds * 12 // Game Over
             else {
+              if (countDownClock.remainingTime >
+                      competitionTotalDuration +
+                          competition.displayPeriodAfterWinners! +
+                          9 &&
+                  !competition.isOver) {
+                competitionReference.update({"isOver": true});
+              }
+              debug.log('CompetitionFinishedWidget');
               return CompetitionFinishedWidget(endMoment: competitionEndTime);
             }
           } else if (snapshot.hasError) {

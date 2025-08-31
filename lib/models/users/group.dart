@@ -55,6 +55,7 @@ class Group implements Comparable<Group> {
         'isActive': isActive,
         'maxNoOfMembers': maxNoOfMembers,
         'groupSpecificArea': groupSpecificArea,
+        'availableBalance': availableBalance
       };
 
   factory Group.fromJson(dynamic json) => Group(

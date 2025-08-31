@@ -8,7 +8,7 @@ class MUTFakeGroups {
 
     async mutGroups() {
 
-        const host = "mut";
+        const host = "mangosuthu (mut)";
         const group1Members = ["+27819726826", "+27819726827", "+27819726828", "+27819726829", "+27819726820"];
         const group1CreatorPhoneNumber = "+27819726826";
 

@@ -154,17 +154,21 @@ class _StartScreenState extends State<StartScreen>
                     : PastPostCreationWidget()),
               ),
               ListTile(
-                leading: Icon(Icons.account_circle, size: listTilesIconSize),
-                iconColor: MyApplication.logoColor1,
-                textColor: MyApplication.logoColor2,
-                title: Text(
-                  'Join',
-                  style: TextStyle(
-                    fontSize: listTilesFontSize,
+                  leading: Icon(Icons.account_circle, size: listTilesIconSize),
+                  iconColor: MyApplication.logoColor1,
+                  textColor: MyApplication.logoColor2,
+                  title: Text(
+                    'Join',
+                    style: TextStyle(
+                      fontSize: listTilesFontSize,
+                    ),
                   ),
-                ),
-                onTap: () => Get.to(() => AlcoholicRegistrationWidget()),
-              ),
+                  onTap: () {
+                    sharedResourcesController.setShowSigninProgressBar(false);
+                    sharedResourcesController
+                        .setShowPhoneVerificationProgressBar(false);
+                    Get.to(() => AlcoholicRegistrationWidget());
+                  }),
               const Divider(
                 height: 5,
               ),

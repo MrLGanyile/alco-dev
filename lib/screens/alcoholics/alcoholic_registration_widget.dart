@@ -345,6 +345,7 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
 
                                 alcoholicController.setNewAlcoholicPassword(
                                     passwordEditingController.text);
+
                                 debug.log(
                                     'Alcoholic Validation From AlcoholicRegistrationScreen 1');
                                 // Create Alcoholic Now
@@ -359,6 +360,8 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                                     alcoholicController
                                             .newAlcoholicProfileImageFile !=
                                         null) {
+                                  sharedResourcesController
+                                      .setShowSigninProgressBar(true);
                                   debug.log(
                                       'Alcoholic Validated From AlcoholicRegistrationScreen 2');
 
@@ -418,8 +421,6 @@ class AlcoholicRegistrationWidget extends StatelessWidget {
                                     },
                                     codeSent: (String verificationId,
                                         int? resendToken) async {
-                                      sharedResourcesController
-                                          .setShowSigninProgressBar(true);
                                       debug.log(
                                           '....About To VerificationScreen');
                                       Get.to(() => VerificationScreen(

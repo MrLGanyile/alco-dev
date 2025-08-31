@@ -132,7 +132,7 @@ class AlcoholicController extends GetxController {
           host = 'ukzn'; // Supposed to be ukzn-howard
         } else if (host.contains('mangosuthu (mut)') &&
             'mangosuthu (mut)'.contains(host)) {
-          host = 'mut';
+          host = 'mangosuthu (mut)';
         }
         _newAlcoholicProfileImageFile = Rx<File?>(File(pickedImageFile.path));
         _newAlcoholicImageURL = Rx<String?>(await uploadResource(
@@ -175,7 +175,7 @@ class AlcoholicController extends GetxController {
           host = 'ukzn'; // Supposed to be ukzn-howard
         } else if (host.contains('mangosuthu (mut)') &&
             'mangosuthu (mut)'.contains(host)) {
-          host = 'mut';
+          host = 'mangosuthu (mut)';
         }
         _newAlcoholicImageURL = Rx<String?>(await uploadResource(
             _newAlcoholicProfileImageFile.value!,
@@ -202,7 +202,7 @@ class AlcoholicController extends GetxController {
       host = 'ukzn'; // Supposed to be ukzn-howard
     } else if (host.contains('mangosuthu (mut)') &&
         'mangosuthu (mut)'.contains(host)) {
-      host = 'mut';
+      host = 'mangosuthu (mut)';
     }
 
     if (!_newAlcoholicImageURL.value!.contains('/$host') ||
@@ -256,15 +256,17 @@ class AlcoholicController extends GetxController {
     }
 
     if (newAlcoholicProfileImageFile != null &&
-        _newAlcoholicImageURL.value != null &&
-        _newAlcoholicPhoneNumber.value != null &&
-        _newAlcoholicUsername.value != null) {
+        _newAlcoholicImageURL.value!.isNotEmpty &&
+        _newAlcoholicPhoneNumber.value!.isNotEmpty &&
+        _newAlcoholicUsername.value!.isNotEmpty) {
       try {
+        String trimmedURL = trimmedImageURL();
+
         Alcoholic alcoholic = Alcoholic(
-            userId: auth.currentUser!,
+            userId: auth.currentUser!.uid,
             password: _newAlcoholicPassword.value,
             phoneNumber: _newAlcoholicPhoneNumber.value,
-            profileImageURL: trimmedImageURL(),
+            profileImageURL: trimmedURL,
             username: _newAlcoholicUsername.value!,
             area: _newAlcoholicArea.value);
 

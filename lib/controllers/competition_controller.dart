@@ -93,119 +93,6 @@ class CompetitionController extends GetxController {
         return list;
       });
 
-  Future<void> saveFakeWonPriceComments() async {
-    List<WonPriceComment> comments;
-
-    DocumentReference reference;
-
-    Stream<QuerySnapshot<Map<String, dynamic>>> collectionReference =
-        firestore.collection('won_prices_summaries').snapshots();
-
-    collectionReference.forEach((wonPriceSummariesSnapshot) async {
-      wonPriceSummariesSnapshot.docs.forEach((wonPriceSummaryDoc) {
-        WonPriceSummary wonPriceSummary =
-            WonPriceSummary.fromJson(wonPriceSummaryDoc.data());
-        SupportedTownOrInstitution supportedTownOrInstitution =
-            Converter.toSupportedTownOrInstitution(
-                wonPriceSummary.groupArea.sectionName);
-        String host = Converter.townOrInstitutionAsString(
-                supportedTownOrInstitution.townOrInstitutionName)
-            .toLowerCase();
-        firestore
-            .collection('won_prices_summaries')
-            .doc(wonPriceSummaryDoc.id)
-            .collection('comments')
-            .snapshots()
-            .forEach((commentsSnapshot) async {
-          // Avoid Repeatedly Saving Same Comments
-          if (commentsSnapshot.size == 0) {
-            debug.log('about to add comments...');
-            comments = [
-              WonPriceComment(
-                  creatorPhoneNumber: '+27601234567',
-                  wonPriceSummaryFK: wonPriceSummaryDoc.id,
-                  forTownOrInstitution:
-                      supportedTownOrInstitution.townOrInstitutionName,
-                  dateCreated: DateTime(2024, 3, 1, 9, 38),
-                  imageURL: '$host/alcoholics/profile_images/+27601234567.jpg',
-                  username: 'Mountain Mkhize Mhlongo',
-                  message: 'Nhlobo, Ayikhathali Nhlobo, Inhliziyo'),
-              WonPriceComment(
-                  creatorPhoneNumber: '+27612345678',
-                  wonPriceSummaryFK: wonPriceSummaryDoc.id,
-                  forTownOrInstitution:
-                      supportedTownOrInstitution.townOrInstitutionName,
-                  dateCreated: DateTime(2024, 3, 1, 9, 38),
-                  imageURL: '$host/alcoholics/profile_images/+27612345678.jpg',
-                  username: 'Mountain Mkhize Mhlongo',
-                  message:
-                      'Igijima Emaweni, Ayilali Nhlobo, Ayilambi Nhlobo, Ayikhathali Nhlobo, Inhliziyo Inhlabelela Ubusuku Nemini'),
-              WonPriceComment(
-                  creatorPhoneNumber: '+27623456789',
-                  wonPriceSummaryFK: wonPriceSummaryDoc.id,
-                  forTownOrInstitution:
-                      supportedTownOrInstitution.townOrInstitutionName,
-                  imageURL: '$host/alcoholics/profile_images/+27623456789.jpg',
-                  username: 'Mandla',
-                  dateCreated: DateTime(2025, 2, 13, 5, 13),
-                  message:
-                      'Nomangabe Kuyashisa Iyahlanelela, Nomangabe Kuyabanga Iyahlabelela, Nomangabe Liyaduma Lishaya Umbani Oshayisa Ngovalo Yona Ayimi Nhlobo Iyahlabelela. '),
-              WonPriceComment(
-                  creatorPhoneNumber: '+27634567890',
-                  wonPriceSummaryFK: wonPriceSummaryDoc.id,
-                  forTownOrInstitution:
-                      supportedTownOrInstitution.townOrInstitutionName,
-                  imageURL: '$host/alcoholics/profile_images/+27634567890.jpg',
-                  username: 'Mountain Mkhize Mhlongo',
-                  dateCreated: DateTime(2025, 2, 13, 23, 35),
-                  message: 'Iyazi Ibhekephi Futhi Ngeke Ivinjwe Lutho'),
-              WonPriceComment(
-                  creatorPhoneNumber: '+27645678901',
-                  wonPriceSummaryFK: wonPriceSummaryDoc.id,
-                  forTownOrInstitution:
-                      supportedTownOrInstitution.townOrInstitutionName,
-                  dateCreated: DateTime(2025, 1, 31, 20, 12),
-                  imageURL: '$host/alcoholics/profile_images/+27645678901.jpg',
-                  username: 'Yebo',
-                  message: 'Uloyo'),
-              WonPriceComment(
-                  creatorPhoneNumber: '+27656789012',
-                  wonPriceSummaryFK: wonPriceSummaryDoc.id,
-                  forTownOrInstitution:
-                      supportedTownOrInstitution.townOrInstitutionName,
-                  dateCreated: DateTime(2024, 11, 13, 12, 0),
-                  imageURL: '$host/alcoholics/profile_images/+27656789012.jpg',
-                  username: 'Zwe Captain',
-                  message: 'Naloyo Ophuma Umphefumulo Into Yokuqala Ayisho '),
-              WonPriceComment(
-                  creatorPhoneNumber: '+27667890123',
-                  wonPriceSummaryFK: wonPriceSummaryDoc.id,
-                  forTownOrInstitution:
-                      supportedTownOrInstitution.townOrInstitutionName,
-                  dateCreated: DateTime(2025, 2, 16, 23, 44),
-                  imageURL: '$host/alcoholics/profile_images/+27667890123.jpg',
-                  username: 'Snathi',
-                  message:
-                      'Uma Efika Emazulwini Uthi Nami Ngiyavuma Akekho Ongaphezulu Kwayo. Oyazi Isencane Isakhula Uthi Nami Ngiyavuma Akekho Ongaphezulu Kwayo, Oyazi Isikhulile Isizazi Ukuthi Ingubani Izokwenzani Kulomhlaba Naye Uthi Nami Ngiyavuma Akekho Ongaphezulu Kwayo, Ongakaze Ayibona Nhlobo Oyizizwa Ngendaba Naye Ucula Iculo Elifanayo Nami Ngiyavuma Akekho Ongaphezulu Kwayo.'),
-            ];
-            for (var commentIndex = 0;
-                commentIndex < comments.length;
-                commentIndex++) {
-              reference = firestore
-                  .collection('won_prices_summaries')
-                  .doc(wonPriceSummaryDoc.id)
-                  .collection('comments')
-                  .doc();
-              comments[commentIndex].setWonPriceCommentId(reference.id);
-              await reference.set(comments[commentIndex].toJson());
-            }
-          }
-        });
-      });
-      wonPriceSummariesSnapshot.docs.map((wonPriceSummaryDoc) async {});
-    });
-  }
-
   Future<void> saveWonPriceComment(
     String wonPriceSummaryFK,
     String message,
@@ -215,15 +102,6 @@ class CompetitionController extends GetxController {
     if (user == null) {
       getSnapbar('Unauthorized Action', 'Login Before Commenting');
       return;
-    }
-
-    TownOrInstitution townOrInstitution;
-    if (user is Alcoholic) {
-      townOrInstitution =
-          Converter.toSupportedTownOrInstitution(user.area.sectionName)
-              .townOrInstitutionName;
-    } else {
-      townOrInstitution = (user as Admin).townOrInstitution;
     }
 
     DocumentReference wonPriceSummaryRef =
@@ -236,8 +114,21 @@ class CompetitionController extends GetxController {
 
         int one =
             int.parse(wonPriceSummary.townOrInstitution.townOrInstitutionNo);
-        int two = int.parse(alcoholicController
-            .currentlyLoggedInAlcoholic!.area.townOrInstitutionFK);
+        int two;
+
+        TownOrInstitution townOrInstitution;
+        if (user is Alcoholic) {
+          townOrInstitution =
+              Converter.toSupportedTownOrInstitution(user.area.sectionName)
+                  .townOrInstitutionName;
+          two = int.parse(alcoholicController
+              .currentlyLoggedInAlcoholic!.area.townOrInstitutionFK);
+        } else {
+          townOrInstitution = (user as Admin).townOrInstitution;
+          two = Converter.townOrInstitutionAsNumber(
+              adminController.currentlyLoggedInAdmin!.townOrInstitution);
+        }
+
         bool result = one == two;
 
         if (result) {

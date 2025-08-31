@@ -12,7 +12,7 @@ service firebase.storage {
     // Branch : group_resources_crud ->  group_resources_crud_storage_security
     // Images can either be .png or .jpg in order for them to be acceptable.
     function isValidContentType(data) {
-      return data.contentType in ['image/png', 'image/jpg'];
+      return data.contentType in ['image/png', 'image/jpg', 'video/mp4'];
     }
 
     // Branch : group_resources_crud ->  group_resources_crud_storage_security
@@ -30,68 +30,22 @@ service firebase.storage {
       allow write, read;
     }
 
-    // /Auabdnah/past_posts/where_were_you/images/23-04-2025@12h34.jpg
-    // /Auabdnah/past_posts/where_were_you/records/23-04-2025@12h34.wav
-    // /Auabdnah/past_posts/where_were_you/videos/23-04-2025@12h34.mp4
-    match /{host}/past_posts/where_were_you/{resource=**}{
-      allow write;
+    match /{host}/past_posts/where_were_you/{path=**}{
+      allow create: if request.auth != null && isValidContentType(request.resource) && isValidFileSize(request.resource);
+      allow update, delete: false;
       allow read;
     }
 
-    match /{host}/past_posts/who_were_you_with/{resource=**}{
-      allow write;
+    match /{host}/past_posts/who_were_you_with/{path=**}{
+      allow create: if request.auth != null && isValidContentType(request.resource) && isValidFileSize(request.resource);
+      allow update, delete: false;
       allow read;
     }
 
-    match /{host}/past_posts/what_happened/{resource=**}{
-      allow write;
+    match /{host}/past_posts/what_happened/{path=**}{
+      allow create: if request.auth != null && isValidContentType(request.resource) && isValidFileSize(request.resource);
+      allow update, delete: false;
       allow read;
-    }
-  
-
-    // Branch : store_resources_crud ->  store_resources_crud_storage_security
-    // Done Unit Testing, Except For The Update Operation.
-    match /store_owners/stores_images/{storeImage} {
-      
-      //Only unregistered users can create a store image during registration. 
-      allow create: if request.auth != null && 
-
-      // Make sure authenticated user's uid is the same as the document id of this image.
-      request.auth.uid == storeImage &&
-
-      // Make sure a store whose owner has a phone number which is the same as this document id does not alredy exist.
-      firestore.exists(/databases/(default)/documents/stores/
-      $(request.auth.uid))==false &&
-      firestore.exists(/databases/(default)/documents/store_owners/
-      $(request.auth.uid))==false &&
-
-      
-      isValidFileSize(request.resource);// && 
-      //isValidContentType(request.resource);
-       
-      allow read; // Anybody can view  stores images.
-
-      // No one can delete a store image.
-      allow update, delete: if false;
-    }
-
-    // Branch : store_resources_crud ->  store_resources_crud_storage_security
-    // Done Unit Testing, Except For The Update Operation.
-    match /store_owners/store_owners_images/{storeOwnerImage} {
-
-      // Only unregistered users can create a store owner image during store registration.
-      allow create: if request.auth != null && 
-
-      // Make sure authenticated user's uid is the same as the document id of this image.
-      request.auth.uid == storeOwnerImage &&
-
-      // Make sure the store already exist whereas the store owner with the same phone number isn't.
-      firestore.exists(/databases/(default)/documents/stores/
-      $(request.auth.uid)) &&
-      firestore.exists(/databases/(default)/documents/store_owners/
-      $(request.auth.uid))==false &&
-
-      isValidFileSize(request.resource);// && 
     }
     
 

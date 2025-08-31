@@ -374,6 +374,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                   .setShowLoginProgressBar(false);
                             }
 
+                            // Disable progress bar for the previous screen (signin screen) if needed.
+                            if (sharedResourcesController
+                                .showSigninProgressBar) {
+                              sharedResourcesController
+                                  .setShowSigninProgressBar(false);
+                            }
+
                             // Enable progress bar for the current scree (verification screen) if needed.
                             if (!sharedResourcesController
                                 .showPhoneVerificationProgressBar) {
