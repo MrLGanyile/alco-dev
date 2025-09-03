@@ -26,7 +26,7 @@ class WonPriceCommentWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   FutureBuilder(
-                      future: findFullImageURL(wonPriceComment.imageURL),
+                      future: findFullURL(wonPriceComment.imageURL),
                       builder: ((context, snapshot) {
                         if (snapshot.hasData) {
                           /*return CircleAvatar(

@@ -278,9 +278,6 @@ service cloud.firestore {
           
           // Only a store owner can create a store draw grand price.
           allow create: if isSuperiorAdmin() &&
-          
-          request.resource.data.grandPriceId != null &&
-          request.resource.data.grandPriceId == drawGrandPriceId &&
 
           request.resource.data.hostedDrawFK != null &&
           request.resource.data.hostedDrawFK == hostedDrawId &&

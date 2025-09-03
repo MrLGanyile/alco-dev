@@ -79,7 +79,7 @@ Future<File?> compressImage(File file) async {
   }
 }
 
-Future<String> findFullImageURL(String imageURL) async {
+Future<String> findFullURL(String imageURL) async {
   return await reference.child(imageURL).getDownloadURL();
 }
 

@@ -62,7 +62,7 @@ class RecruitmentWidgetState extends State<RecruitmentWidget> {
             children: [
               Expanded(
                 child: FutureBuilder(
-                    future: findFullImageURL(group.groupCreatorImageURL),
+                    future: findFullURL(group.groupCreatorImageURL),
                     builder: ((context, snapshot) {
                       if (snapshot.hasData) {
                         /*return CircleAvatar(

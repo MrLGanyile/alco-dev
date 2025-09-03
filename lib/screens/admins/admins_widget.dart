@@ -66,7 +66,7 @@ class AdminsWidgetState extends State<AdminsWidget> {
             children: [
               Expanded(
                 child: FutureBuilder(
-                    future: findFullImageURL(admin.profileImageURL),
+                    future: findFullURL(admin.profileImageURL),
                     builder: ((context, snapshot) {
                       if (snapshot.hasData) {
                         /*return CircleAvatar(

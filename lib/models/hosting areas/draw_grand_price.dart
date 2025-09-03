@@ -22,6 +22,7 @@ class DrawGrandPrice {
       'description': description,
       'imageURL': imageURL,
       'grandPriceIndex': grandPriceIndex,
+      'hostedDrawFK': hostedDrawFK,
     });
     return map;
   }

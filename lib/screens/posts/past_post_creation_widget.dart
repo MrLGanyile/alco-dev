@@ -286,6 +286,7 @@ class PastPostCreationWidgetState extends State<PastPostCreationWidget> {
       whereWereYouVideoController!.initialize();
       whereWereYouVideoController!.setVolume(10);
       whereWereYouVideoController!.setLooping(false);
+      whereWereYouVideoController!.play();
       return buildVideoDisplay(0);
     } else {
       // Where were you? Text Written

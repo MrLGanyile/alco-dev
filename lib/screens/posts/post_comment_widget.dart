@@ -25,7 +25,7 @@ class PostCommentWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   FutureBuilder(
-                      future: findFullImageURL(postComment.imageURL),
+                      future: findFullURL(postComment.imageURL),
                       builder: ((context, snapshot) {
                         if (snapshot.hasData) {
                           /*return CircleAvatar(

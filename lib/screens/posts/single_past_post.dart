@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../controllers/post_controller.dart';
 import '../../controllers/shared_resources_controller.dart';
@@ -13,21 +15,57 @@ import '../utils/globals.dart';
 
 import 'dart:developer' as debug;
 
-class SinglePastPostWidget extends StatelessWidget {
+class SinglePastPostWidget extends StatefulWidget {
   PastPost pastPost;
 
+  SinglePastPostWidget({required this.pastPost});
+
+  @override
+  State<SinglePastPostWidget> createState() => SinglePastPostWidgetState();
+}
+
+class SinglePastPostWidgetState extends State<SinglePastPostWidget> {
   VideoPlayerController? whereWereYouVideoController;
   VideoPlayerController? whoWereYouWithVideoController;
   VideoPlayerController? whatHappenedVideoController;
 
   PostController postController = PostController.postController;
+  late VisibilityDetectorController visibilityDetectorController;
 
-  SinglePastPostWidget({required this.pastPost});
+  bool playWhatHappenedVideo = false;
+
+  SinglePastPostWidgetState();
+
+  @override
+  void initState() {
+    super.initState();
+
+    visibilityDetectorController = VisibilityDetectorController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    // VisibilityDetectorController.instance.updateInterval = Duration.zero;
+
+    if (whereWereYouVideoController != null) {
+      whereWereYouVideoController!.dispose();
+    }
+
+    if (whoWereYouWithVideoController != null) {
+      whoWereYouWithVideoController!.dispose();
+    }
+
+    if (whatHappenedVideoController != null) {
+      whatHappenedVideoController!.dispose();
+    }
+  }
 
   Widget whereWereYouWidget() {
     Widget widget = const SizedBox.shrink();
 
-    if (pastPost.hasWhereWereYouText()) {
+    if (this.widget.pastPost.hasWhereWereYouText()) {
       widget = Card(
         color: Colors.black.withBlue(30),
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -47,7 +85,7 @@ class SinglePastPostWidget extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(left: 15),
                     child: Text(
-                      pastPost.whereWereYouText,
+                      this.widget.pastPost.whereWereYouText,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontSize: 16, color: MyApplication.storesTextColor),
@@ -57,31 +95,41 @@ class SinglePastPostWidget extends StatelessWidget {
               ),
             )),
       );
-    } else if (pastPost.hasWhereWereYouImage()) {
-      widget = Align(
-        alignment: Alignment.bottomLeft,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Where Was I?',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                  fontSize: 16, color: MyApplication.attractiveColor1),
+    } else if (this.widget.pastPost.hasWhereWereYouImage()) {
+      widget = Card(
+        color: Colors.black.withBlue(30),
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Where Was I?',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 16, color: MyApplication.attractiveColor1),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Container(
+                    margin: const EdgeInsets.only(left: 5, right: 5),
+                    child: displayImage(
+                        this.widget.pastPost.whereWereYouImageURL)),
+                const SizedBox(
+                  height: 5,
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 5,
-            ),
-            displayImage(pastPost.whereWereYouImageURL),
-            const SizedBox(
-              height: 5,
-            ),
-          ],
+          ),
         ),
       );
-    } else if (pastPost.hasWhereWereYouVoiceRecord()) {
+    } else if (this.widget.pastPost.hasWhereWereYouVoiceRecord()) {
       // Display play button
-    } else if (pastPost.hasWhereWereYouVideo()) {
+    } else if (this.widget.pastPost.hasWhereWereYouVideo()) {
       widget = Card(
         color: Colors.black.withBlue(30),
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -101,7 +149,10 @@ class SinglePastPostWidget extends StatelessWidget {
                         fontSize: 16, color: MyApplication.attractiveColor1),
                   ),
                 ),
-                buildVideoDisplay(0),
+                Container(
+                  margin: const EdgeInsets.only(left: 15, right: 15),
+                  child: buildVideoDisplay(0),
+                )
               ],
             ),
           ),
@@ -115,7 +166,7 @@ class SinglePastPostWidget extends StatelessWidget {
   Widget whoWereYouWithWidget() {
     Widget widget = const SizedBox.shrink();
 
-    if (pastPost.hasWhoWereYouWithText()) {
+    if (this.widget.pastPost.hasWhoWereYouWithText()) {
       widget = Card(
         color: Colors.black.withBlue(30),
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -135,7 +186,7 @@ class SinglePastPostWidget extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(left: 15),
                     child: Text(
-                      pastPost.whoWereYouWithText,
+                      this.widget.pastPost.whoWereYouWithText,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontSize: 16, color: MyApplication.storesTextColor),
@@ -145,7 +196,7 @@ class SinglePastPostWidget extends StatelessWidget {
               ),
             )),
       );
-    } else if (pastPost.hasWhoWereYouWithImage()) {
+    } else if (this.widget.pastPost.hasWhoWereYouWithImage()) {
       widget = Card(
         color: Colors.black.withBlue(30),
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
@@ -163,7 +214,7 @@ class SinglePastPostWidget extends StatelessWidget {
               const SizedBox(
                 height: 5,
               ),
-              displayImage(pastPost.whoWereYouWithImageURL),
+              displayImage(this.widget.pastPost.whoWereYouWithImageURL),
               const SizedBox(
                 height: 5,
               ),
@@ -171,9 +222,9 @@ class SinglePastPostWidget extends StatelessWidget {
           ),
         ),
       );
-    } else if (pastPost.hasWhoWereYouWithVoiceRecord()) {
+    } else if (this.widget.pastPost.hasWhoWereYouWithVoiceRecord()) {
       // Display play button
-    } else if (pastPost.hasWhoWereYouWithVideo()) {
+    } else if (this.widget.pastPost.hasWhoWereYouWithVideo()) {
       widget = Card(
         color: Colors.black.withBlue(30),
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -195,7 +246,9 @@ class SinglePastPostWidget extends StatelessWidget {
                 const SizedBox(
                   height: 3,
                 ),
-                buildVideoDisplay(1),
+                Container(
+                    margin: const EdgeInsets.only(left: 15, right: 15),
+                    child: buildVideoDisplay(1)),
               ],
             ),
           ),
@@ -209,7 +262,7 @@ class SinglePastPostWidget extends StatelessWidget {
   Widget whatHappenedWidget() {
     Widget widget = const SizedBox.shrink();
 
-    if (pastPost.hasWhatHappenedText()) {
+    if (this.widget.pastPost.hasWhatHappenedText()) {
       widget = Card(
         color: Colors.black.withBlue(30),
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -229,7 +282,7 @@ class SinglePastPostWidget extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(left: 15),
                     child: Text(
-                      pastPost.whatHappenedText,
+                      this.widget.pastPost.whatHappenedText,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           fontSize: 16, color: MyApplication.storesTextColor),
@@ -239,9 +292,9 @@ class SinglePastPostWidget extends StatelessWidget {
               ),
             )),
       );
-    } else if (pastPost.hasWhatHappenedVoiceRecord()) {
+    } else if (this.widget.pastPost.hasWhatHappenedVoiceRecord()) {
       // Display play button
-    } else if (pastPost.hasWhatHappenedVideo()) {
+    } else if (this.widget.pastPost.hasWhatHappenedVideo()) {
       widget = Card(
         color: Colors.black.withBlue(30),
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -260,7 +313,9 @@ class SinglePastPostWidget extends StatelessWidget {
                         fontSize: 16, color: MyApplication.attractiveColor1),
                   ),
                 ),
-                buildVideoDisplay(2),
+                Container(
+                    margin: const EdgeInsets.only(left: 15, right: 15),
+                    child: buildVideoDisplay(2)),
               ],
             ),
           ),
@@ -277,7 +332,7 @@ class SinglePastPostWidget extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 2 / 3,
         child: FutureBuilder(
-            future: findFullImageURL(imageURL),
+            future: findFullURL(imageURL),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 /*return Container(
@@ -330,7 +385,7 @@ class SinglePastPostWidget extends StatelessWidget {
       case 0:
         if (whereWereYouVideoController == null) {
           widget = FutureBuilder(
-            future: findFullImageURL(pastPost.whereWereYouVideoURL),
+            future: findFullURL(this.widget.pastPost.whereWereYouVideoURL),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 String path = (snapshot as AsyncSnapshot<String>).data!;
@@ -340,7 +395,25 @@ class SinglePastPostWidget extends StatelessWidget {
                 whereWereYouVideoController!.initialize();
                 whereWereYouVideoController!.setVolume(10);
                 whereWereYouVideoController!.setLooping(false);
-                return VideoPlayer(whereWereYouVideoController!);
+
+                debug.log('Where Were You Video Controller Initialized.');
+
+                return VisibilityDetector(
+                  key: UniqueKey(),
+                  child: GestureDetector(
+                      onTap: () {
+                        whereWereYouVideoController!.seekTo(Duration.zero);
+                        whereWereYouVideoController!.play();
+                      },
+                      child: VideoPlayer(whereWereYouVideoController!)),
+                  onVisibilityChanged: (visibilityInfo) {
+                    if (visibilityInfo.visibleFraction == 1) {
+                      whereWereYouVideoController!.play();
+                    } else {
+                      whereWereYouVideoController!.pause();
+                    }
+                  },
+                );
               } else if (snapshot.hasError) {
                 debug.log(
                     'Error Fetching Where Were You Post Video - ${snapshot.error}');
@@ -356,7 +429,7 @@ class SinglePastPostWidget extends StatelessWidget {
       case 1:
         if (whoWereYouWithVideoController == null) {
           widget = FutureBuilder(
-            future: findFullImageURL(pastPost.whoWereYouWithVideoURL),
+            future: findFullURL(this.widget.pastPost.whoWereYouWithVideoURL),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 String path = (snapshot as AsyncSnapshot<String>).data!;
@@ -366,7 +439,23 @@ class SinglePastPostWidget extends StatelessWidget {
                 whoWereYouWithVideoController!.initialize();
                 whoWereYouWithVideoController!.setVolume(10);
                 whoWereYouWithVideoController!.setLooping(false);
-                return VideoPlayer(whoWereYouWithVideoController!);
+
+                return VisibilityDetector(
+                  key: UniqueKey(),
+                  child: GestureDetector(
+                      onTap: () {
+                        whoWereYouWithVideoController!.seekTo(Duration.zero);
+                        whoWereYouWithVideoController!.play();
+                      },
+                      child: VideoPlayer(whoWereYouWithVideoController!)),
+                  onVisibilityChanged: (visibilityInfo) {
+                    if (visibilityInfo.visibleFraction == 1) {
+                      whoWereYouWithVideoController!.play();
+                    } else {
+                      whoWereYouWithVideoController!.pause();
+                    }
+                  },
+                );
               } else if (snapshot.hasError) {
                 debug.log(
                     'Error Fetching Post Who Were You With Video - ${snapshot.error}');
@@ -382,7 +471,7 @@ class SinglePastPostWidget extends StatelessWidget {
       case 2:
         if (whatHappenedVideoController == null) {
           widget = FutureBuilder(
-            future: findFullImageURL(pastPost.whatHappenedVideoURL),
+            future: findFullURL(this.widget.pastPost.whatHappenedVideoURL),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 String path = (snapshot as AsyncSnapshot<String>).data!;
@@ -392,7 +481,24 @@ class SinglePastPostWidget extends StatelessWidget {
                 whatHappenedVideoController!.initialize();
                 whatHappenedVideoController!.setVolume(10);
                 whatHappenedVideoController!.setLooping(false);
-                return VideoPlayer(whatHappenedVideoController!);
+
+                return VisibilityDetector(
+                  key: UniqueKey(),
+                  child: GestureDetector(
+                      onTap: () {
+                        whatHappenedVideoController!.seekTo(Duration.zero);
+                        whatHappenedVideoController!.play();
+                      },
+                      child: VideoPlayer(whatHappenedVideoController!)),
+                  onVisibilityChanged: (visibilityInfo) {
+                    if (visibilityInfo.visibleFraction < 1) {
+                      // debug.log('${visibilityInfo.visibleFraction * 100}');
+                      whatHappenedVideoController!.pause();
+                    } else {
+                      whatHappenedVideoController!.play();
+                    }
+                  },
+                );
               } else if (snapshot.hasError) {
                 debug.log(
                     'Error Fetching What Happened Post Video - ${snapshot.error}');
@@ -424,7 +530,8 @@ class SinglePastPostWidget extends StatelessWidget {
         children: [
           Expanded(
             child: FutureBuilder(
-                future: findFullImageURL(pastPost.postCreator.profileImageURL),
+                future: findFullURL(
+                    this.widget.pastPost.postCreator.profileImageURL),
                 builder: ((context, snapshot) {
                   if (snapshot.hasData) {
                     /*return CircleAvatar(
@@ -467,7 +574,7 @@ class SinglePastPostWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '@${pastPost.postCreator.username}',
+                    '@${this.widget.pastPost.postCreator.username}',
                     //textAlign: TextAlign.center,
                     style: TextStyle(
                       decoration: TextDecoration.none,
@@ -480,7 +587,7 @@ class SinglePastPostWidget extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Text(
-                      pastPost.passedTimeRepresentation(),
+                      this.widget.pastPost.passedTimeRepresentation(),
                       style: TextStyle(
                           fontSize: 12,
                           color: MyApplication.logoColor1,
@@ -489,7 +596,8 @@ class SinglePastPostWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    Converter.asString(pastPost.postCreator.area.sectionName),
+                    Converter.asString(
+                        this.widget.pastPost.postCreator.area.sectionName),
                     // textAlign: TextAlign.center,
                     style: TextStyle(
                         decoration: TextDecoration.none,
