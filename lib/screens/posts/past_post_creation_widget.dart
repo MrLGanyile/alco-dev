@@ -65,7 +65,8 @@ class PastPostCreationWidgetState extends State<PastPostCreationWidget> {
     PermissionStatus status = await Permission.microphone.request();
 
     if (status != PermissionStatus.granted) {
-      throw ('Microphone permission not granted');
+      // throw ('Microphone permission not granted');
+      throw RecordingPermissionException('Microphone permission not granted');
     }
 
     await whereWereYouRecorder.openRecorder();
@@ -88,10 +89,17 @@ class PastPostCreationWidgetState extends State<PastPostCreationWidget> {
 
   Future record(int questionIndex) async {
     String destination;
+    Codec _codec = Codec.aacMP4;
     switch (questionIndex) {
       case 0:
-        destination = 'where_rec@${postController.recordersSeconds}';
-        whereWereYouRecorder.startRecorder(toFile: destination);
+        destination = 'where_rec@${postController.recordersSeconds}.mp4';
+        whereWereYouRecorder
+            .startRecorder(toFile: destination, codec: _codec)
+            .then((value) {
+          setState(() {
+            // debug.log('Where Were You Start Record Value : $value');
+          });
+        });
 
         break;
       case 1:
@@ -108,9 +116,11 @@ class PastPostCreationWidgetState extends State<PastPostCreationWidget> {
     switch (questionIndex) {
       case 0:
         if (!isWhereWereYouRecorderReady) return;
-        final path = await whereWereYouRecorder.stopRecorder();
-        final audioFile = File(path!);
-        debug.log('Where Were You Record Path : $audioFile');
+        await whereWereYouRecorder.stopRecorder().then((value) {
+          setState(() {
+            debug.log('Where Were You Stop Record Value : $value');
+          });
+        });
         break;
       case 1:
         if (!isWhoWereYouWithRecorderReady) return;
@@ -323,9 +333,7 @@ class PastPostCreationWidgetState extends State<PastPostCreationWidget> {
                 }
               },
               icon: Icon(
-                  !whereWereYouRecorder.isRecording ? Icons.mic : Icons.stop
-                  
-                  ),
+                  !whereWereYouRecorder.isRecording ? Icons.mic : Icons.stop),
               iconSize: uploadIconsSize,
               color: uploadIconColor,
             ),

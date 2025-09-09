@@ -36,10 +36,19 @@ Future<String> uploadResource(File resource, String storagePath,
     {String contentType = "image/jpeg"}) async {
   final metadata = SettableMetadata(contentType: contentType);
 
+  UploadTask uploadTask;
+  TaskSnapshot taskSnapshot;
+  String downloadURL;
+
+  if (contentType.contains('video')) {
+    uploadTask = reference.child(storagePath).putFile(resource, metadata);
+    taskSnapshot = await uploadTask;
+
+    downloadURL = await taskSnapshot.ref.getDownloadURL();
+    return downloadURL;
+  }
+
   return await compressImage(resource).then((compressedImageFile) async {
-    UploadTask uploadTask;
-    TaskSnapshot taskSnapshot;
-    String downloadURL;
     if (compressedImageFile == null) {
       uploadTask = reference.child(storagePath).putFile(resource, metadata);
       taskSnapshot = await uploadTask;

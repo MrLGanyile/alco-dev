@@ -696,7 +696,7 @@ class HostingAreaController extends GetxController {
     await _saveDrawGrandPrice(hostedDraw.hostedDrawId!, 4);
 
     DocumentReference hostInfoReference =
-        firestore.collection("/hosts_info/").doc(hostedDraw.hostingAreaFK);
+        firestore.collection("hosts_info").doc(hostedDraw.hostingAreaFK);
 
     hostInfoReference.get().then((hostInfoDoc) async {
       HostInfo info = HostInfo.fromJson(hostInfoDoc.data());

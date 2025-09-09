@@ -390,7 +390,7 @@ class HostInfoWidgetState extends State<HostInfoWidget> {
                       competition.pickingMultipleInSeconds);
             }
 
-            // pickingMultipleInSeconds * 1 // Won Price Display
+            // pickingMultipleInSeconds * 3 // Won Price Display
             // Display won price.
             else if (widget.hostInfo.isCurrentlyViewed &&
                 countDownClock.remainingTime <

@@ -367,14 +367,23 @@ const shuffle = (array) => {
 // Remember to create an index for the function's query.
 // onSchedule("*/5 * * * *", async (event) => { */
 // Works fine with generated competitions' id, whether or not it does with custom ids depends on the creation of indexes.
+// https://createcompetitions-m657yrz3kq-uc.a.run.app/
 // http://127.0.0.1:5001/alco-dev-15405/africa-south1/createCompetitions
 export const createCompetitions =
-    // onSchedule("4, 17, 30 , 43, 56 17 * FRI", async (event) => {
-    onRequest(
+    onSchedule(
+
         {
-            region: "africa-south1"
+            schedule: '4,17,30,43,56 17 * * FRI', // Every Friday Hour 17 Minute 4, 17, 30, 43 & 17
+            // timeZone: 'Africa/Johannesburg', // Optional: specify a timezone
+            // region: 'africa-south1', // Specified Region Not Supported.
         },
-        async (req, res) => {
+        // "4,17,30,43,56 17 * * FRI",
+        async (event) => {
+            /*onRequest(
+                {
+                    region: "africa-south1"
+                }, 
+                async (req, res) => { */
 
             try {
                 // Consistent timestamp
@@ -462,6 +471,7 @@ export const createCompetitions =
                                             * Next 18 seconds - Grand Price Picking
                                             * Next 3*3 seconds - Won Price Display
                                             * Next 600 seconds Max - Group Picking
+                                            * Next 6 seconds - Notification
                                             * Next 30 Seconds - Competition Result Display
                                             * Last 3 seconds - Game Over
                                             * Total Time = 1 min + 10 min + 30 sec + 18 sec + 9 sec = 11 min 57 seconds

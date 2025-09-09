@@ -144,6 +144,7 @@ class PostController extends GetxController {
     return untrimmedURL
         .substring(untrimmedURL.indexOf('/o/') + 2, untrimmedURL.indexOf('?'))
         .replaceAll('%2F', '/')
+        .replaceAll('%20', ' ')
         .replaceAll('%2B', '+');
   }
 
@@ -219,13 +220,13 @@ class PostController extends GetxController {
               .toLowerCase();
         }
 
+        setPostReference();
+
         _whereWereYouImageURL = Rx<String>(await uploadResource(
             _whereWereYouImage.value!,
             '$host/past_posts/where_were_you/images/${_postReference.value!.id}'));
 
-        postController.setPostReference();
-
-        Get.snackbar('Image Status', 'Image File Successfully Captured.');
+        // Get.snackbar('Image Status', 'Image File Successfully Captured.');
         update();
       } else {
         Get.snackbar('Error', 'Image Wasn\'t Captured.');
@@ -258,11 +259,25 @@ class PostController extends GetxController {
             .toLowerCase();
       }
 
-      postController.setPostReference();
+      if (host!.contains('howard college ukzn') &&
+          'howard college ukzn'.contains(host!)) {
+        host = 'ukzn'; // Supposed to be ukzn-howard
+      } else if (host!.contains('mangosuthu (mut)') &&
+          'mangosuthu (mut)'.contains(host!)) {
+        host = 'mangosuthu (mut)';
+      }
+
+      setPostReference();
+
+      _whereWereYouVideoURL = Rx<String>(
+        await uploadResource(_whereWereYouVideo.value!,
+            '$host/past_posts/where_were_you/videos/${_postReference.value!.id}',
+            contentType: "video/mp4"),
+      );
 
       debug.log('Video File Successfully Captured');
       debug.log('Created AT ${_whereWereYouVideoURL.value}');
-      Get.snackbar('Video Status', 'Video File Successfully Captured.');
+      //Get.snackbar('Video Status', 'Video File Successfully Captured.');
       update();
     } else {
       Get.snackbar('Error', 'Video Wasn\'t Captured.');
@@ -339,13 +354,21 @@ class PostController extends GetxController {
               .toLowerCase();
         }
 
+        if (host!.contains('howard college ukzn') &&
+            'howard college ukzn'.contains(host!)) {
+          host = 'ukzn'; // Supposed to be ukzn-howard
+        } else if (host!.contains('mangosuthu (mut)') &&
+            'mangosuthu (mut)'.contains(host!)) {
+          host = 'mangosuthu (mut)';
+        }
+
+        setPostReference();
+
         _whoWereYouWithImageURL = Rx<String>(await uploadResource(
             _whoWereYouWithImage.value!,
             '$host/past_posts/who_were_you_with/images/${_postReference.value!.id}'));
 
-        setPostReference();
-
-        Get.snackbar('Image Status', 'Image File Successfully Captured.');
+        // Get.snackbar('Image Status', 'Image File Successfully Captured.');
         update();
       } else {
         Get.snackbar('Error', 'Image Wasn\'t Captured.');
@@ -378,9 +401,22 @@ class PostController extends GetxController {
             .toLowerCase();
       }
 
-      postController.setPostReference();
+      if (host!.contains('howard college ukzn') &&
+          'howard college ukzn'.contains(host!)) {
+        host = 'ukzn'; // Supposed to be ukzn-howard
+      } else if (host!.contains('mangosuthu (mut)') &&
+          'mangosuthu (mut)'.contains(host!)) {
+        host = 'mangosuthu (mut)';
+      }
 
-      Get.snackbar('Video Status', 'Video File Successfully Picked.');
+      setPostReference();
+
+      _whoWereYouWithVideoURL = Rx<String>(await uploadResource(
+          _whoWereYouWithVideo.value!,
+          '$host/past_posts/who_were_you_with/videos/${_postReference.value!.id}',
+          contentType: 'video/mp4'));
+
+      // Get.snackbar('Video Status', 'Video File Successfully Picked.');
       update();
     } else {
       Get.snackbar('Error', 'Video Wasn\'t Picked.');
@@ -443,19 +479,25 @@ class PostController extends GetxController {
             .toLowerCase();
       }
 
-      postController.setPostReference();
+      if (host!.contains('howard college ukzn') &&
+          'howard college ukzn'.contains(host!)) {
+        host = 'ukzn'; // Supposed to be ukzn-howard
+      }
 
-      Get.snackbar('Video Status', 'Video File Successfully Captured.');
+      setPostReference();
+
+      _whatHappenedVideoURL = Rx<String>(await uploadResource(
+          _whatHappenedVideo.value!,
+          '$host/past_posts/what_happened/videos/${_postReference.value!.id}',
+          contentType: 'video/mp4'));
+
+      // Get.snackbar('Video Status', 'Video File Successfully Captured.');
       update();
     } else {
       Get.snackbar('Error', 'Video Wasn\'t Captured.');
     }
   }
   // ======================What happended? [End]======================
-
-  compressVideo(String videoPath) {
-    // Add video_compress dependency and watch Tik Tack Clone video 27
-  }
 
   void clear() {
     _whereWereYouText = Rx('');
@@ -577,38 +619,8 @@ class PostController extends GetxController {
             .toLowerCase();
       }
 
-      if (host!.contains('howard college ukzn') &&
-          'howard college ukzn'.contains(host!)) {
-        host = 'ukzn'; // Supposed to be ukzn-howard
-      }
-
-      String videoContentType = "video/mp4";
-
-      if (whereWereYouVideo != null) {
-        _whereWereYouVideoURL = Rx<String>(await uploadResource(
-            _whereWereYouVideo.value!,
-            '$host/past_posts/where_were_you/videos/${_postReference.value!.id}',
-            contentType: videoContentType));
-        debug.log('Where Were You Video URL - ${_whereWereYouVideoURL.value}');
-      }
-
-      if (whoWereYouWithVideo != null) {
-        _whoWereYouWithVideoURL = Rx<String>(await uploadResource(
-            _whoWereYouWithVideo.value!,
-            '$host/past_posts/who_were_you_with/videos/${_postReference.value!.id}',
-            contentType: videoContentType));
-      }
-
-      if (whatHappenedVideo != null) {
-        _whatHappenedVideoURL = Rx<String>(await uploadResource(
-            _whatHappenedVideo.value!,
-            '$host/past_posts/what_happened/videos/${_postReference.value!.id}',
-            contentType: videoContentType));
-        debug.log('What Happened Video URL - ${_whatHappenedVideo.value}');
-      }
-
       PastPost pastPost = PastPost(
-        postId: '1' /*_postReference.value!.id*/,
+        postId: _postReference.value!.id,
         postCreator: user as Alcoholic,
         forTownOrInstitutionNo: user.area.townOrInstitutionFK,
         whereWereYouText: whereWereYouText,
