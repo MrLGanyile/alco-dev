@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/alcoholic_controller.dart';
 import '../../controllers/shared_resources_controller.dart' as shared;
-import '../../models/locations/converter.dart';
+import '../../models/converter.dart';
 import '../utils/globals.dart';
 import '../utils/start_screen.dart';
 import '../utils/verification_screen.dart';

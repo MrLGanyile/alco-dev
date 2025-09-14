@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../controllers/admin_controller.dart';
 import '../../controllers/shared_resources_controller.dart';
 import '../../main.dart';
-import '../../models/locations/converter.dart';
+import '../../models/converter.dart';
 import '../../models/users/admin.dart';
 import '../../models/users/user.dart';
 import '../utils/globals.dart';
@@ -114,7 +114,7 @@ class AdminsWidgetState extends State<AdminsWidget> {
                           Text(
                             '@${Converter.townOrInstitutionAsString(admin.townOrInstitution)}',
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: listTileText1FontSize,
                                 color: MyApplication.logoColor1,
                                 decoration: TextDecoration.none,
                                 overflow: TextOverflow.ellipsis),
@@ -132,7 +132,7 @@ class AdminsWidgetState extends State<AdminsWidget> {
                         style: TextStyle(
                           decoration: TextDecoration.none,
                           color: MyApplication.logoColor2,
-                          fontSize: 12,
+                          fontSize: listTileText2FontSize,
                           fontWeight: FontWeight.w600,
                           // overflow: TextOverflow.ellipsis
                         ),
@@ -143,7 +143,7 @@ class AdminsWidgetState extends State<AdminsWidget> {
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             color: MyApplication.attractiveColor1,
-                            fontSize: 12,
+                            fontSize: listTileText2FontSize,
                             fontWeight: FontWeight.w600,
                             overflow: TextOverflow.ellipsis),
                       ),

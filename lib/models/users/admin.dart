@@ -1,6 +1,12 @@
-import '../locations/converter.dart';
+import '../converter.dart';
 import '../locations/town_or_institution.dart';
 import 'user.dart';
+
+enum AdminType {
+  moneyCollector,
+  groupRegistery,
+  groupRegisteryAndmoneyCollector
+}
 
 class Admin extends User {
   bool isSuperior;
@@ -9,9 +15,11 @@ class Admin extends User {
   TownOrInstitution townOrInstitution;
   bool isBlocked;
   DateTime joinedOn;
+  AdminType adminType;
 
   Admin(
       {required userId,
+      this.adminType = AdminType.groupRegistery,
       required phoneNumber,
       required this.joinedOn,
       this.townOrInstitution = TownOrInstitution.umlazi,
@@ -32,6 +40,7 @@ class Admin extends User {
     Map<String, dynamic> map = super.toJson();
 
     map.addAll({
+      'adminType': Converter.toAdminTypeAsString(adminType),
       'joinedOn': {
         'year': joinedOn.year,
         'month': joinedOn.month,
@@ -50,6 +59,7 @@ class Admin extends User {
 
   factory Admin.fromJson(dynamic json) => Admin(
       userId: json['userId'],
+      adminType: Converter.toAdminType(json['adminType']),
       joinedOn: DateTime(
         json['joinedOn']['year'],
         json['joinedOn']['month'],

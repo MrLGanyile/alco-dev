@@ -1,10 +1,14 @@
+import 'package:alco_dev/screens/groups/activation_request_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../../main.dart';
 
+import '../../controllers/group_controller.dart';
 import '../../controllers/shared_resources_controller.dart';
-import '../../models/locations/converter.dart';
+import '../../models/competitions/activation_request.dart';
+import '../../models/converter.dart';
 import '../../models/users/admin.dart';
 import '../../models/users/group.dart';
 import 'dart:developer' as debug;
@@ -26,6 +30,7 @@ class SingleGroupWidget extends StatefulWidget {
 
 class SingleGroupWidgetState extends State<SingleGroupWidget> {
   late List<Reference> groupMembersImageReferences;
+  GroupController groupController = GroupController.instance;
 
   SingleGroupWidgetState();
 
@@ -390,6 +395,37 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
     );
   }
 
+  Widget activationWidget() {
+    ActivationRequest? activationRequest =
+        widget.competitorsGroup.activationRequest;
+
+    if (activationRequest == null) {
+      return GestureDetector(
+        onTap: (() {
+          groupController.setNewActivationRequestVoucherGroupId(
+              widget.competitorsGroup.groupCreatorPhoneNumber);
+          Get.to(() => ActivationRequestWidget(group: widget.competitorsGroup));
+        }),
+        child: const CircleAvatar(
+          radius: 7,
+          backgroundColor: Colors.grey,
+        ),
+      );
+    }
+
+    if (!activationRequest.isApproved) {
+      return const CircleAvatar(
+        radius: 7,
+        backgroundColor: Colors.yellow,
+      );
+    }
+
+    return const CircleAvatar(
+      radius: 7,
+      backgroundColor: Colors.green,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -410,14 +446,8 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
                       child: groupNameAndOrPhoneNumber(),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: CircleAvatar(
-                        radius: 7,
-                        backgroundColor: widget.competitorsGroup.isActive
-                            ? Colors.green
-                            : Colors.grey,
-                      ),
-                    )
+                        padding: const EdgeInsets.only(right: 20),
+                        child: activationWidget())
                   ],
                 ),
               ),

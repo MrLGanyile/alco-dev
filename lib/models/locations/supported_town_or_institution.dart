@@ -1,6 +1,6 @@
 // Collection Name /supported_towns_or_institutions/{townOrInstitutionId}
 
-import 'converter.dart';
+import '../converter.dart';
 import 'town_or_institution.dart';
 
 class SupportedTownOrInstitution {
@@ -9,9 +9,9 @@ class SupportedTownOrInstitution {
   TownOrInstitution townOrInstitutionName;
 
   SupportedTownOrInstitution({
-    this.townOrInstitutionNo = '2',
+    this.townOrInstitutionNo = '5',
     this.cityFK = '1',
-    this.townOrInstitutionName = TownOrInstitution.howardUKZN,
+    this.townOrInstitutionName = TownOrInstitution.mayville,
   });
 
   Map<String, dynamic> toJson() => {

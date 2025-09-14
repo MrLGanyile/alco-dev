@@ -1,6 +1,6 @@
 // Collection Name /alcoholics/{alcoholicId}
 
-import '../locations/converter.dart';
+import '../converter.dart';
 import '../locations/supported_area.dart';
 import 'user.dart';
 

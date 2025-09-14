@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -38,10 +40,13 @@ class AdminController extends GetxController {
 
   static AdminController adminController = Get.find();
 
-  // ignore: prefer_final_fields
+  Rx<AdminType> _newAdminType = Rx(AdminType.groupRegistery);
+  AdminType get newAdminType => _newAdminType.value;
+
   Rx<Admin?> _currentlyLoggedInAdmin = Rx(null
       /*Admin(
           userId: 's0s0I9Cfbxsy6XHOhEWYaIdw8Rcq',
+          adminType: AdminType.groupRegisteryAndmoneyCollector,
           phoneNumber: '+27611111111',
           password: 'qwerty321',
           joinedOn: DateTime(2025, 2, 5),
@@ -52,39 +57,36 @@ class AdminController extends GetxController {
       );
   Admin? get currentlyLoggedInAdmin => _currentlyLoggedInAdmin.value;
 
-  // ignore: prefer_final_fields
   late Rx<String?> _newAdminUserId = Rx(null);
   String? get newAdminUserId => _newAdminUserId.value;
 
-  // ignore: prefer_final_fields
   late Rx<File?> _newAdminProfileImage = Rx(null);
   File? get newAdminProfileImage => _newAdminProfileImage.value;
 
-  // ignore: prefer_final_fields
   late Rx<String> _newAdminProfileImageURL = Rx('');
   String get newAdminProfileImageURL => _newAdminProfileImageURL.value;
 
-  // ignore: prefer_final_fields
   late Rx<String?> _newAdminPhoneNumber = Rx(null);
   String? get newAdminPhoneNumber => _newAdminPhoneNumber.value;
 
-  // ignore: prefer_final_fields
   late Rx<TownOrInstitution> _newTownOrInstitutionName =
       Rx(TownOrInstitution.howardUKZN);
   TownOrInstitution get newTownOrInstitutionName =>
       _newTownOrInstitutionName.value;
 
-  // ignore: prefer_final_fields
   late Rx<bool> _newAdminIsFemale = Rx(true);
   bool get newAdminIsFemale => _newAdminIsFemale.value;
 
-  // ignore: prefer_final_fields
   late Rx<String> _newAdminPassword = Rx('');
   String get newAdminPassword => _newAdminPassword.value;
 
-  // ignore: prefer_final_fields
   late Rx<String?> _superiorAdminEntranceCode = Rx<String?>(null);
   String? get superiorAdminEntranceCode => _superiorAdminEntranceCode.value;
+
+  void setNewAdminType(AdminType adminType) {
+    _newAdminType = Rx(adminType);
+    update();
+  }
 
   // Clear for new admin registration.
   void clear() {
@@ -259,6 +261,7 @@ class AdminController extends GetxController {
 
             Admin admin = Admin(
               userId: adminReference.id,
+              adminType: _newAdminType.value,
               joinedOn: joinedOn,
               phoneNumber: _newAdminPhoneNumber.value,
               profileImageURL: _newAdminProfileImageURL.value,

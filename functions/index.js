@@ -93,12 +93,14 @@ const fakePosts = new FakePosts();
 // http://127.0.0.1:5001/alco-dev-15405/africa-south1/createFakeDraws?hostIndex=2
 // http://127.0.0.1:5001/alco-dev-15405/africa-south1/createCompetitions
 // http://127.0.0.1:5001/alco-dev-15405/africa-south1/saveFakePosts
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createFakeActivationRequests
 
 // https://createsupportedlocations-m657yrz3kq-bq.a.run.app
 // https://createfakealcoholics-m657yrz3kq-bq.a.run.app
 // https://savehostingareas-m657yrz3kq-bq.a.run.app
 // https://savefakeadmins-m657yrz3kq-bq.a.run.app
 // https://createfakegroups-m657yrz3kq-bq.a.run.app?hostIndex=2
+// https://createfakeactivationrequests-m657yrz3kq-bq.a.run.app
 // https://createfakedraws-m657yrz3kq-bq.a.run.app?hostIndex=2
 // https://createcompetitions-m657yrz3kq-bq.a.run.app
 // https://savefakeposts-m657yrz3kq-bq.a.run.app
@@ -1117,6 +1119,62 @@ export const setRecruitmentHistoryDate = onDocumentCreated(
         log('Update Performed...');
     });
 
+export const updateActivationRequestAndGroup = onDocumentCreated({
+    document: "/activation_requests/" +
+        "{activationReqeustId}",
+    region: "africa-south1"
+}, async (event) => {
+
+    logger.log("From Params ActivationReqeust ID", event.params.activationRequestId,
+        "From Data ActivationRequest ID", event.data.data().activationRequestId);
+
+    const dateObject = Timestamp.now().toDate();
+
+    const year = dateObject.getFullYear();
+    const month = dateObject.getMonth() + 1;
+    const date = dateObject.getDate();
+    const hour = dateObject.getHours() + 2;
+    const minute = dateObject.getMinutes();
+    const second = dateObject.getSeconds();
+
+    const requestDate = {
+        'year': year,
+        'month': month,
+        'day': date,
+        'hour': hour,
+        'minute': minute,
+        'second': second,
+    };
+
+
+
+    logger.log(`About To Set A Request Date For An ActivationRequest...`);
+    const activationRequestReference = getFirestore()
+        .collection("activation_requests").doc(event.data.data().activationRequestId);
+    await activationRequestReference.update({
+        requestDate: requestDate
+    });
+
+    const groupReference = getFirestore()
+        .collection("groups").doc(event.data.data().groupFK);
+
+
+    const activationRequest = {
+        activationRequestId: event.data.data().activationRequestId,
+        voucherType: event.data.data().voucherType,
+        requestDate: requestDate,
+        groupFK: event.data.data().groupFK,
+        voucher: event.data.data().voucher,
+        isApproved: event.data.data().isApproved,
+    };
+    logger.log(`About To Update An Activation Reqeust For A Group Object With ID
+    ${event.data.data().groupFK}.`);
+
+    return await groupReference.update({
+        activationRequest: activationRequest
+    });
+});
+
 // ##################Production Functions [End]########################
 
 // ########Development Functions [Start]###############
@@ -1190,8 +1248,6 @@ export const createFakeGroups = onRequest(
                 await mayvilleFakeGroups.richviewKoGreenGroups();  // Marketing Strategy 1-1
                 await mayvilleFakeGroups.richviewEmathininiGroups(); // Marketing Strategy 1-1
                 await mayvilleFakeGroups.nsimbiniGroups();  // Marketing Strategy 1-1
-
-                // await mayvilleFakeGroups.masxhaGroups();  // Marketing Strategy 1-1
 
                 // Send back a message that we"ve successfully written to the db.
                 res.json({ result: `All Mayville Fake Groups Are Saved.` });
@@ -1557,7 +1613,7 @@ export const saveFakeAdmins = onRequest(
     },
     async (req, res) => {
         // True means use online auth users, otherwise use emulator's.
-        fakeAdmins.createFakeAdmin(false);
+        fakeAdmins.createFakeAdmin(true);
         res.json({ result: `Fake Admins Successfully Created.` });
     });
 
@@ -1572,6 +1628,123 @@ export const saveFakePosts = onRequest(
         res.json({ result: `Fake Posts Successfully Created.` });
 
     });
+
+// http://127.0.0.1:5001/alco-dev-15405/africa-south1/createFakeActivationRequests
+export const createFakeActivationRequests = onRequest(
+    {
+        region: "africa-south1"
+    },
+    async (req, res) => {
+
+        // Durban Central Groupd
+        let activationRequestReference = getFirestore().collection('activation_requests').doc();
+
+        let activationRequest = {
+            activationRequestId: activationRequestReference.id,
+            approvedByAdminUserId: null,
+            voucherType: 'OTT',
+            requestDate: null,
+            isApproved: false,
+            groupFK: '+27600000000',
+            voucher: '12345678909876',
+        };
+
+        await activationRequestReference.set(activationRequest);
+
+
+        activationRequestReference = getFirestore().collection('activation_requests').doc();
+
+        activationRequest = {
+            activationRequestId: activationRequestReference.id,
+            approvedByAdminUserId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
+            voucherType: '1Voucher',
+            requestDate: null,
+            isApproved: true,
+            groupFK: '+27610000000',
+            voucher: '9892793839876',
+        };
+
+        await activationRequestReference.set(activationRequest);
+
+        // Umlazi Groups
+        activationRequestReference = getFirestore().collection('activation_requests').doc();
+
+        activationRequest = {
+            activationRequestId: activationRequestReference.id,
+            approvedByAdminUserId: null,
+            voucherType: '1Voucher',
+            requestDate: null,
+            isApproved: false,
+            groupFK: '+27656565656',
+            voucher: '58739473937494',
+        };
+
+        await activationRequestReference.set(activationRequest);
+
+        // Sydenham Groups
+        activationRequestReference = getFirestore().collection('activation_requests').doc();
+
+        activationRequest = {
+            activationRequestId: activationRequestReference.id,
+            approvedByAdminUserId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
+            voucherType: 'Easy Load',
+            requestDate: null,
+            isApproved: false,
+            groupFK: '+27676666666',
+            voucher: '58739473937494',
+        };
+
+        await activationRequestReference.set(activationRequest);
+
+        activationRequestReference = getFirestore().collection('activation_requests').doc();
+
+        activationRequest = {
+            activationRequestId: activationRequestReference.id,
+            approvedByAdminUserId: null,
+            voucherType: 'Easy Pay',
+            requestDate: null,
+            isApproved: false,
+            groupFK: '+27688888888',
+            voucher: '948530485849',
+        };
+
+        await activationRequestReference.set(activationRequest);
+
+        // Mayville Groups
+        activationRequestReference = getFirestore().collection('activation_requests').doc();
+
+        activationRequest = {
+            activationRequestId: activationRequestReference.id,
+            approvedByAdminUserId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
+            voucherType: 'Easy Pay',
+            requestDate: null,
+            isApproved: false,
+            groupFK: '+27604444444',
+            voucher: '487583759373',
+        };
+
+        await activationRequestReference.set(activationRequest);
+
+        activationRequestReference = getFirestore().collection('activation_requests').doc();
+
+        activationRequest = {
+            activationRequestId: activationRequestReference.id,
+            approvedByAdminUserId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
+            voucherType: 'OTT',
+            requestDate: null,
+            isApproved: true,
+            groupFK: '+27601111111',
+            voucher: '5948493849383',
+        };
+
+        await activationRequestReference.set(activationRequest);
+
+        res.json({ result: `Fake Activation Requests Successfully Created.` });
+
+    }
+);
+
+// Create a function that replaces all the activation requests within groups by null.
 
 // ########################################Development Functions [End]#######################################################
 

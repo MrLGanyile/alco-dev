@@ -4,7 +4,7 @@
 import '../locations/supported_town_or_institution.dart';
 import 'hosted_draw_state.dart';
 
-import '../locations/converter.dart';
+import '../converter.dart';
 
 // Only the latest store draw of a given store can be updated in a way that reflects in front end.
 class HostedDraw implements Comparable<HostedDraw> {

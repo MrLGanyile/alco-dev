@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../controllers/hosting_area_controller.dart';
-import '../../models/locations/converter.dart';
+import '../../models/converter.dart';
 import '../../models/hosting areas/hosted_draw.dart';
 import 'package:flutter/material.dart';
 

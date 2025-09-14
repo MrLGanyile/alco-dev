@@ -1,4 +1,4 @@
-import '../locations/converter.dart';
+import '../converter.dart';
 import '../locations/supported_town_or_institution.dart';
 import '/models/hosting areas/draw_grand_price.dart';
 

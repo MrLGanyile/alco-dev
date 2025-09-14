@@ -6,7 +6,7 @@ import '../../models/users/admin.dart';
 import '../../models/users/alcoholic.dart';
 import '../utils/globals.dart';
 import '/controllers/admin_controller.dart';
-import '/models/locations/converter.dart';
+import '../../models/converter.dart';
 import 'package:get/get.dart';
 
 import '../utils/verification_screen.dart';

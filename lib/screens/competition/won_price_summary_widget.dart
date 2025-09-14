@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../controllers/competition_controller.dart';
 import '../../main.dart';
 
-import '../../models/locations/converter.dart';
+import '../../models/converter.dart';
 import '../../models/competitions/won_price_summary.dart';
 import 'dart:developer' as debug;
 import 'dart:math';

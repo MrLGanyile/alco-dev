@@ -68,6 +68,7 @@ class MayvilleFakeGroups {
 
         const group1 = {
             groupName: groupName1,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group1CreatorPhoneNumber}.jpg`,
             groupArea: group1Area,
             groupSpecificArea: specificArea1,
@@ -80,10 +81,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group1Members,
+            activationRequest: null,
         };
 
         const group2 = {
             groupName: groupName2,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group2CreatorPhoneNumber}.jpg`,
             groupArea: group2Area,
             groupSpecificArea: specificArea2,
@@ -96,10 +99,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group2Members,
+            activationRequest: null,
         };
 
         const group3 = {
             groupName: groupName3,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group3CreatorPhoneNumber}.jpg`,
             groupArea: group3Area,
             groupSpecificArea: specificArea3,
@@ -112,10 +117,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group3Members,
+            activationRequest: null,
         };
 
         const group4 = {
             groupName: groupName4,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group4CreatorPhoneNumber}.jpg`,
             groupArea: group4Area,
             groupSpecificArea: specificArea4,
@@ -128,6 +135,7 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group4Members,
+            activationRequest: null,
         };
 
         let groupReference;
@@ -205,6 +213,7 @@ class MayvilleFakeGroups {
 
         const group1 = {
             groupName: groupName1,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group1CreatorPhoneNumber}.jpg`,
             groupArea: group1Area,
             groupSpecificArea: specificArea1,
@@ -217,10 +226,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group1Members,
+            activationRequest: null,
         };
 
         const group2 = {
             groupName: groupName2,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group2CreatorPhoneNumber}.jpg`,
             groupArea: group2Area,
             groupSpecificArea: specificArea2,
@@ -233,10 +244,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group2Members,
+            activationRequest: null,
         };
 
         const group3 = {
             groupName: groupName3,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group3CreatorPhoneNumber}.jpg`,
             groupArea: group3Area,
             groupSpecificArea: specificArea3,
@@ -249,10 +262,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group3Members,
+            activationRequest: null,
         };
 
         const group4 = {
             groupName: groupName4,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group4CreatorPhoneNumber}.jpg`,
             groupArea: group4Area,
             groupSpecificArea: specificArea4,
@@ -265,6 +280,7 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group4Members,
+            activationRequest: null,
         };
 
         let groupReference;
@@ -342,6 +358,7 @@ class MayvilleFakeGroups {
 
         const group1 = {
             groupName: groupName1,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group1CreatorPhoneNumber}.jpg`,
             groupArea: group1Area,
             groupSpecificArea: specificArea1,
@@ -354,10 +371,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group1Members,
+            activationRequest: null,
         };
 
         const group2 = {
             groupName: groupName2,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group2CreatorPhoneNumber}.jpg`,
             groupArea: group2Area,
             groupSpecificArea: specificArea2,
@@ -370,10 +389,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group2Members,
+            activationRequest: null,
         };
 
         const group3 = {
             groupName: groupName3,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group3CreatorPhoneNumber}.jpg`,
             groupArea: group3Area,
             groupSpecificArea: specificArea3,
@@ -386,10 +407,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group3Members,
+            activationRequest: null,
         };
 
         const group4 = {
             groupName: groupName4,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group4CreatorPhoneNumber}.jpg`,
             groupArea: group4Area,
             groupSpecificArea: specificArea4,
@@ -402,6 +425,7 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group4Members,
+            activationRequest: null,
         };
 
         let groupReference;
@@ -491,6 +515,7 @@ class MayvilleFakeGroups {
 
         const group1 = {
             groupName: groupName1,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group1CreatorPhoneNumber}.jpg`,
             groupArea: group1Area,
             groupSpecificArea: specificArea1,
@@ -503,10 +528,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group1Members,
+            activationRequest: null,
         };
 
         const group2 = {
             groupName: groupName2,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group2CreatorPhoneNumber}.jpg`,
             groupArea: group2Area,
             groupSpecificArea: specificArea2,
@@ -519,10 +546,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group2Members,
+            activationRequest: null,
         };
 
         const group3 = {
             groupName: groupName3,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group3CreatorPhoneNumber}.jpg`,
             groupArea: group3Area,
             groupSpecificArea: specificArea3,
@@ -535,10 +564,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group3Members,
+            activationRequest: null,
         };
 
         const group4 = {
             groupName: groupName4,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group4CreatorPhoneNumber}.jpg`,
             groupArea: group4Area,
             groupSpecificArea: specificArea4,
@@ -551,10 +582,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group4Members,
+            activationRequest: null,
         };
 
         const group5 = {
             groupName: groupName4,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group5CreatorPhoneNumber}.jpg`,
             groupArea: group5Area,
             groupSpecificArea: specificArea5,
@@ -567,6 +600,7 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group5Members,
+            activationRequest: null,
         };
 
         let groupReference;
@@ -581,6 +615,11 @@ class MayvilleFakeGroups {
 
         groupReference = getFirestore().collection("groups").doc(group4.groupCreatorPhoneNumber);
         await groupReference.set(group4);
+
+        groupReference = getFirestore().collection("groups").doc(group4.groupCreatorPhoneNumber);
+        await groupReference.set(group5);
+
+
     }
 
     // Images exist on emulator [Real Areas & Fake Members]
@@ -656,6 +695,7 @@ class MayvilleFakeGroups {
 
         const group1 = {
             groupName: groupName1,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group1CreatorPhoneNumber}.jpg`,
             groupArea: group1Area,
             groupSpecificArea: specificArea1,
@@ -668,10 +708,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group1Members,
+            activationRequest: null,
         };
 
         const group2 = {
             groupName: groupName2,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group2CreatorPhoneNumber}.jpg`,
             groupArea: group2Area,
             groupSpecificArea: specificArea2,
@@ -684,10 +726,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group2Members,
+            activationRequest: null,
         };
 
         const group3 = {
             groupName: groupName3,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group3CreatorPhoneNumber}.jpg`,
             groupArea: group3Area,
             groupSpecificArea: specificArea3,
@@ -700,10 +744,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group3Members,
+            activationRequest: null,
         };
 
         const group4 = {
             groupName: groupName4,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group4CreatorPhoneNumber}.jpg`,
             groupArea: group4Area,
             groupSpecificArea: specificArea4,
@@ -716,10 +762,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group4Members,
+            activationRequest: null,
         };
 
         const group5 = {
             groupName: groupName5,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group5CreatorPhoneNumber}.jpg`,
             groupArea: group4Area,
             groupSpecificArea: specificArea5,
@@ -732,6 +780,7 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group5Members,
+            activationRequest: null,
         };
 
         let groupReference;
@@ -749,141 +798,6 @@ class MayvilleFakeGroups {
 
         groupReference = getFirestore().collection("groups").doc(group5.groupCreatorPhoneNumber);
         await groupReference.set(group5);
-    }
-
-    async masxhaGroups() {
-        const host = "mayville";
-        const group1Members = ["+27812993395", "+27812993394", "+27812993393", "+27812993392", "+27812993391"];
-        const group1CreatorPhoneNumber = "+27812993395";
-        const group2Members = ["+27822993395", "+27822993394", "+27822993393", "+27822993392", "+27822993391"];
-        const group2CreatorPhoneNumber = "+27822993395";
-        const group3Members = ["+27832993395", "+27832993394", "+27832993393", "+27832993392", "+27832993391"];
-        const group3CreatorPhoneNumber = "+27832993395";
-        const group4Members = ["+27842993395", "+27842993394", "+27842993393", "+27842993392", "+27842993391"];
-        const group4CreatorPhoneNumber = "+27842993395";
-
-        const group1Area = {
-            townOrInstitutionFK: "5",
-            areaName: "Masxha-Mayville-Durban-Kwa Zulu Natal-South Africa",
-            areaNo: "34",
-        };
-        const specificArea1 = 'E-Paki';
-
-        const group2Area = {
-            townOrInstitutionFK: "5",
-            areaName: "Masxha-Mayville-Durban-Kwa Zulu Natal-South Africa",
-            areaNo: "34",
-        };
-        const specificArea2 = 'E-Groundin';
-
-        const group3Area = {
-            townOrInstitutionFK: "5",
-            areaName: "Masxha-Mayville-Durban-Kwa Zulu Natal-South Africa",
-            areaNo: "34",
-        };
-        const specificArea3 = '__________';
-
-        const group4Area = {
-            townOrInstitutionFK: "5",
-            areaName: "Masxha-Mayville-Durban-Kwa Zulu Natal-South Africa",
-            areaNo: "34",
-        };
-        const specificArea4 = '__________';
-
-        const groupTownOrInstitution = {
-            cityFK: "1",
-            townOrInstitutionName: "Mayville",
-            townOrInstitutionNo: "5",
-        };
-
-        const groupName1 = "Ezophawu";
-        const group1CreatorUsername = "Zee";
-
-        const groupName2 = "Rich Gang";
-        const group2CreatorUsername = "Buke";
-
-        const groupName3 = "Superiors";
-        const group3CreatorUsername = "Thobani";
-
-        const groupName4 = "Opelepele";
-        const group4CreatorUsername = "Syanda";
-
-        const group1 = {
-            groupName: groupName1,
-            groupImageURL: `/${host}/groups_specific_locations/${group1CreatorPhoneNumber}.jpg`,
-            groupArea: group1Area,
-            groupSpecificArea: specificArea1,
-            groupTownOrInstitution: groupTownOrInstitution,
-
-            groupCreatorPhoneNumber: group1CreatorPhoneNumber,
-            groupCreatorImageURL: `/${host}/group_members/${group1CreatorPhoneNumber}/profile_images/${group1CreatorPhoneNumber}.jpg`,
-            groupCreatorUsername: group1CreatorUsername,
-            isActive: true,
-            maxNoOfMembers: 5, // 5
-
-            groupMembers: group1Members,
-        };
-
-        const group2 = {
-            groupName: groupName2,
-            groupImageURL: `/${host}/groups_specific_locations/${group2CreatorPhoneNumber}.jpg`,
-            groupArea: group2Area,
-            groupSpecificArea: specificArea2,
-            groupTownOrInstitution: groupTownOrInstitution,
-
-            groupCreatorPhoneNumber: group2CreatorPhoneNumber,
-            groupCreatorImageURL: `/${host}/group_members/${group2CreatorPhoneNumber}/profile_images/${group2CreatorPhoneNumber}.jpg`,
-            groupCreatorUsername: group2CreatorUsername,
-            isActive: true,
-            maxNoOfMembers: 5, // 5
-
-            groupMembers: group2Members,
-        };
-
-        const group3 = {
-            groupName: groupName3,
-            groupImageURL: `/${host}/groups_specific_locations/${group3CreatorPhoneNumber}.jpg`,
-            groupArea: group3Area,
-            groupSpecificArea: specificArea3,
-            groupTownOrInstitution: groupTownOrInstitution,
-
-            groupCreatorPhoneNumber: group3CreatorPhoneNumber,
-            groupCreatorImageURL: `/${host}/group_members/${group3CreatorPhoneNumber}/profile_images/${group3CreatorPhoneNumber}.jpg`,
-            groupCreatorUsername: group3CreatorUsername,
-            isActive: true,
-            maxNoOfMembers: 5, // 5
-
-            groupMembers: group3Members,
-        };
-
-        const group4 = {
-            groupName: groupName4,
-            groupImageURL: `/${host}/groups_specific_locations/${group4CreatorPhoneNumber}.jpg`,
-            groupArea: group4Area,
-            groupSpecificArea: specificArea4,
-            groupTownOrInstitution: groupTownOrInstitution,
-
-            groupCreatorPhoneNumber: group4CreatorPhoneNumber,
-            groupCreatorImageURL: `/${host}/group_members/${group4CreatorPhoneNumber}/profile_images/${group4CreatorPhoneNumber}.jpg`,
-            groupCreatorUsername: group4CreatorUsername,
-            isActive: true,
-            maxNoOfMembers: 5, // 5
-
-            groupMembers: group4Members,
-        };
-
-        let groupReference;
-        groupReference = getFirestore().collection("groups").doc(group1.groupCreatorPhoneNumber);
-        await groupReference.set(group1);
-
-        groupReference = getFirestore().collection("groups").doc(group2.groupCreatorPhoneNumber);
-        await groupReference.set(group2);
-
-        groupReference = getFirestore().collection("groups").doc(group3.groupCreatorPhoneNumber);
-        await groupReference.set(group3);
-
-        groupReference = getFirestore().collection("groups").doc(group4.groupCreatorPhoneNumber);
-        await groupReference.set(group4);
     }
 
     async nsimbiniGroups() {
@@ -959,6 +873,7 @@ class MayvilleFakeGroups {
 
         const group1 = {
             groupName: groupName1,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group1CreatorPhoneNumber}.jpg`,
             groupArea: group1Area,
             groupSpecificArea: specificArea1,
@@ -971,10 +886,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group1Members,
+            activationRequest: null,
         };
 
         const group2 = {
             groupName: groupName2,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group2CreatorPhoneNumber}.jpg`,
             groupArea: group2Area,
             groupSpecificArea: specificArea2,
@@ -987,10 +904,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group2Members,
+            activationRequest: null,
         };
 
         const group3 = {
             groupName: groupName3,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group3CreatorPhoneNumber}.jpg`,
             groupArea: group3Area,
             groupSpecificArea: specificArea3,
@@ -1003,10 +922,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group3Members,
+            activationRequest: null,
         };
 
         const group4 = {
             groupName: groupName4,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group4CreatorPhoneNumber}.jpg`,
             groupArea: group4Area,
             groupSpecificArea: specificArea4,
@@ -1019,10 +940,12 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group4Members,
+            activationRequest: null,
         };
 
         const group5 = {
             groupName: groupName5,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group5CreatorPhoneNumber}.jpg`,
             groupArea: group5Area,
             groupSpecificArea: specificArea5,
@@ -1035,6 +958,7 @@ class MayvilleFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group5Members,
+            activationRequest: null,
         };
 
         let groupReference;

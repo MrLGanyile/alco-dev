@@ -44,6 +44,7 @@ class MUTFakeGroups {
 
         const group1 = {
             groupName: groupName1,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group1CreatorPhoneNumber}.jpg`,
             groupArea: group1Area,
             groupSpecificArea: specificArea1,
@@ -56,10 +57,12 @@ class MUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group1Members,
+            activationRequest: null,
         };
 
         const group2 = {
             groupName: groupName2,
+            groupRegisteryAdminId: null,
             groupImageURL: `/${host}/groups_specific_locations/${group2CreatorPhoneNumber}.jpg`,
             groupArea: group2Area,
             groupSpecificArea: specificArea2,
@@ -72,6 +75,7 @@ class MUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group2Members,
+            activationRequest: null,
         };
 
         let groupReference;

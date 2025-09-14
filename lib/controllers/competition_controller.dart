@@ -6,7 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
 import '../models/competitions/won_price_summary.dart';
-import '../models/locations/converter.dart';
+import '../models/converter.dart';
 import '../models/locations/supported_town_or_institution.dart';
 import '../models/users/admin.dart';
 import '../models/users/alcoholic.dart';

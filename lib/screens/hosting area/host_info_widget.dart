@@ -19,7 +19,7 @@ import '../../models/hosting areas/hosted_draw.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
-import '../../models/locations/converter.dart';
+import '../../models/converter.dart';
 
 import 'dart:developer' as debug;
 

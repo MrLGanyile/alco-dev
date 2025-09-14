@@ -9,7 +9,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../controllers/post_controller.dart';
 import '../../controllers/shared_resources_controller.dart';
 import '../../main.dart';
-import '../../models/locations/converter.dart';
+import '../../models/converter.dart';
 import '../../models/posts/past_post.dart';
 import '../utils/globals.dart';
 

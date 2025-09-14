@@ -5,7 +5,7 @@ import '../../controllers/admin_controller.dart';
 import '../../controllers/group_controller.dart';
 import '../../controllers/shared_resources_controller.dart';
 import '../../main.dart';
-import '../../models/locations/converter.dart';
+import '../../models/converter.dart';
 import '../../models/users/admin.dart';
 import '../../models/users/group.dart';
 import '../../models/users/user.dart';
@@ -29,7 +29,12 @@ class RecruitmentWidgetState extends State<RecruitmentWidget> {
     super.initState();
     groupController = GroupController.instance;
     adminController = AdminController.adminController;
-    groupsStream = groupController.readAllGroups();
+
+    // Never use the line below one beacuse some groups have null for activationRequest
+    // groupsStream = groupController.readAllGroups();
+    // groupsStream = groupController.readGroupsWithActivationRequest();
+
+    groupsStream = groupController.readGroupsForMoneyCollectors();
   }
 
   Widget groupInfo(Group group) => Container(
@@ -39,16 +44,25 @@ class RecruitmentWidgetState extends State<RecruitmentWidget> {
             User? user = getCurrentlyLoggenInUser();
 
             if (user is Admin) {
+              if (!(user.adminType == AdminType.moneyCollector ||
+                  user.adminType ==
+                      AdminType.groupRegisteryAndmoneyCollector)) {
+                getSnapbar(
+                    'Update Failed', 'Group Registery Admins Are Not Allowed.');
+                return;
+              }
               setState(() {
-                bool newValue = !group.active;
+                // bool newValue = !group.active;
+                bool newValue = !group.activationRequest!.isApproved;
 
                 groupController
                     .saveRecruitmentHistory(
                         group.groupCreatorPhoneNumber, newValue)
                     .then((value) {
                   if (value == RecruitmentHistorySavingStatus.saved) {
-                    groupController.activateOrDeactivateGroup(
-                        group.groupCreatorPhoneNumber, !group.active);
+                    groupController.approveOrDisapproveActivationRequest(
+                        group.groupCreatorPhoneNumber,
+                        !group.activationRequest!.isApproved);
                   }
                 });
               });
@@ -109,27 +123,28 @@ class RecruitmentWidgetState extends State<RecruitmentWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            group.groupName,
+                            '${group.groupName} @${group.groupSpecificArea}',
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: listTileText1FontSize,
                                 color: MyApplication.logoColor1,
                                 decoration: TextDecoration.none,
                                 overflow: TextOverflow.ellipsis),
                           ),
                           CircleAvatar(
                             radius: 7,
-                            backgroundColor:
-                                group.active ? Colors.green : Colors.grey,
+                            backgroundColor: group.activationRequest!.isApproved
+                                ? Colors.green
+                                : Colors.yellow,
                           )
                         ],
                       ),
                       Text(
-                        '@${group.groupCreatorUsername} [${group.groupCreatorPhoneNumber}]',
+                        '${group.groupCreatorUsername} [${group.groupCreatorPhoneNumber}]',
                         //textAlign: TextAlign.center,
                         style: TextStyle(
                           decoration: TextDecoration.none,
                           color: MyApplication.logoColor2,
-                          fontSize: 12,
+                          fontSize: listTileText2FontSize,
                           fontWeight: FontWeight.w600,
                           // overflow: TextOverflow.ellipsis
                         ),
@@ -140,7 +155,7 @@ class RecruitmentWidgetState extends State<RecruitmentWidget> {
                         style: TextStyle(
                             decoration: TextDecoration.none,
                             color: MyApplication.attractiveColor1,
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                             overflow: TextOverflow.ellipsis),
                       ),
@@ -170,7 +185,7 @@ class RecruitmentWidgetState extends State<RecruitmentWidget> {
                         return groupInfo(groups[index]);
                       }));
                 } else if (snapshot.hasError) {
-                  debug.log('Error Groups Data');
+                  debug.log('Error Groups Data ${snapshot.error}');
                   return getCircularProgressBar();
                 } else {
                   return getCircularProgressBar();

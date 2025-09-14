@@ -5,5 +5,6 @@ enum TownOrInstitution {
   howardUKZN,
   mayville,
   sydenham,
-  durbanCentral
+  durbanCentral,
+  nanda
 }

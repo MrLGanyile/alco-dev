@@ -16,7 +16,7 @@ class TownsOrInstitutionsCreation extends LocationCreation {
         await this.locationController.createSupportedTownsOrInstitution(mut.toJson());
         const dut = new SupportedTownOrInstitution("1", "DUT", "3");
         await this.locationController.createSupportedTownsOrInstitution(dut.toJson());
-        const howard = new SupportedTownOrInstitution("1", "Howard College UKZN", "4");
+        const howard = new SupportedTownOrInstitution("1", "Howard College (UKZN)", "4");
         await this.locationController.createSupportedTownsOrInstitution(howard.toJson());
         const mayville = new SupportedTownOrInstitution("1", "Mayville", "5");
         await this.locationController.createSupportedTownsOrInstitution(mayville.toJson());
@@ -24,6 +24,8 @@ class TownsOrInstitutionsCreation extends LocationCreation {
         await this.locationController.createSupportedTownsOrInstitution(sydenham.toJson());
         const durbanCentral = new SupportedTownOrInstitution("1", "Durban Central", "7");
         await this.locationController.createSupportedTownsOrInstitution(durbanCentral.toJson());
+        const nanda = new SupportedTownOrInstitution("1", "Nanda", "8");
+        await this.locationController.createSupportedTownsOrInstitution(nanda.toJson());
 
     }
 }

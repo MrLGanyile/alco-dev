@@ -8,7 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../models/locations/converter.dart';
+import '../models/converter.dart';
 import '../models/locations/section_name.dart';
 import '../models/locations/supported_area.dart';
 import '../models/users/alcoholic.dart';

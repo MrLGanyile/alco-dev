@@ -1,5 +1,7 @@
 // Collection Name /groups
 // Has Unit Tests
+import 'package:alco_dev/models/competitions/activation_request.dart';
+
 import '../locations/supported_area.dart';
 import '../locations/supported_town_or_institution.dart';
 
@@ -20,7 +22,6 @@ class Group implements Comparable<Group> {
   String groupCreatorUsername;
 
   bool isActive; // A group is active if it has atleast 10 members.
-  bool get active => isActive;
 
   int maxNoOfMembers; // 5
 
@@ -28,8 +29,13 @@ class Group implements Comparable<Group> {
   List<String> get members => groupMembers;
   double availableBalance;
 
+  ActivationRequest? activationRequest;
+
+  String? groupRegisteryAdminId;
+
   Group({
     required this.groupName,
+    this.groupRegisteryAdminId,
     required this.groupImageURL,
     required this.groupTownOrInstitution,
     required this.groupArea,
@@ -41,10 +47,12 @@ class Group implements Comparable<Group> {
     this.isActive = false,
     required this.maxNoOfMembers,
     this.availableBalance = 0,
+    this.activationRequest,
   });
 
   Map<String, dynamic> toJson() => {
         'groupName': groupName,
+        'groupRegisteryAdminId': groupRegisteryAdminId,
         'groupImageURL': groupImageURL,
         'groupCreatorPhoneNumber': groupCreatorPhoneNumber,
         'groupTownOrInstitution': groupTownOrInstitution.toJson(),
@@ -55,11 +63,13 @@ class Group implements Comparable<Group> {
         'isActive': isActive,
         'maxNoOfMembers': maxNoOfMembers,
         'groupSpecificArea': groupSpecificArea,
-        'availableBalance': availableBalance
+        'availableBalance': availableBalance,
+        'activationRequest': null,
       };
 
   factory Group.fromJson(dynamic json) => Group(
       groupName: json['groupName'],
+      groupRegisteryAdminId: json['groupRegisteryAdminId'],
       groupImageURL: json['groupImageURL'],
       groupTownOrInstitution:
           SupportedTownOrInstitution.fromJson(json['groupTownOrInstitution']),
@@ -72,6 +82,9 @@ class Group implements Comparable<Group> {
       groupMembers: toListOfStrings(json['groupMembers']),
       isActive: json['isActive'],
       maxNoOfMembers: json['maxNoOfMembers'],
+      activationRequest: json['activationRequest'] != null
+          ? ActivationRequest.fromJson(json['activationRequest'])
+          : null,
       groupCreatorUsername: json['groupCreatorUsername']);
 
   @override

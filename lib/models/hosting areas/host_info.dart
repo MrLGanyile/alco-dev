@@ -1,4 +1,4 @@
-import '../locations/converter.dart';
+import '../converter.dart';
 import 'dart:developer' as debug;
 import '../locations/section_name.dart';
 import 'notification.dart';

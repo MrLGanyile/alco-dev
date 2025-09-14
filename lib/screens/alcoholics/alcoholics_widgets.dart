@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/location_controller.dart';
 import '../../main.dart';
-import '../../models/locations/converter.dart';
+import '../../models/converter.dart';
 import '../../models/locations/supported_area.dart';
 import '../utils/globals.dart';
 import '../utils/home_widget.dart';

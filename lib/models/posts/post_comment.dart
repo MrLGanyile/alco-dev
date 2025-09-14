@@ -1,4 +1,4 @@
-import '../locations/converter.dart';
+import '../converter.dart';
 import '../locations/town_or_institution.dart';
 
 class PostComment implements Comparable<PostComment> {

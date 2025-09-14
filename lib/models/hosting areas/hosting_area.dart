@@ -1,4 +1,4 @@
-import '../locations/converter.dart';
+import '../converter.dart';
 import '../locations/section_name.dart';
 
 // Collection Name /stores/storeId

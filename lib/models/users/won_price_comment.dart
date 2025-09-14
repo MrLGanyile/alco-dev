@@ -1,6 +1,6 @@
 import '../../models/locations/town_or_institution.dart';
 
-import '../locations/converter.dart';
+import '../converter.dart';
 
 class WonPriceComment implements Comparable<WonPriceComment> {
   String? wonPriceCommentId;

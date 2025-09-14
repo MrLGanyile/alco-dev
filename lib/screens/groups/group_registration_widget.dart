@@ -10,7 +10,7 @@ import '../../controllers/group_controller.dart';
 import '../../controllers/shared_resources_controller.dart';
 import '../../controllers/hosting_area_controller.dart';
 import '../../main.dart';
-import '../../models/locations/converter.dart';
+import '../../models/converter.dart';
 import '../../models/locations/supported_area.dart';
 
 import 'dart:developer' as debug;

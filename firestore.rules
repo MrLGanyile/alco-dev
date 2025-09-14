@@ -21,6 +21,44 @@ service cloud.firestore {
       $(request.auth.uid));
     }
 
+    function crucialGroupPropertiesNotChanged(){
+      return  request.resource.data.groupName == 
+      resource.data.groupName &&
+
+      request.resource.data.groupImageURL == 
+      resource.data.groupImageURL &&
+
+      request.resource.data.groupArea.areaName == 
+      resource.data.groupArea.areaName &&
+
+      request.resource.data.groupArea.areaNo == 
+      resource.data.groupArea.areaNo &&
+
+      request.resource.data.groupArea.townOrInstitutionFK == 
+      resource.data.groupArea.townOrInstitutionFK &&
+
+      request.resource.data.groupTownOrInstitution ==
+      resource.data.groupTownOrInstitution &&
+
+      request.resource.data.groupSpecificArea == 
+      resource.data.groupSpecificArea &&
+      
+      request.resource.data.groupCreatorPhoneNumber ==
+      resource.data.groupCreatorPhoneNumber &&
+
+      request.resource.data.groupCreatorUsername ==
+      resource.data.groupCreatorUsername &&
+
+      request.resource.data.groupCreatorImageURL ==
+      resource.data.groupCreatorImageURL &&
+
+      request.resource.data.groupMembers.size() ==
+      resource.data.groupMembers.size() &&
+
+      request.resource.data.maxNoOfMembers ==
+      resource.data.maxNoOfMembers;
+    }
+
     // Branch : supported_locations_resources_crud -> supported_locaitons_resources_crud_firestore_security_rules
     match /supported_countries/{countryId}{
       allow write: if isSuperiorAdmin();
@@ -195,49 +233,50 @@ service cloud.firestore {
       // Anybody can view groups.
       allow read;
 
-      // Let admins add or remove groups from competitions.
+      
       allow update:if 
 
-      isAdmin() &&
+      // Let admins add or remove groups from competitions.
+      (isAdmin() && crucialGroupPropertiesNotChanged()) 
       
-      request.resource.data.groupName == 
-      resource.data.groupName &&
-
-      request.resource.data.groupImageURL == 
-      resource.data.groupImageURL &&
-
-      request.resource.data.groupArea.areaName == 
-      resource.data.groupArea.areaName &&
-
-      request.resource.data.groupArea.areaNo == 
-      resource.data.groupArea.areaNo &&
-
-      request.resource.data.groupArea.townOrInstitutionFK == 
-      resource.data.groupArea.townOrInstitutionFK &&
-
-      request.resource.data.groupTownOrInstitution ==
-      resource.data.groupTownOrInstitution &&
-
-      request.resource.data.groupSpecificArea == 
-      resource.data.groupSpecificArea &&
-      
-      request.resource.data.groupCreatorPhoneNumber ==
-      resource.data.groupCreatorPhoneNumber &&
-
-      request.resource.data.groupCreatorUsername ==
-      resource.data.groupCreatorUsername &&
-
-      request.resource.data.groupCreatorImageURL ==
-      resource.data.groupCreatorImageURL &&
-
-      request.resource.data.groupMembers.size() ==
-      resource.data.groupMembers.size() &&
-
-      request.resource.data.maxNoOfMembers ==
-      resource.data.maxNoOfMembers;
+      ||
+      // Let any user send an activation request for a given group.
+      (
+        crucialGroupPropertiesNotChanged() && 
+        request.resource.data.isActive == resource.data.isActive &&
+        exists(/databases/$(database)/documents/activation_requests/$(request.resource.data.activationRequest.activationRequestId))
+        
+      );
 
       allow delete: if false;
+
+      
     }
+
+    match /activation_requests/{requestId}{
+        allow create: if 
+        request.resource.data.activationRequestId == requestId &&
+        request.resource.data.isApproved == false &&
+        request.resource.data.voucherType in [
+          'Blue Voucher',
+          'Easy Load',
+          'Easy Pay',
+          '1Voucher',
+          'OTT'
+        ] &&
+        request.resource.data.requestDate == null &&
+        request.resource.data.voucher != '';
+        allow read, delete: if isSuperiorAdmin();
+
+        allow update: if isAdmin() &&
+        request.resource.data.activationRequestId == resource.data.activationRequestId &&
+        request.resource.data.isApproved != resource.data.isApproved &&
+        request.resource.data.voucherType == resource.data.voucherType &&
+        request.resource.data.requestDate == resource.data.requestDate &&
+        request.resource.data.groupFK == resource.data.groupFK &&
+        request.resource.data.voucher == resource.data.voucher;
+
+      }
 
     // Note: Has Model Named {HostingArea}
     // Unit Testing Applied 

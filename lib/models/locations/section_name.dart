@@ -1,4 +1,5 @@
 enum SectionName {
+  // ===================Umlazi [Area 1-27]===================
   aSectionUmlaziDurbanKwaZuluNatalSouthAfrica,
   aaSectionUmlaziDurbanKwaZuluNatalSouthAfrica,
   bSectionUmlaziDurbanKwaZuluNatalSouthAfrica,
@@ -27,10 +28,12 @@ enum SectionName {
   zSectionUmlaziDurbanKwaZuluNatalSouthAfrica,
   philaniUmlaziDurbanKwaZuluNatalSouthAfrica,
 
+  // ===================Institutions [Area 28-30]===================
   mutDurbanKwaZuluNatalSouthAfrica,
   dutDurbanKwaZuluNatalSouthAfrica,
   howardCollegeCampusUKZNDurbanKwaZuluNatalSouthAfrica,
 
+  // ===================Mayville [Area 31-37]===================
   catoCrestMayvilleDurbanKwaZuluNatalSouthAfrica,
   catoManorMayvilleDurbanKwaZuluNatalSouthAfrica,
   richviewMayvilleDurbanKwaZuluNatalSouthAfrica,
@@ -39,6 +42,7 @@ enum SectionName {
   nsimbiniMayvilleDurbanKwaZuluNatalSouthAfrica,
   galwayMayvilleDurbanKwaZuluNatalSouthAfrica,
 
+  // ===================Sydenham [Area 38-42]===================
   foremanSydenhamDurbanKwaZuluNatalSouthAfrica,
   kennedySydenhamDurbanKwaZuluNatalSouthAfrica,
   palmetSydenhamDurbanKwaZuluNatalSouthAfrica,
@@ -46,8 +50,30 @@ enum SectionName {
   sydenhamHeightSydenhamDurbanKwaZuluNatalSouthAfrica,
   threeRandSydenhamDurbanKwaZuluNatalSouthAfrica,
 
+  // ===================Durban Central [Area 43-46]===================
   glenwoodDurbanCentralDurbanKwaZuluNatalSouthAfrica,
   bereaDurbanCentralDurbanKwaZuluNatalSouthAfrica,
   southBeachDurbanCentralDurbanKwaZuluNatalSouthAfrica,
   masgraveDurbanCentralDurbanKwaZuluNatalSouthAfrica,
+
+  // ===================Nanda [Area 47+]===================
+
+  bhambayiNandaDurbanKwaZuluNatalSouthAfrica,
+  ezimangweniNandaDurbanKwaZuluNatalSouthAfrica,
+  dikweNandaDurbanKwaZuluNatalSouthAfrica,
+  mshayazafeNandaDurbanKwaZuluNatalSouthAfrica,
+  jackportNandaDurbanKwaZuluNatalSouthAfrica,
+  ohlangeNandaDurbanKwaZuluNatalSouthAfrica,
+  africaNandaDurbanKwaZuluNatalSouthAfrica,
+  congoNandaDurbanKwaZuluNatalSouthAfrica,
+  maotiNandaDurbanKwaZuluNatalSouthAfrica,
+  newtownANandaDurbanKwaZuluNatalSouthAfrica,
+  newtownBNandaDurbanKwaZuluNatalSouthAfrica,
+  kaGNandaDurbanKwaZuluNatalSouthAfrica,
+  matendeniNandaDurbanKwaZuluNatalSouthAfrica,
+  mtshebheniNandaDurbanKwaZuluNatalSouthAfrica,
+  zinkawiniNandaDurbanKwaZuluNatalSouthAfrica,
+  tafuleniNandaDurbanKwaZuluNatalSouthAfrica,
+  ngoqokaziNandaDurbanKwaZuluNatalSouthAfrica,
+  matikweNandaDurbanKwaZuluNatalSouthAfrica,
 }

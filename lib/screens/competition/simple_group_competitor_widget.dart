@@ -1,7 +1,7 @@
 import 'package:alco_dev/main.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/locations/converter.dart';
+import '../../models/converter.dart';
 import '../../models/users/group.dart';
 import 'dart:developer' as debug;
 

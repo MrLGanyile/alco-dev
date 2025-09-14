@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:developer' as debug;
 
+import 'package:alco_dev/models/competitions/activation_request.dart';
+import 'package:alco_dev/models/competitions/voucher_type.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +10,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../models/locations/converter.dart';
+import '../models/competitions/voucher_validation.dart';
+import '../models/converter.dart';
 import '../models/locations/section_name.dart';
 import '../models/locations/supported_area.dart';
 import '../models/locations/supported_town_or_institution.dart';
@@ -16,8 +19,14 @@ import '../models/users/admin.dart';
 import '../models/users/group.dart';
 import '../models/users/recruitment_history.dart';
 import '../screens/utils/globals.dart';
-import 'shared_resources_controller.dart';
 import '../models/users/user.dart' as my;
+
+enum ActivationRequestSavingStatus {
+  pending,
+  voucherInvalid,
+  voucherNotProvided,
+  groupNotSpecified,
+}
 
 enum GroupSavingStatus {
   incorrectData,
@@ -60,12 +69,17 @@ class GroupController extends GetxController {
 
   static GroupController instance = Get.find();
 
+  // ignore: prefer_final_fields
+  Rx<VoucherType> _newActivationRequestVoucherType = Rx(VoucherType.easyload);
+  VoucherType get newActivationRequestVoucherType =>
+      _newActivationRequestVoucherType.value;
+
+  // ignore: prefer_final_fields
+  Rx<String?> _newActivationRequestGroupId = Rx(null);
+  String? get newActivationRequestGroupId => _newActivationRequestGroupId.value;
+
   Rx<bool> _hasPickedGroupArea = Rx<bool>(false);
   bool get hasPickedGroupArea => _hasPickedGroupArea.value;
-
-  void setHasPickedGroupArea(bool hasPickedGroupArea) {
-    _hasPickedGroupArea = Rx<bool>(hasPickedGroupArea);
-  }
 
   late Rx<File?> _groupImageFile;
   File? get groupImageFile => _groupImageFile.value;
@@ -135,6 +149,49 @@ class GroupController extends GetxController {
 
   Rx<bool> _showProgressBar = Rx(false);
   bool get showProgressBar => _showProgressBar.value;
+
+  void setNewActivationRequestVoucherType(String voucherType) {
+    _newActivationRequestVoucherType = Rx(Converter.toVoucherType(voucherType));
+    update();
+  }
+
+  void setNewActivationRequestVoucherGroupId(String groupId) {
+    _newActivationRequestGroupId = Rx(groupId);
+    update();
+  }
+
+  Future<ActivationRequestSavingStatus> saveActivationRequest(
+      String voucher) async {
+    if (voucher.isEmpty) {
+      return ActivationRequestSavingStatus.voucherNotProvided;
+    }
+
+    if (!VoucherValidation.isVoucherValid(
+        voucher, newActivationRequestVoucherType)) {
+      return ActivationRequestSavingStatus.voucherInvalid;
+    }
+
+    if (newActivationRequestGroupId == null) {
+      return ActivationRequestSavingStatus.groupNotSpecified;
+    }
+
+    DocumentReference activationReqeustReference =
+        firestore.collection('activation_requests').doc();
+
+    ActivationRequest activationRequest = ActivationRequest(
+        activationRequestId: activationReqeustReference.id,
+        voucherType: newActivationRequestVoucherType,
+        requestDate: null,
+        groupFK: newActivationRequestGroupId!,
+        voucher: voucher);
+
+    await activationReqeustReference.set(activationRequest.toJson());
+    return ActivationRequestSavingStatus.pending;
+  }
+
+  void setHasPickedGroupArea(bool hasPickedGroupArea) {
+    _hasPickedGroupArea = Rx<bool>(hasPickedGroupArea);
+  }
 
   void setShowProgressIndicator(bool show) {
     _showProgressBar = Rx(show);
@@ -619,8 +676,20 @@ class GroupController extends GetxController {
                 // Question - Does it work the same way without an emulator?
                 trimmedAllImageURLs();
 
+                my.User? user = getCurrentlyLoggenInUser();
+
+                String? groupRegisteryAdminId;
+
+                if (user is Admin &&
+                    (user.adminType == AdminType.groupRegistery ||
+                        user.adminType ==
+                            AdminType.groupRegisteryAndmoneyCollector)) {
+                  groupRegisteryAdminId = user.userId;
+                }
+
                 Map<String, dynamic> registrationGroup = {
                   'groupName': _groupName.value,
+                  'groupRegisteryAdminId': groupRegisteryAdminId,
                   'groupImageURL': _groupImageURL.value, //trimmedImageURL(5),
                   'groupArea': _groupArea.value.toJson(),
                   'groupTownOrInstitution':
@@ -644,6 +713,8 @@ class GroupController extends GetxController {
 
                 Group group = Group(
                     groupName: registrationGroup['groupName'],
+                    groupRegisteryAdminId:
+                        registrationGroup['groupRegisteryAdminId'],
                     groupImageURL: registrationGroup['groupImageURL'],
                     groupTownOrInstitution: SupportedTownOrInstitution.fromJson(
                         registrationGroup['groupTownOrInstitution']),
@@ -747,6 +818,97 @@ class GroupController extends GetxController {
     return stream;
   }
 
+  Future<void> approveOrDisapproveActivationRequest(
+      groupId, bool action) async {
+    my.User? currentlyLoggedInUser = getCurrentlyLoggenInUser();
+
+    if (currentlyLoggedInUser == null || currentlyLoggedInUser is! Admin) {
+      return;
+    }
+
+    DocumentReference reference = firestore.collection('groups').doc(groupId);
+
+    reference.get().then((value) async {
+      if (value.exists) {
+        DateTime requestDate = DateTime(
+          value.get('activationRequest.requestDate.year'),
+          value.get('activationRequest.requestDate.month'),
+          value.get('activationRequest.requestDate.day'),
+          value.get('activationRequest.requestDate.hour'),
+          value.get('activationRequest.requestDate.minute'),
+          value.get('activationRequest.requestDate.second'),
+        );
+
+        ActivationRequest activationRequest = ActivationRequest(
+            activationRequestId:
+                value.get('activationRequest.activationRequestId'),
+            voucherType: Converter.toVoucherType(
+                value.get('activationRequest.voucherType')),
+            requestDate: requestDate,
+            isApproved: value.get('activationRequest.isApproved'),
+            groupFK: value.get('activationRequest.groupFK'),
+            voucher: value.get('activationRequest.voucher'));
+
+        activationRequest.setIsApproved(action);
+        await value.reference
+            .update({"activationRequest": activationRequest.toJson()}).then(
+                (value) async {
+          reference = firestore
+              .collection('activation_requests')
+              .doc(activationRequest.activationRequestId);
+
+          await reference.update({"isApproved": action});
+        });
+      } else {
+        getSnapbar('No Such Group', 'Group Do Not Exist');
+      }
+    });
+  }
+
+  // Groups should be sorted by activation request date.
+  Stream<List<Group>> readGroupsForMoneyCollectors() {
+    Stream<List<Group>> stream = firestore
+        .collection('groups')
+        // .orderBy('groupTownOrInstitution.townOrInstitutionName')
+        // .orderBy('groupName')
+        // .orderBy('groupArea.areaName')
+        .where("activationRequest", isNull: false)
+        .where("activationRequest.isApproved", isEqualTo: false)
+        .snapshots()
+        .map((snapshot) {
+      List<Group> list = snapshot.docs.map((doc) {
+        Group group = Group.fromJson(doc.data());
+        return group;
+      }).toList();
+
+      list.sort();
+      return list;
+    });
+
+    return stream;
+  }
+
+  Stream<List<Group>> readGroupsWithActivationRequest() {
+    Stream<List<Group>> stream = firestore
+        .collection('groups')
+        // .orderBy('groupTownOrInstitution.townOrInstitutionName')
+        // .orderBy('groupName')
+        // .orderBy('groupArea.areaName')
+        .where("activationRequest", isNull: false)
+        .snapshots()
+        .map((snapshot) {
+      List<Group> list = snapshot.docs.map((doc) {
+        Group group = Group.fromJson(doc.data());
+        return group;
+      }).toList();
+
+      list.sort();
+      return list;
+    });
+
+    return stream;
+  }
+
   Stream<List<Group>> readGroups(String townOrInstitutionNo) {
     debug.log('townOrInstitutionNo $townOrInstitutionNo');
     Stream<List<Group>> stream = firestore
@@ -801,6 +963,7 @@ class GroupController extends GetxController {
     });
   }
 
+  /*
   Future<void> activateOrDeactivateGroup(groupId, bool action) async {
     DocumentReference reference = firestore.collection('groups').doc(groupId);
 
@@ -811,7 +974,7 @@ class GroupController extends GetxController {
         getSnapbar('No Such Group', 'Group Do Not Exist');
       }
     });
-  }
+  } */
 
   Future<RecruitmentHistorySavingStatus> saveRecruitmentHistory(
       String groupId, bool? addingTo) async {
@@ -827,6 +990,7 @@ class GroupController extends GetxController {
           'Admin Blocked', 'You Are No Longer Allowed To Add/Remove Groups.');
       return RecruitmentHistorySavingStatus.blocked;
     } else {
+      // Throw An Exception If The Group Does Not Exist.
       String action;
 
       if (addingTo == null) {

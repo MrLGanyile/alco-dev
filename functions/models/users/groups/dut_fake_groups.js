@@ -77,6 +77,7 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group1Members,
+            activationRequest: null,
         };
 
         const group2 = {
@@ -93,6 +94,7 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group2Members,
+            activationRequest: null,
         };
 
         const group3 = {
@@ -109,6 +111,7 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group3Members,
+            activationRequest: null,
         };
 
         const group4 = {
@@ -125,6 +128,7 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group4Members,
+            activationRequest: null,
         };
 
         let groupReference;
@@ -202,6 +206,7 @@ class DUTFakeGroups {
 
         const group1 = {
             groupName: groupName1,
+            groupRegisteryAdminId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             groupImageURL: `/${host}/groups_specific_locations/${group1CreatorPhoneNumber}.jpg`,
             groupArea: group1Area,
             groupSpecificArea: specificArea1,
@@ -214,10 +219,12 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group1Members,
+            activationRequest: null,
         };
 
         const group2 = {
             groupName: groupName2,
+            groupRegisteryAdminId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             groupImageURL: `/${host}/groups_specific_locations/${group2CreatorPhoneNumber}.jpg`,
             groupArea: group2Area,
             groupSpecificArea: specificArea2,
@@ -230,10 +237,12 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group2Members,
+            activationRequest: null,
         };
 
         const group3 = {
             groupName: groupName3,
+            groupRegisteryAdminId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             groupImageURL: `/${host}/groups_specific_locations/${group3CreatorPhoneNumber}.jpg`,
             groupArea: group3Area,
             groupSpecificArea: specificArea3,
@@ -246,10 +255,12 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group3Members,
+            activationRequest: null,
         };
 
         const group4 = {
             groupName: groupName4,
+            groupRegisteryAdminId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             groupImageURL: `/${host}/groups_specific_locations/${group4CreatorPhoneNumber}.jpg`,
             groupArea: group4Area,
             groupSpecificArea: specificArea4,
@@ -262,6 +273,7 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group4Members,
+            activationRequest: null,
         };
 
         let groupReference;
@@ -351,6 +363,7 @@ class DUTFakeGroups {
 
         const group1 = {
             groupName: groupName1,
+            groupRegisteryAdminId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             groupImageURL: `/${host}/groups_specific_locations/${group1CreatorPhoneNumber}.jpg`,
             groupArea: group1Area,
             groupSpecificArea: specificArea1,
@@ -363,10 +376,12 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group1Members,
+            activationRequest: null,
         };
 
         const group2 = {
             groupName: groupName2,
+            groupRegisteryAdminId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             groupImageURL: `/${host}/groups_specific_locations/${group2CreatorPhoneNumber}.jpg`,
             groupArea: group2Area,
             groupSpecificArea: specificArea2,
@@ -379,10 +394,12 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group2Members,
+            activationRequest: null,
         };
 
         const group3 = {
             groupName: groupName3,
+            groupRegisteryAdminId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             groupImageURL: `/${host}/groups_specific_locations/${group3CreatorPhoneNumber}.jpg`,
             groupArea: group3Area,
             groupSpecificArea: specificArea3,
@@ -395,10 +412,12 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group3Members,
+            activationRequest: null,
         };
 
         const group4 = {
             groupName: groupName4,
+            groupRegisteryAdminId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             groupImageURL: `/${host}/groups_specific_locations/${group4CreatorPhoneNumber}.jpg`,
             groupArea: group4Area,
             groupSpecificArea: specificArea4,
@@ -411,10 +430,12 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group4Members,
+            activationRequest: null,
         };
 
         const group5 = {
             groupName: groupName5,
+            groupRegisteryAdminId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             groupImageURL: `/${host}/groups_specific_locations/${group5CreatorPhoneNumber}.jpg`,
             groupArea: group5Area,
             groupSpecificArea: specificArea5,
@@ -427,6 +448,7 @@ class DUTFakeGroups {
             maxNoOfMembers: 5, // 5
 
             groupMembers: group5Members,
+            activationRequest: null,
         };
 
         let groupReference;

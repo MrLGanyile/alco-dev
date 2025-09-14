@@ -39,12 +39,6 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
   ***********To Find End***********
 
   ***********Phone Numbers Start***********
-   My Numbers Telkom -0754856234 Vodacom - 0725918032
-   Siya Magwaza Polar Liquior 0847392686 [WHATSAPP]
-   Charlie's Pub Warner Beach 0834302744 [They want to buy, Bram is the owner.]
-   Hooter's Florida Capser 0727974874 ?
-   Cappello Gatsheni Florida 0676659066 ?
-   Dropkick Gofrey 0731463230 ?
 
    Alco - We send them into a legit place.
    Alki - Insanely attractive girls deliver.
@@ -127,8 +121,7 @@ Future main() async {
         auth: auth));
   });
   Get.put(SharedResourcesController());
-
-/*
+  /*
   // Ideal time to initialize
   await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
   await FirebaseStorage //.instance
@@ -136,7 +129,7 @@ Future main() async {
           .instanceFor(bucket: "gs://alcoholic-expressions.appspot.com/")
       .useStorageEmulator('127.0.0.1', 9199);
   FirebaseFunctions.instance.useFunctionsEmulator('127.0.0.1', 5001);
-  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);*/
+  FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080); */
 
   runApp(MyApplication());
 }

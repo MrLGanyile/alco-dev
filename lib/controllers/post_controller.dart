@@ -11,7 +11,7 @@ import 'package:image_picker/image_picker.dart';
 
 import 'dart:developer' as debug;
 
-import '../models/locations/converter.dart';
+import '../models/converter.dart';
 import '../models/locations/town_or_institution.dart';
 import '../models/posts/past_post.dart';
 import '../models/posts/post_comment.dart';

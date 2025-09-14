@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import '../../controllers/group_controller.dart';
 import '../../controllers/hosting_area_controller.dart';
 import '../../main.dart';
-import '../../models/locations/converter.dart';
+import '../../models/converter.dart';
 import '../../models/users/user.dart';
 import '../utils/globals.dart';
 import 'date_picker.dart';

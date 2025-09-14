@@ -15,7 +15,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/hosting areas/hosting_area.dart';
 import 'dart:developer' as debug;
 
-import '../models/locations/converter.dart';
+import '../models/converter.dart';
 import '../models/hosting areas/notification.dart';
 import '../models/users/admin.dart';
 import '../models/users/alcoholic.dart';

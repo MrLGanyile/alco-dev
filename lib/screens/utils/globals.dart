@@ -31,6 +31,9 @@ AdminController adminController = AdminController.adminController;
 AlcoholicController alcoholicController =
     AlcoholicController.alcoholicController;
 
+double listTileText1FontSize = 16;
+double listTileText2FontSize = 14;
+
 // Upload an image into a particular firebase storage bucket.
 Future<String> uploadResource(File resource, String storagePath,
     {String contentType = "image/jpeg"}) async {

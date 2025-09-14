@@ -1,7 +1,7 @@
 // Collection Name /supported_areas/{supportedAreaId}
 // Branch : lsupported_locations_resources_crud ->  create_supported_locations_front_end
 
-import 'converter.dart';
+import '../converter.dart';
 import 'section_name.dart';
 
 class SupportedArea implements Comparable<SupportedArea> {
@@ -10,9 +10,10 @@ class SupportedArea implements Comparable<SupportedArea> {
   SectionName sectionName;
 
   SupportedArea({
-    required this.areaNo,
-    required this.townOrInstitutionFK,
-    required this.sectionName,
+    this.areaNo = '31',
+    this.townOrInstitutionFK = '5',
+    this.sectionName =
+        SectionName.catoCrestMayvilleDurbanKwaZuluNatalSouthAfrica,
   });
 
   Map<String, dynamic> toJson() => {

@@ -29,6 +29,7 @@ class FakeAdmins {
         admin =
         {
             userId: adminReference.id,
+            adminType: 'Both',
             isSuperior: true,
             key: "000",
             isFemale: false,
@@ -55,6 +56,7 @@ class FakeAdmins {
         {
             userId: adminReference.id,
             isSuperior: false,
+            adminType: 'Group Registery',
             key: "002",
             isFemale: true,
             townOrInstitution: "Mayville",
@@ -80,6 +82,7 @@ class FakeAdmins {
         {
             userId: adminReference.id,
             isSuperior: false,
+            adminType: 'Money Collector',
             key: "003",
             isFemale: true,
             townOrInstitution: "UKZN",
@@ -105,6 +108,7 @@ class FakeAdmins {
         {
             userId: adminReference.id,
             isSuperior: false,
+            adminType: 'Money Collector',
             key: "004",
             isFemale: true,
             townOrInstitution: "Sydenham",

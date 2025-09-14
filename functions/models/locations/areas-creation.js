@@ -182,6 +182,64 @@ class AreasCreation extends LocationCreation {
         await this.locationController.createSupportedArea(masgrave.toJson());
     };
 
+    // Town/Institution 8
+    async createNandaSupportedAreas() {
+        const bhambayi = new SupportedArea("8",
+            "Bhambayi-Nanda-Durban-Kwa Zulu Natal-South Africa", "47");
+        await this.locationController.createSupportedArea(bhambayi.toJson());
+        const ezimangweni = new SupportedArea("8",
+            "Ezimangweni-Nanda-Durban-Kwa Zulu Natal-South Africa", "48");
+        await this.locationController.createSupportedArea(ezimangweni.toJson());
+        const dikwe = new SupportedArea("8",
+            "Dikwe-Nanda-Durban-Kwa Zulu Natal-South Africa", "49");
+        await this.locationController.createSupportedArea(dikwe.toJson());
+        const mshayazafe = new SupportedArea("8",
+            "Mshayazafe-Nanda-Durban-Kwa Zulu Natal-South Africa", "50");
+        await this.locationController.createSupportedArea(mshayazafe.toJson());
+        const jackport = new SupportedArea("8",
+            "Jackport-Nanda-Durban-Kwa Zulu Natal-South Africa", "51");
+        await this.locationController.createSupportedArea(jackport.toJson());
+        const ohlange = new SupportedArea("8",
+            "Ohlange-Nanda-Durban-Kwa Zulu Natal-South Africa", "52");
+        await this.locationController.createSupportedArea(ohlange.toJson());
+        const africa = new SupportedArea("8",
+            "Africa-Nanda-Durban-Kwa Zulu Natal-South Africa", "53");
+        await this.locationController.createSupportedArea(africa.toJson());
+        const congo = new SupportedArea("8",
+            "Congo-Nanda-Durban-Kwa Zulu Natal-South Africa", "54");
+        await this.locationController.createSupportedArea(congo.toJson());
+        const maoti = new SupportedArea("8",
+            "Maoti-Nanda-Durban-Kwa Zulu Natal-South Africa", "55");
+        await this.locationController.createSupportedArea(maoti.toJson());
+        const newtownA = new SupportedArea("8",
+            "Newtown A-Nanda-Durban-Kwa Zulu Natal-South Africa", "56");
+        await this.locationController.createSupportedArea(newtownA.toJson());
+        const newtownB = new SupportedArea("8",
+            "Newtown B-Nanda-Durban-Kwa Zulu Natal-South Africa", "57");
+        await this.locationController.createSupportedArea(newtownB.toJson());
+        const kaG = new SupportedArea("8",
+            "Ka G-Nanda-Durban-Kwa Zulu Natal-South Africa", "58");
+        await this.locationController.createSupportedArea(kaG.toJson());
+        const matendeni = new SupportedArea("8",
+            "Matendeni-Nanda-Durban-Kwa Zulu Natal-South Africa", "59");
+        await this.locationController.createSupportedArea(matendeni.toJson());
+        const mtshebheni = new SupportedArea("8",
+            "Mtshebheni-Nanda-Durban-Kwa Zulu Natal-South Africa", "60");
+        await this.locationController.createSupportedArea(mtshebheni.toJson());
+        const zinkawini = new SupportedArea("8",
+            "Zinkawini-Nanda-Durban-Kwa Zulu Natal-South Africa", "61");
+        await this.locationController.createSupportedArea(zinkawini.toJson());
+        const tafuleni = new SupportedArea("8",
+            "Tafuleni-Nanda-Durban-Kwa Zulu Natal-South Africa", "62");
+        await this.locationController.createSupportedArea(tafuleni.toJson());
+        const ngoqokazi = new SupportedArea("8",
+            "Ngoqokazi-Nanda-Durban-Kwa Zulu Natal-South Africa", "63");
+        await this.locationController.createSupportedArea(ngoqokazi.toJson());
+        const matikwe = new SupportedArea("8",
+            "Matikwe-Nanda-Durban-Kwa Zulu Natal-South Africa", "64");
+        await this.locationController.createSupportedArea(matikwe.toJson());
+    };
+
     async createSupportedAreas() {
         await this.createUmlaziSupportedAreas();
         await this.createMUTSupportedAreas();
@@ -190,6 +248,7 @@ class AreasCreation extends LocationCreation {
         await this.createMayvilleSupportedAreas();
         await this.createSydenhamSupportedAreas();
         await this.createDurbanCentralSupportedAreas();
+        await this.createNandaSupportedAreas();
     };
 
 }
