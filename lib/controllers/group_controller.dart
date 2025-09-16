@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields
+
 import 'dart:io';
 import 'dart:developer' as debug;
 
@@ -69,14 +71,16 @@ class GroupController extends GetxController {
 
   static GroupController instance = Get.find();
 
-  // ignore: prefer_final_fields
   Rx<VoucherType> _newActivationRequestVoucherType = Rx(VoucherType.easyload);
   VoucherType get newActivationRequestVoucherType =>
       _newActivationRequestVoucherType.value;
 
-  // ignore: prefer_final_fields
   Rx<String?> _newActivationRequestGroupId = Rx(null);
   String? get newActivationRequestGroupId => _newActivationRequestGroupId.value;
+
+  Rx<String?> _newActivationRequestGroupCreatorImageURL = Rx(null);
+  String? get newActivationRequestGroupCreatorImageURL =>
+      _newActivationRequestGroupCreatorImageURL.value;
 
   Rx<bool> _hasPickedGroupArea = Rx<bool>(false);
   bool get hasPickedGroupArea => _hasPickedGroupArea.value;
@@ -93,7 +97,6 @@ class GroupController extends GetxController {
 
   SupportedArea get groupSupportedArea => _groupArea.value;
 
-  // ignore: prefer_final_fields
   late Rx<String> _groupSpecificArea = Rx('');
   String get groupSpecificArea => _groupSpecificArea.value;
 
@@ -155,8 +158,14 @@ class GroupController extends GetxController {
     update();
   }
 
-  void setNewActivationRequestVoucherGroupId(String groupId) {
+  void setNewActivationRequestVoucherGroupId(String? groupId) {
     _newActivationRequestGroupId = Rx(groupId);
+    update();
+  }
+
+  void setNewActivationRequestVoucherGroupCreatorImageURL(
+      String? groupCreatorImageURL) {
+    _newActivationRequestGroupCreatorImageURL = Rx(groupCreatorImageURL);
     update();
   }
 
@@ -171,7 +180,8 @@ class GroupController extends GetxController {
       return ActivationRequestSavingStatus.voucherInvalid;
     }
 
-    if (newActivationRequestGroupId == null) {
+    if (newActivationRequestGroupId == null ||
+        newActivationRequestGroupCreatorImageURL == null) {
       return ActivationRequestSavingStatus.groupNotSpecified;
     }
 
@@ -183,6 +193,7 @@ class GroupController extends GetxController {
         voucherType: newActivationRequestVoucherType,
         requestDate: null,
         groupFK: newActivationRequestGroupId!,
+        groupCreatorImageURL: newActivationRequestGroupCreatorImageURL!,
         voucher: voucher);
 
     await activationReqeustReference.set(activationRequest.toJson());
@@ -847,6 +858,8 @@ class GroupController extends GetxController {
             requestDate: requestDate,
             isApproved: value.get('activationRequest.isApproved'),
             groupFK: value.get('activationRequest.groupFK'),
+            groupCreatorImageURL:
+                value.get('activationRequest.groupCreatorImageURL'),
             voucher: value.get('activationRequest.voucher'));
 
         activationRequest.setIsApproved(action);
@@ -865,6 +878,29 @@ class GroupController extends GetxController {
     });
   }
 
+  // Read activation requests that we created in the past 7 days.
+  Stream<List<ActivationRequest>>
+      readNotApprovedActivationRequestsForPast7Days() {
+    Stream<List<ActivationRequest>> stream = firestore
+        .collection('activation_requests')
+        .where('isApproved', isEqualTo: false)
+        /*.where("requestDate",
+            isGreaterThanOrEqualTo:
+                DateTime.now().subtract(const Duration(days: 7))) */
+        .snapshots()
+        .map((snapshot) {
+      List<ActivationRequest> list = snapshot.docs.map((doc) {
+        ActivationRequest request = ActivationRequest.fromJson(doc.data());
+        return request;
+      }).toList();
+
+      list.sort();
+      return list;
+    });
+
+    return stream;
+  }
+
   // Groups should be sorted by activation request date.
   Stream<List<Group>> readGroupsForMoneyCollectors() {
     Stream<List<Group>> stream = firestore
@@ -881,7 +917,8 @@ class GroupController extends GetxController {
         return group;
       }).toList();
 
-      list.sort();
+      list.sort((group1, group2) =>
+          group1.activationRequest!.compareTo(group2.activationRequest!));
       return list;
     });
 

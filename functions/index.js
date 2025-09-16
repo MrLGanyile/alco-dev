@@ -1128,7 +1128,8 @@ export const updateActivationRequestAndGroup = onDocumentCreated({
     logger.log("From Params ActivationReqeust ID", event.params.activationRequestId,
         "From Data ActivationRequest ID", event.data.data().activationRequestId);
 
-    const dateObject = Timestamp.now().toDate();
+    const now = Timestamp.now();
+    const dateObject = now.toDate();
 
     const year = dateObject.getFullYear();
     const month = dateObject.getMonth() + 1;
@@ -1152,7 +1153,8 @@ export const updateActivationRequestAndGroup = onDocumentCreated({
     const activationRequestReference = getFirestore()
         .collection("activation_requests").doc(event.data.data().activationRequestId);
     await activationRequestReference.update({
-        requestDate: requestDate
+        requestDate: requestDate,
+        requestDateTimestamp: now,
     });
 
     const groupReference = getFirestore()
@@ -1163,7 +1165,9 @@ export const updateActivationRequestAndGroup = onDocumentCreated({
         activationRequestId: event.data.data().activationRequestId,
         voucherType: event.data.data().voucherType,
         requestDate: requestDate,
+        requestDateTimestamp: event.data.data().requestDateTimestamp,
         groupFK: event.data.data().groupFK,
+        groupCreatorImageURL: event.data.data().groupCreatorImageURL,
         voucher: event.data.data().voucher,
         isApproved: event.data.data().isApproved,
     };
@@ -1644,8 +1648,10 @@ export const createFakeActivationRequests = onRequest(
             approvedByAdminUserId: null,
             voucherType: 'OTT',
             requestDate: null,
+            requestDateTimestamp: null,
             isApproved: false,
             groupFK: '+27600000000',
+            groupCreatorImageURL: 'durban central/group_members/+27600000000/profile_images/+27600000000.jpg',
             voucher: '12345678909876',
         };
 
@@ -1659,8 +1665,10 @@ export const createFakeActivationRequests = onRequest(
             approvedByAdminUserId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             voucherType: '1Voucher',
             requestDate: null,
+            requestDateTimestamp: null,
             isApproved: true,
             groupFK: '+27610000000',
+            groupCreatorImageURL: 'durban central/group_members/+27610000000/profile_images/+27610000000.jpg',
             voucher: '9892793839876',
         };
 
@@ -1674,8 +1682,10 @@ export const createFakeActivationRequests = onRequest(
             approvedByAdminUserId: null,
             voucherType: '1Voucher',
             requestDate: null,
+            requestDateTimestamp: null,
             isApproved: false,
             groupFK: '+27656565656',
+            groupCreatorImageURL: 'umlazi/group_members/+27656565656/profile_images/+27656565656.jpg',
             voucher: '58739473937494',
         };
 
@@ -1689,8 +1699,10 @@ export const createFakeActivationRequests = onRequest(
             approvedByAdminUserId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             voucherType: 'Easy Load',
             requestDate: null,
+            requestDateTimestamp: null,
             isApproved: false,
             groupFK: '+27676666666',
+            groupCreatorImageURL: 'sydenham/group_members/+27676666666/profile_images/+27676666666.jpg',
             voucher: '58739473937494',
         };
 
@@ -1703,8 +1715,10 @@ export const createFakeActivationRequests = onRequest(
             approvedByAdminUserId: null,
             voucherType: 'Easy Pay',
             requestDate: null,
+            requestDateTimestamp: null,
             isApproved: false,
             groupFK: '+27688888888',
+            groupCreatorImageURL: 'sydenham/group_members/+27688888888/profile_images/+27688888888.jpg',
             voucher: '948530485849',
         };
 
@@ -1718,8 +1732,10 @@ export const createFakeActivationRequests = onRequest(
             approvedByAdminUserId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             voucherType: 'Easy Pay',
             requestDate: null,
+            requestDateTimestamp: null,
             isApproved: false,
             groupFK: '+27604444444',
+            groupCreatorImageURL: 'mayville/group_members/+27604444444/profile_images/+27604444444.jpg',
             voucher: '487583759373',
         };
 
@@ -1732,9 +1748,12 @@ export const createFakeActivationRequests = onRequest(
             approvedByAdminUserId: '4kVF6YK7Flc4nw31JQfDh0vZLFB2',
             voucherType: 'OTT',
             requestDate: null,
+            requestDateTimestamp: null,
             isApproved: true,
             groupFK: '+27601111111',
+            groupCreatorImageURL: 'mayville/group_members/+27601111111/profile_images/+27601111111.jpg',
             voucher: '5948493849383',
+
         };
 
         await activationRequestReference.set(activationRequest);

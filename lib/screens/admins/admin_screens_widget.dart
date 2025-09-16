@@ -15,6 +15,7 @@ import '../../main.dart';
 import 'admins_widget.dart';
 import 'notification_creation_widget.dart';
 import 'recruitment_widget.dart';
+import 'vouchers_widget.dart';
 
 class AdminScreensWidget extends StatefulWidget {
   AdminScreensWidget({
@@ -36,7 +37,8 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
     'Recruition',
     'Draws',
     'Notification',
-    'Activation'
+    'Activation',
+    'Vouchers'
   ];
   bool groupsDeactivated = false;
 
@@ -46,10 +48,28 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
   void initState() {
     super.initState();
     _tabController = TabController(
-      length: 5,
+      length: getTitles().length,
       vsync: this,
     );
     groupController = GroupController.instance;
+  }
+
+  List<String> getTitles() {
+    return isSuperior()
+        ? [
+            'Admins',
+            'Recruition',
+            'Draws',
+            'Notification',
+            'Activation',
+            'Vouchers'
+          ]
+        : [
+            'Admins',
+            'Draws',
+            'Notification',
+            'Activation',
+          ];
   }
 
   @override
@@ -68,7 +88,7 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
     setState(() {});
   }
 
-  mayDeactivateAllGroups() {
+  isSuperior() {
     Admin? admin = adminController.currentlyLoggedInAdmin;
     if (admin != null) {
       return admin.isSuperior;
@@ -97,7 +117,7 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
             ),
           ),
           actions: [
-            mayDeactivateAllGroups()
+            isSuperior()
                 ? IconButton(
                     icon: const Icon(Icons.refresh),
                     iconSize: blueIconsSize,
@@ -119,6 +139,7 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
           elevation: 0,
           centerTitle: true,
           bottom: TabBar(
+            isScrollable: true,
             onTap: updateCurrentIndex,
             labelColor: MyApplication.logoColor1,
             controller: _tabController,
@@ -134,11 +155,13 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
                 ),
                 text: 'Admins',
               ),
-              Tab(
-                icon: Icon(Icons.admin_panel_settings,
-                    color: MyApplication.attractiveColor1),
-                text: 'Recruit',
-              ),
+              isSuperior()
+                  ? Tab(
+                      icon: Icon(Icons.admin_panel_settings,
+                          color: MyApplication.attractiveColor1),
+                      text: 'Recruit',
+                    )
+                  : const SizedBox.shrink(),
               Tab(
                 icon: Icon(Icons.draw, color: MyApplication.attractiveColor1),
                 text: 'Draws',
@@ -153,6 +176,13 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
                     color: MyApplication.attractiveColor1),
                 text: 'Activation',
               ),
+              isSuperior()
+                  ? Tab(
+                      icon: Icon(Icons.numbers,
+                          color: MyApplication.attractiveColor1),
+                      text: 'Vouchers',
+                    )
+                  : const SizedBox.shrink(),
             ],
           ),
         ),
@@ -161,24 +191,27 @@ class _AdminScreensWidgetState extends State<AdminScreensWidget>
             decoration: BoxDecoration(
               color: MyApplication.scaffoldColor,
             ),
-            child: TabBarView(controller: _tabController, children: [
-              AdminsWidget(),
-              (getCurrentlyLoggenInUser() as Admin).isSuperior
-                  ? AdminRegistrationWidget()
-                  : Center(
-                      child: Text(
-                        'Superior Admin Territory',
-                        style: TextStyle(
-                            color: MyApplication.attractiveColor1,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-              const HostedDrawRegistrationWidget(),
-              NotificationCreationWidget(),
-              RecruitmentWidget(),
-            ]),
+            child: TabBarView(
+                controller: _tabController, children: getTabsWidgets()),
           ),
         ),
       );
+
+  List<Widget> getTabsWidgets() {
+    return isSuperior()
+        ? [
+            AdminsWidget(),
+            AdminRegistrationWidget(),
+            const HostedDrawRegistrationWidget(),
+            NotificationCreationWidget(),
+            RecruitmentWidget(),
+            VouchersWidget(),
+          ]
+        : [
+            AdminsWidget(),
+            const HostedDrawRegistrationWidget(),
+            NotificationCreationWidget(),
+            RecruitmentWidget(),
+          ];
+  }
 }

@@ -344,7 +344,9 @@ class ActivationRequestWidget extends StatelessWidget {
                   getSnapbar('Error', 'Group Not Picked.');
                 } else {
                   getSnapbar('Sent', 'Voucher Sent Successfully.');
-                  groupController.setNewActivationRequestVoucherGroupId('');
+                  groupController.setNewActivationRequestVoucherGroupId(null);
+                  groupController
+                      .setNewActivationRequestVoucherGroupCreatorImageURL(null);
                   Get.close(1);
                 }
               });

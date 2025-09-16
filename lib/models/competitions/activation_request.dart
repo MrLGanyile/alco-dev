@@ -1,21 +1,26 @@
 import 'package:alco_dev/models/competitions/voucher_type.dart';
 import 'package:alco_dev/models/converter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ActivationRequest {
+class ActivationRequest implements Comparable<ActivationRequest> {
   String activationRequestId;
   VoucherType voucherType;
   DateTime? requestDate;
   String groupFK;
+  String? groupCreatorImageURL;
   String voucher;
   bool isApproved;
   String? approvedByAdminUserId;
+  Timestamp? requestDateTimestamp;
 
   ActivationRequest(
       {required this.activationRequestId,
       this.approvedByAdminUserId,
       required this.voucherType,
       this.requestDate,
+      this.requestDateTimestamp,
       required this.groupFK,
+      this.groupCreatorImageURL,
       required this.voucher,
       this.isApproved = false});
 
@@ -23,6 +28,7 @@ class ActivationRequest {
         'activationRequestId': activationRequestId,
         'approvedByAdminUserId': approvedByAdminUserId,
         'voucherType': Converter.toVoucherAsString(voucherType),
+        'requestDateTimestamp': requestDateTimestamp,
         'requestDate': requestDate == null
             ? null
             : {
@@ -35,6 +41,7 @@ class ActivationRequest {
               },
         'isApproved': isApproved,
         'groupFK': groupFK,
+        'groupCreatorImageURL': groupCreatorImageURL,
         'voucher': voucher,
       };
 
@@ -57,8 +64,15 @@ class ActivationRequest {
                 json['requestDate']['second'],
               )
             : null,
+        requestDateTimestamp: json['requestDateTimestamp'],
         isApproved: json['isApproved'],
         groupFK: json['groupFK'],
+        groupCreatorImageURL: json['groupCreatorImageURL'],
         voucher: json['voucher']);
+  }
+
+  @override
+  int compareTo(ActivationRequest other) {
+    return requestDate!.compareTo(other.requestDate!);
   }
 }

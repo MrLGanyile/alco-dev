@@ -87,7 +87,7 @@ class HostedDrawRegistrationWidgetState
                 cursorColor: MyApplication.logoColor1,
                 controller: adminCodeEditingController,
                 decoration: InputDecoration(
-                  labelText: 'Admin Code',
+                  labelText: 'Entrance Code',
                   prefixIcon: Icon(Icons.admin_panel_settings,
                       color: MyApplication.logoColor1),
                   labelStyle: TextStyle(

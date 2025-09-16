@@ -404,6 +404,8 @@ class SingleGroupWidgetState extends State<SingleGroupWidget> {
         onTap: (() {
           groupController.setNewActivationRequestVoucherGroupId(
               widget.competitorsGroup.groupCreatorPhoneNumber);
+          groupController.setNewActivationRequestVoucherGroupCreatorImageURL(
+              widget.competitorsGroup.groupCreatorImageURL);
           Get.to(() => ActivationRequestWidget(group: widget.competitorsGroup));
         }),
         child: const CircleAvatar(
